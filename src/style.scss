@@ -1,7 +1,13 @@
-#app {
-  background: red;
+.main-container {
+  box-sizing: box-sizing;
+  margin: 0 auto;
+  text-align: center;
+}
 
-  div {
-    font-size: 14px;
-  }
+.post-container {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  margin: 20px;
 }

@@ -1,0 +1,26 @@
+.post {
+  width: 500px;
+  border: 1px solid #d1d2dd;
+  margin-bottom: 20px;
+}
+
+.post span.title {
+  font-weight: 600;
+}
+
+.post .post-content {
+  padding: 10px 20px;
+  width: 100%;
+}
+
+@media only screen and (max-width: 400px) {
+  .post {
+    width: 300px;
+  }
+}
+
+@media only screen and (min-width: 401px) and (max-width: 500px) {
+  .post {
+    width: 350px;
+  }
+}
