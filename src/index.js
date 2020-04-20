@@ -80,7 +80,7 @@ function App() {
           createSession(data)
           setIsLoggedIn(true)
           if (!location.pathname.includes('home')) {
-            location.href = '/home/overview'
+            location.href = '/home/orders'
           }
         })
       })
