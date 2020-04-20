@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useRef } from "react"
 import "./login.scss"
-// import Icon from "Components/icon"
+import Icon from "./../../components/icon"
 import TextField from "@material-ui/core/TextField"
 import { makeStyles } from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
-// import IconButton from "@material-ui/core/IconButton"
+import IconButton from "@material-ui/core/IconButton"
 import clsx from "clsx"
 import OutlinedInput from "@material-ui/core/OutlinedInput"
 import InputLabel from "@material-ui/core/InputLabel"
 import InputAdornment from "@material-ui/core/InputAdornment"
 import FormHelperText from "@material-ui/core/FormHelperText"
 import FormControl from "@material-ui/core/FormControl"
-// import Visibility from "@material-ui/icons/Visibility"
-// import VisibilityOff from "@material-ui/icons/VisibilityOff"
-// import { validateNumberField } from "Utils/validators"
-// import { apiUrl } from "Utils/config"
+import Visibility from "@material-ui/icons/Visibility"
+import VisibilityOff from "@material-ui/icons/VisibilityOff"
+import { validateNumberField } from "./../../utils/validators"
+// import { apiUrl } from "./../../utils/config"
 // import { callbackify } from "util"
 
 const useStyles = makeStyles(theme => ({
@@ -26,8 +26,8 @@ const useStyles = makeStyles(theme => ({
       padding: "18.5px 40px"
     },
     "& > .input-field label.MuiInputLabel-shrink": {
-      paddingLeft:"0px",
-      paddingRight:"0px"
+      paddingLeft: "0px",
+      paddingRight: "0px"
     },
     "& > .input-field .Mui-focused fieldset legend": {
       width: "86px !important"
@@ -56,13 +56,13 @@ function login() {
   const [delay] = useState(1000)
 
   const setTimer = () => {
-    setCount(5)
+    setCount(20)
     setInterval(() => {
       setCount(count => count - 1)
     }, delay)
   }
 
-  function generateOtp () {
+  function generateOtp() {
     const payload = {
       mobile: mobileNumber
     }
@@ -76,7 +76,7 @@ function login() {
       credentials: "include",
       body: JSON.stringify(payload)
     }
-    fetch(`https://${apiUrl}/settlements/api/1/generate-otp`, fetchOptions)
+    fetch(`https://api.hipbar-dev.com/deliveryman/api/1/support/generate-otp`, fetchOptions)
       .then(() => {
         //setGenerateOtp(true)
         setTimer()
@@ -98,11 +98,11 @@ function login() {
   useEffect(() => {
     setAutoFocus()
   }, [mobileNumber])
-  
+
   const handleMobileChange = (event) => {
     setMobileErr({ ...mobileErr, status: false })
     setErrorFlag(false)
-    if(!isNaN(event.target.value)) {
+    if (!isNaN(event.target.value)) {
       setMobileNumber(event.target.value)
     }
   }
@@ -117,10 +117,10 @@ function login() {
   const handleOtpChange = event => {
     setOtpErr({ ...otpErr, status: false })
     setErrorFlag(false)
-    if(!isNaN(event.target.value)) {
+    if (!isNaN(event.target.value)) {
       setOtp(event.target.value)
     }
-    if(event.target.value.length === 6) {
+    if (event.target.value.length === 6) {
       setEnableLogin(true)
     }
   }
@@ -167,7 +167,7 @@ function login() {
   }
 
   const handleKeyPress = (e) => {
-    if(e.keyCode === 13)
+    if (e.keyCode === 13)
       handleLogin()
   }
 
@@ -187,7 +187,7 @@ function login() {
         credentials: "include",
         body: JSON.stringify(payload)
       }
-      fetch(`https://${apiUrl}/settlements/api/1/login`, fetchOptions)
+      fetch(`https://api.hipbar-dev.com/deliveryman/api/1/support/login`, fetchOptions)
         .then((response) => {
           if (response.status !== 200) {
             response.json().then(json => {
@@ -198,7 +198,7 @@ function login() {
             })
             return
           }
-          location.href = "/home/overview"
+          location.href = "/home/orders"
         })
         .catch((error) => {
           setOtpErr({
@@ -219,11 +219,11 @@ function login() {
   }
 
   const handleMobileBlur = () => {
-    if(mobileNumber.length === 0) {
+    if (mobileNumber.length === 0) {
       setShowNumberPrefix(false)
     } else if (mobileNumber.length === 10) {
       getInputTags("mobileNumber")
-      if(!errorFlag) {
+      if (!errorFlag) {
         generateOtp()
       }
       setOtp("")
@@ -235,9 +235,9 @@ function login() {
   return (
     <div id="login">
       <div className="logo">
-        {/* <Icon name="hipbarLogo" /> */}
+        <Icon name="hipbarLogo" />
       </div>
-      <h2>Account Reconciliation Dashboard</h2>
+      <h2>Support Portal</h2>
       <div className="form-container">
         <form className={classes.form}>
           {
@@ -279,13 +279,13 @@ function login() {
               }}
               endAdornment={
                 <InputAdornment position="end">
-                  {/* <IconButton
+                  <IconButton
                     aria-label="toggle password visibility"
                     onClick={handleClickShowOtp}
                     onMouseDown={handleMouseDownOtp}
                   >
                     {showOtpValue ? <Visibility /> : <VisibilityOff />}
-                  </IconButton> */}
+                  </IconButton>
                 </InputAdornment>
               }
               labelWidth={30}
@@ -306,47 +306,24 @@ function login() {
               onClick={(e) => handleLogin(e)}
             >
               Login
-            </Button> 
-          </div>
-          {/* <div className="submit">
-            <Button
-              variant="contained"
-              color="primary"
-              size="large"
-              //disabled={(!enableLogin && !enableGenerateOTP) || (!enableGenerateOTP)}
-              disabled={!enableLogin}
-              onClick={enableLogin ? (e) => handleLogin(e) : (e) => generateOtp(e)}
-            >
-              {
-                !enableLogin ? "Generate OTP" : "Login"
-              }
             </Button>
-          </div> */}
+          </div>
           <div className="resend-otp">
             {
               enableLogin && count > 0 &&
-                <p>Resend OTP in {count} sec</p>
+              <p>Resend OTP in {count} sec</p>
             }
             {
               enableLogin && count <= 0 &&
-                <div onClick={generateOtp}>
-                  <p>Resend OTP </p>
-                  {/* <span><Icon name="resend-otp" /></span> */}
-                </div>
+              <div onClick={generateOtp}>
+                <p>Resend OTP </p>
+                <span><Icon name="resend-otp" /></span>
+              </div>
             }
           </div>
         </form>
       </div>
       <p className={classes.note}>Having trouble? Contact Support at <a href="mailto:settlements@hipbar.com">settlements@hipbar.com</a></p>
-      {/* {
-        isLoginErr &&
-        <Notification
-          message={errorMessage}
-          messageType="error"
-          open={isLoginErr}
-          handleClose={handleClose}
-        />
-      } */}
     </div>
   )
 }
