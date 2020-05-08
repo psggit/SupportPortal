@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react"
 import "./login.scss"
-import Icon from "./../../components/icon"
+import Icon from "Components/icon"
 import TextField from "@material-ui/core/TextField"
 import { makeStyles } from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
@@ -13,9 +13,8 @@ import FormHelperText from "@material-ui/core/FormHelperText"
 import FormControl from "@material-ui/core/FormControl"
 import Visibility from "@material-ui/icons/Visibility"
 import VisibilityOff from "@material-ui/icons/VisibilityOff"
-import { validateNumberField } from "./../../utils/validators"
-// import { apiUrl } from "./../../utils/config"
-// import { callbackify } from "util"
+import { validateNumberField } from "Utils/validators"
+import { apiUrl } from "Utils/config"
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -50,7 +49,6 @@ function login() {
   const [errorFlag, setErrorFlag] = useState(false)
   const [showOtpValue, setShowOtpValue] = useState(false)
   const [enableLogin, setEnableLogin] = useState(false)
-  //const [enableGenerateOTP, setGenerateOtp] = useState(false)
   const [showNumberPrefix, setShowNumberPrefix] = useState(false)
   const [count, setCount] = useState(0)
   const [delay] = useState(1000)
@@ -66,7 +64,6 @@ function login() {
     const payload = {
       mobile: mobileNumber
     }
-    //setGenerateOtp(false)
     const fetchOptions = {
       method: "post",
       headers: {
@@ -187,7 +184,7 @@ function login() {
         credentials: "include",
         body: JSON.stringify(payload)
       }
-      fetch(`https://api.hipbar-dev.com/deliveryman/api/1/support/login`, fetchOptions)
+      fetch(`https://${apiUrl}/deliveryman/api/1/support/login`, fetchOptions)
         .then((response) => {
           if (response.status !== 200) {
             response.json().then(json => {
@@ -198,7 +195,7 @@ function login() {
             })
             return
           }
-          location.href = "/home/orders"
+          //location.href = "/home/orders"
         })
         .catch((error) => {
           setOtpErr({
@@ -323,7 +320,7 @@ function login() {
           </div>
         </form>
       </div>
-      <p className={classes.note}>Having trouble? Contact Support at <a href="mailto:settlements@hipbar.com">settlements@hipbar.com</a></p>
+      <p className={classes.note}>Having trouble? Contact Support at <a href="mailto:support@hipbar.com">support@hipbar.com</a></p>
     </div>
   )
 }

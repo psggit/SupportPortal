@@ -1,0 +1,35 @@
+.modal-box {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  z-index: 5003;
+  background: rgba(0, 0, 0, 0.6);
+  * {
+    box-sizing: border-box;
+  }
+  .modal-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 2px;
+    transform: translate(-50%, -50%);
+    background:#EEEEEE;
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5);
+    min-height: 140px;
+    width: 46%;
+    font-family: "Source Sans Pro", sans-serif;
+    padding: 20px 35px;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.24);
+
+    .row1 {
+      p {
+        font-size: 22px;
+        line-height: 30px;
+        font-weight: 600;
+        color: #212121;
+      }
+    }
+  }
+}

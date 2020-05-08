@@ -1,0 +1,44 @@
+#dashboard {
+display: flex;
+flex-direction: column;
+line-height: 24px;
+height:908px;
+
+.dashboard-detail{
+ border-radius: 5px;
+}
+h4{
+  background-color: #212121;
+  color:white;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding-left: 24px;
+  padding: 11px;
+}
+.text-field{
+   background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 52px;
+  padding: 24px;
+}
+label{
+  font-family: Mali;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    text-align: right;
+    width: 140px;
+    height: 18px;
+    left: 0px;
+    top: calc(50% - 18px/2);
+    color: #000000;
+}
+  .showList{
+    position: static;
+    padding-bottom: 10px;
+  }
+}
