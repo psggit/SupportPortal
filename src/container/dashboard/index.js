@@ -176,7 +176,7 @@ function Dashboard(props) {
                 <Input
                   type="text"
                   name="orderID"
-                  placeholder="Enter a valid ID"
+                  placeholder="Enter minimum of 4 digits"
                   value={orderID}
                   autoComplete="off"
                   onChange={handleOrderIdChange}

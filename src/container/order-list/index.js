@@ -72,7 +72,7 @@ function OrderList(props) {
         payload = {
           retailer_contact_number: data.retailer_contact_number ? data.retailer_contact_number : "",
           retailer_id: data.retailer_id ? data.retailer_id : "",
-          retailer_code: data.retailer_qr_code ? data.retailer_code : ""
+          retailer_code: data.retailer_code ? data.retailer_code : ""
         }
       break;
     }
