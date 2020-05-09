@@ -18,16 +18,15 @@ const OrderSummary = ({orderTotal, cartTotal, cartItems }) => (
         <span style={{ fontSize: '18px', lineHeight: '24px', fontWeight: 'bold' }}>Cart Total</span>
         <span style={{ fontSize: '18px', lineHeight: '24px', fontWeight: 'bold'  }}>{cartTotal ? `$${cartTotal}` : "-"}</span>
       </div>
-{/* 
       {
         cartItems ? 
         cartItems.map((item) => {
           return <div className="flex-item" style={{ marginBottom: '16px' }}>
-                  <p style={{ fontSize: '15px', lineHeight: '20px', fontWeight: '600', color: '#212121' }}>{"Johnie Walker Black label x 1"}</p>
-                  <p style={{ fontSize: '15px', lineHeight: '20px' }}>{"$1100"}</p>
+                  <p style={{ fontSize: '15px', lineHeight: '20px', fontWeight: '600', color: '#212121' }}>{item.brand_name}</p>
+                  <p style={{ fontSize: '15px', lineHeight: '20px' }}>{`$${item.total_price}`}</p>
                 </div>
         }) : ""
-      } */}
+      }
   
       <div className="flex-item" style={{ marginBottom: '8px' }}>
         <p style={{ fontSize: '18px', lineHeight: '24px', fontWeight: 'bold' }}>{"Additional Charges"}</p>

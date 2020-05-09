@@ -195,7 +195,7 @@ function login() {
             })
             return
           }
-          //location.href = "/home/orders"
+          location.href = "/home/dashboard"
         })
         .catch((error) => {
           setOtpErr({

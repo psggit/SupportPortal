@@ -129,7 +129,7 @@ function OrderList(props) {
                     return (
                       <TableRow className={classes.tableRow} key={index} onClick={() => handleRowClick(data)}>
                         <TableCell component="th" scope="row" align="left">
-                          {data.order_id}
+                          <u>{data.order_id}</u>
                         </TableCell>
                         <TableCell align="left">{Moment(data.date_and_time).format("DD/MM/YYYY h:mm A")}</TableCell>
                         <TableCell align="left">{data.order_status}</TableCell>
@@ -193,6 +193,9 @@ const useStyles = makeStyles(theme => ({
     padding: "20px 0px",
     justifyContent: "space-between"
   },
+  tableRow: {
+    cursor: "pointer"
+  }
 }))
 
 export default OrderList
