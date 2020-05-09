@@ -2,8 +2,8 @@ export function getHasuraRole(data) {
   const hasuraRoles = data.hasura_roles
  
   const rolesMap = {
-    account_manager: 8,
     admin: 8,
+    account_manager: 8,
     opadmin: 8,
     dataadmin: 7,
     opdataadmin: 7,
@@ -17,10 +17,12 @@ export function getHasuraRole(data) {
     delivery_support_person: 3,
     user: 1
   }
-  let maxRole = rolesMap["account_manager"]
-  let xHasuraRole = "account_manager"
+  let maxRole = rolesMap["admin"]
+  let xHasuraRole = "admin"
+  //console.log("roles", hasuraRoles)
   for (let i = 0; i < hasuraRoles.length; i++) {
     if (maxRole <= rolesMap[hasuraRoles[i]]) {
+      //console.log("data", rolesMap[hasuraRoles[i]], hasuraRoles[i])
       maxRole = rolesMap[hasuraRoles[i]]
       xHasuraRole = hasuraRoles[i]
     }
@@ -34,6 +36,7 @@ export function getHasuraId(data) {
 }
 
 export function createSession(data) {
+  console.log("hasure role", getHasuraRole(data))
   localStorage.setItem('x-hasura-role', getHasuraRole(data))
   localStorage.setItem("hasura-id", getHasuraId(data))
 }

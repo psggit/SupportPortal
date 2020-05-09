@@ -32,8 +32,8 @@ function CustomerDetails({ orderId, customerId, customerName, customerMobileNumb
       })
   }
 
-  const handleCommentChange = () => {
-    setComments(event.target.value)
+  const handleCommentChange = (e) => {
+    setComments(e.target.value)
   }
 
   const unmountModal = () => {

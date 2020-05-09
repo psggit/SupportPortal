@@ -19,6 +19,7 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
   const [successMsg, setSuccessMsg] = useState("")
   const [kycDocumentIdx, setKycDocumentIdx] = useState(0)
   const [kycDocumentList, setKycDocumentList] = useState([])
+  const [otp, setOtp] = useState("")
 
   useEffect(() => {
     fetchKycDetails()
@@ -34,12 +35,16 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
       })
   }
 
-  const handleCommentChange = () => {
-    setComments(event.target.value)
+  const handleCommentChange = (e) => {
+    setComments(e.target.value)
   }
 
-  const handleDocumentChange = () => {
-    setDocumentId(event.target.value)
+  const handleOtpChange = (e) => {
+    setOtp(e.target.value)
+  }
+
+  const handleDocumentChange = (e) => {
+    setDocumentId(e.target.value)
   }
 
   const unmountModal = () => {
@@ -54,7 +59,7 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
     unmountModal()
     const payload = {
       order_id: orderId,
-      otp: "",
+      otp,
       slot_id: "",
       id_proof: kycDocumentList[kycDocumentIdx].description,
       digits: documentId,
@@ -76,6 +81,7 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
     console.log(e.target.value)
     setKycDocumentIdx(kycDocumentList[e.target.value].id)
   }
+
   const handleClose = () => {
     setSuccessMsg("")
   }
@@ -145,8 +151,15 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
                     <TextField id="standard-basic"
                       onChange={handleDocumentChange}
                       placeholder="Enter last four digits of document"
-                      className={classes.formInput}
+                      className={classes.formControl}
                       label="Document ID"
+                    />
+
+                    <TextField id="standard-basic"
+                      onChange={handleOtpChange}
+                      //placeholder="Enter last four digits of document"
+                      className={classes.formControl}
+                      label="OTP"
                     />
 
                     <label style={{ marginTop: "24px" }}>Comments</label>

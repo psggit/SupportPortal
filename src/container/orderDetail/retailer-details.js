@@ -32,8 +32,8 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
       })
   }
 
-  const handleCommentChange = () => {
-    setComments(event.target.value)
+  const handleCommentChange = (e) => {
+    setComments(e.target.value)
   }
 
   const unmountModal = () => {
