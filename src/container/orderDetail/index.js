@@ -12,33 +12,34 @@ import { fetchCompleteOrderDetails } from "../api"
 
 function OrderDetail (props) {
 
-  const[orderDetails,setOrderDetails]=useState([])
+  const [orderDetails,setOrderDetails] = useState([])
+  const [loadingOrderDetails, setLoadingOrderDetails] = useState(false)
 
   useEffect(() => {
     fetchOrderDetailsData()
   },[]);
 
    const fetchOrderDetailsData = () => {
+     setLoadingOrderDetails(true)
      const payload = {
        order_id: props.match.params.orderId
      }
      fetchCompleteOrderDetails(payload)
       .then((response) => {
-        console.log("REEEEE", response.order_details)
-        //if (response.order_details && Object.keys(response.order_details).length >= 0) {
-          setOrderDetails(response.order_details)
-          console.log("Response",response)
-        //}
+        setOrderDetails(response.order_details)
+        setLoadingOrderDetails(false)
+        console.log("Response", response.order_details, response.order_details.fee_details_struct[0])
       })
-      .catch(() => {
-        console.log("Error")
+      .catch((err) => {
+        setLoadingOrderDetails(false)
+        console.log("Error in fetching order details", err)
       })
   }
-
+ 
   return (
     <div id="order-detail">
-      <div className="order-details" style={{marginBottom: "40px"}}>
-        <OrderDetailsHeader 
+      <div className="order-details" style={{ marginBottom: "40px" }}>
+        <OrderDetailsHeader
           orderId={orderDetails.order_id}
           partialDelivery={orderDetails.partial_delivery}
           dateAndTime={orderDetails.order_date_and_time}
@@ -64,12 +65,13 @@ function OrderDetail (props) {
           retailerMobileNumber={orderDetails.retailer_contact_number}
           retailerAddress={orderDetails.retailer_address}
         />
-        <OrderSummary 
+        <OrderSummary
           orderTotal={orderDetails.original_order_total}
           cartTotal={orderDetails.original_cart_total}
           cartItems={orderDetails.cart_items}
+          feeDetails={orderDetails.fee_details_struct}
         />
-        
+
         <DeliveryAgentDetails
           //deliveryAgentPickupDateAndTime={orderDetails.delivery_agent_pick_up_date_and_time}
           orderId={props.match.params.orderId}
@@ -94,7 +96,7 @@ function OrderDetail (props) {
           deliveryIdVerification={orderDetails.delivery_id_verification}
         />
 
-        <SupportDetails/>
+        <SupportDetails />
 
       </div>
     </div>
