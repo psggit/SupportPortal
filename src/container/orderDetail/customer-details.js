@@ -5,14 +5,16 @@ import Button from "@material-ui/core/Button"
 import Select from '@material-ui/core/Select'
 import { makeStyles } from "@material-ui/core/styles"
 import TextareaAutosize from '@material-ui/core/TextareaAutosize'
-import { fetchCancellationReasons } from "./../api"
+import { fetchCancellationReasons, cancelOrder } from "./../api"
+import Notification from "Components/notification"
 
-function CustomerDetails({ customerId, customerName, customerMobileNumber, customerState, customerCity, customerAddress, customerLandmark }) {
+function CustomerDetails({ orderId, customerId, customerName, customerMobileNumber, customerState, customerCity, customerAddress, customerLandmark }) {
 
   const classes = useStyles()
   const [showMountModal, setShowUnmountModal] = useState(false)
 
   const [comments, setComments] = useState("")
+  const [successMsg, setSuccessMsg] = useState("")
   const [cancellationReasonIdx, setCancellationReasonIdx] = useState(0)
   const [cancellationReasonList, setCancellationReasonList] = useState([])
 
@@ -42,13 +44,33 @@ function CustomerDetails({ customerId, customerName, customerMobileNumber, custo
     setShowUnmountModal(true)
   }
 
-  const handleSave = () => {
+  const handleConfirm = () => {
+    unmountModal()
+    const payload = {
+      order_id: orderId,
+      reason: cancellationReasonList[cancellationReasonIdx].reason,
+      reason_id: cancellationReasonList[cancellationReasonIdx].id,
+      comments
+    }
+    cancelOrder(payload)
+    .then((response) => {
+      setSuccessMsg("Successfully cancelled the order")
+      console.log("successfully cancelled the order")
+    })
+    .catch((err) => {
+      setSuccessMsg("Error in cancelling the order")
+      console.log("Error in cancelling order", err)
+    })
     console.log("Hello from delivery agent", comments, cancellationReasonList[cancellationReasonIdx].reason)
   }
 
   const handleChange = (e) => {
     console.log(e.target.value)
     setCancellationReasonIdx(e.target.value)
+  }
+
+  const handleClose = () => {
+    setSuccessMsg("")
   }
 
   return (
@@ -111,7 +133,7 @@ function CustomerDetails({ customerId, customerName, customerMobileNumber, custo
               <Dialog
                 title="Cancel Order"
                 actions={[
-                  <Button color="primary" className={classes.buttonPrimary} onClick={handleSave} key={1} autoFocus>
+                  <Button color="primary" className={classes.buttonPrimary} onClick={handleConfirm} key={1} autoFocus>
                     CONFIRM
                   </Button>,
                   <Button onClick={unmountModal} key={2} color="primary" className={classes.buttonPrimary}>
@@ -150,6 +172,15 @@ function CustomerDetails({ customerId, customerName, customerMobileNumber, custo
           }
         </div>
       </div>
+      {
+        successMsg.trim().length > 0 && 
+        <Notification
+          message={successMsg}
+          messageType={successMsg.includes("Success") ? "success" : "error"}
+          open={successMsg.trim().length > 0}
+          handleClose={handleClose}
+        />
+      }
     </div>
   )
 }

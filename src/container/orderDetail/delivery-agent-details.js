@@ -6,15 +6,17 @@ import Select from '@material-ui/core/Select'
 import { makeStyles } from "@material-ui/core/styles"
 import TextareaAutosize from '@material-ui/core/TextareaAutosize'
 import TextField from '@material-ui/core/TextField';
-import { fetchKycDocumentList } from '../api'
+import { fetchKycDocumentList, completeOrder } from '../api'
+import Notification from "Components/notification"
 
-function DeliveryAgentDetails({ deliveryAgentPickupDateAndTime, deliveryAgentId, deliveryAgentName, deliveryAgentVehicleNumber, deliveryAgentMobileNumber }) {
+function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliveryAgentId, deliveryAgentName, deliveryAgentVehicleNumber, deliveryAgentMobileNumber }) {
 
   const classes = useStyles()
   const [showMountModal, setShowUnmountModal] = useState(false)
 
   const [comments, setComments] = useState("")
   const [documentId, setDocumentId] = useState("")
+  const [successMsg, setSuccessMsg] = useState("")
   const [kycDocumentIdx, setKycDocumentIdx] = useState(0)
   const [kycDocumentList, setKycDocumentList] = useState([])
 
@@ -48,7 +50,24 @@ function DeliveryAgentDetails({ deliveryAgentPickupDateAndTime, deliveryAgentId,
     setShowUnmountModal(true)
   }
 
-  const handleSave = () => {
+  const handleConfirm = () => {
+    unmountModal()
+    const payload = {
+      order_id: orderId,
+      otp: "",
+      kyc_document: kycDocumentList[kycDocumentIdx].description,
+      document_id: documentId,
+      comments
+    }
+    completeOrder(payload)
+      .then((response) => {
+        setSuccessMsg("Successfully completed the order")
+        console.log("successfully completed the order")
+      })
+      .catch((err) => {
+        setSuccessMsg("Error in completing the order")
+        console.log("Error in completing order", err)
+      })
     console.log("Hello from delivery agent", comments, documentId, kycDocumentList[kycDocumentIdx].description)
   }
 
@@ -56,6 +75,10 @@ function DeliveryAgentDetails({ deliveryAgentPickupDateAndTime, deliveryAgentId,
     console.log(e.target.value)
     setKycDocumentIdx(kycDocumentList[e.target.value].id)
   }
+  const handleClose = () => {
+    setSuccessMsg("")
+  }
+
   return (
     <div className="orders-detail-card">
       <div className="header">
@@ -93,7 +116,7 @@ function DeliveryAgentDetails({ deliveryAgentPickupDateAndTime, deliveryAgentId,
               <Dialog
                 title="Complete Order"
                 actions={[
-                  <Button color="primary" className={classes.buttonPrimary} onClick={handleSave} key={1} autoFocus>
+                  <Button color="primary" className={classes.buttonPrimary} onClick={handleConfirm} key={1} autoFocus>
                     CONFIRM
                   </Button>,
                   <Button onClick={unmountModal} key={2} color="primary" className={classes.buttonPrimary}>
@@ -140,6 +163,15 @@ function DeliveryAgentDetails({ deliveryAgentPickupDateAndTime, deliveryAgentId,
           }
         </div>
       </div>
+      {
+        successMsg.trim().length > 0 &&
+        <Notification
+          message={successMsg}
+          messageType={successMsg.includes("Success") ? "success" : "error"}
+          open={successMsg.trim().length > 0}
+          handleClose={handleClose}
+        />
+      }
     </div>
   )
 }

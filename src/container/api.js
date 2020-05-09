@@ -17,6 +17,24 @@ export function fetchOrderDetails (payload) {
   })
 }
 
+export function cancelOrder (payload) {
+  return POST({
+    api: `/deliveryman/api/1/support/cancel-order`,
+    apiBase: "api",
+    handleError: true,
+    data: payload
+  })
+}
+
+export function completeOrder (payload) {
+  return POST({
+    api: `/deliveryman/api/1/support/complete-order`,
+    apiBase: "api",
+    handleError: true,
+    data: payload
+  })
+}
+
 export function fetchCancellationReasons (payload) {
   return GET({
     api: `/deliveryman/api/1/support/cancel-reason`,

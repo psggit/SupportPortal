@@ -47,6 +47,7 @@ function OrderDetail (props) {
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
         <CustomerDetails
+          orderId={props.match.params.orderId}
           customerId={orderDetails.customer_id}
           customerName={orderDetails.customer_name}
           customerMobileNumber={orderDetails.customer_contact_number}
@@ -56,6 +57,7 @@ function OrderDetail (props) {
           customerLandmark={orderDetails.customer_landmark}
         />
         <RetailerDetails
+          orderId={props.match.params.orderId}
           retailerId={orderDetails.retailer_id}
           retailerStoreCode={orderDetails.retailer_code}
           retailerName={orderDetails.retailer_name}
@@ -70,6 +72,7 @@ function OrderDetail (props) {
         
         <DeliveryAgentDetails
           //deliveryAgentPickupDateAndTime={orderDetails.delivery_agent_pick_up_date_and_time}
+          orderId={props.match.params.orderId}
           deliveryAgentId={orderDetails.delivery_agent_id}
           deliveryAgentName={orderDetails.delivery_agent_name}
           deliveryAgentMobileNumber={orderDetails.delivery_agent_contact_number}
