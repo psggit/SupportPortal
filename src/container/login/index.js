@@ -80,7 +80,7 @@ function login() {
       credentials: "include",
       body: JSON.stringify(payload)
     }
-    fetch(`https://api.hipbar-dev.com/deliveryman/api/1/support/generate-otp`, fetchOptions)
+    fetch(`https://${apiUrl}/deliveryman/api/1/support/generate-otp`, fetchOptions)
       .then(() => {
         //setGenerateOtp(true)
         setTimer()

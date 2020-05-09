@@ -48,6 +48,7 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
     unmountModal()
     const payload = {
       order_id: orderId,
+      slot_id: "",
       reason: cancellationReasonList[cancellationReasonIdx].reason,
       reason_id: cancellationReasonList[cancellationReasonIdx].id,
       comments

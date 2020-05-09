@@ -55,8 +55,9 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
     const payload = {
       order_id: orderId,
       otp: "",
-      kyc_document: kycDocumentList[kycDocumentIdx].description,
-      document_id: documentId,
+      slot_id: "",
+      id_proof: kycDocumentList[kycDocumentIdx].description,
+      digits: documentId,
       comments
     }
     completeOrder(payload)
@@ -143,7 +144,7 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
 
                     <TextField id="standard-basic"
                       onChange={handleDocumentChange}
-                      // placeholder="Enter valid Document ID"
+                      placeholder="Enter last four digits of document"
                       className={classes.formInput}
                       label="Document ID"
                     />
