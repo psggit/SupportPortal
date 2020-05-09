@@ -1,10 +1,44 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Dialog from "Components/dialog/index"
 import "./order-detail.scss"
+import Button from "@material-ui/core/Button"
+import Select from '@material-ui/core/Select'
+import { makeStyles } from "@material-ui/core/styles"
+import TextareaAutosize from '@material-ui/core/TextareaAutosize'
+import TextField from '@material-ui/core/TextField';
+import { fetchKycDocumentList } from '../api'
 
 function DeliveryAgentDetails({ deliveryAgentPickupDateAndTime, deliveryAgentId, deliveryAgentName, deliveryAgentVehicleNumber, deliveryAgentMobileNumber }) {
 
+  const classes = useStyles()
   const [showMountModal, setShowUnmountModal] = useState(false)
+
+  const [comments, setComments] = useState("")
+  const [documentId, setDocumentId] = useState("")
+  const [kycDocumentIdx, setKycDocumentIdx] = useState(0)
+  const [kycDocumentList, setKycDocumentList] = useState([])
+
+  useEffect(() => {
+    fetchKycDetails()
+  }, []);
+
+  const fetchKycDetails = () => {
+    fetchKycDocumentList()
+      .then((response) => {
+        setKycDocumentList(response)
+      })
+      .catch((err) => {
+        console.log("Error in fetching kyc details", err)
+      })
+  }
+
+  const handleCommentChange = () => {
+    setComments(event.target.value)
+  }
+
+  const handleDocumentChange = () => {
+    setDocumentId(event.target.value)
+  }
 
   const unmountModal = () => {
     setShowUnmountModal(false)
@@ -14,30 +48,14 @@ function DeliveryAgentDetails({ deliveryAgentPickupDateAndTime, deliveryAgentId,
     setShowUnmountModal(true)
   }
 
-  const [comments, setComments] = useState("")
-  const [kyc, setKyc] = useState("")
-  const [documentId, setDocumentId] = useState("")
-
-
-  const handleComments = () => {
-    setComments(event.target.value)
-    console.log("Comments", comments)
-  }
-
-  const handleKycDocumnet = () => {
-    setKyc(event.target.value)
-    console.log("KYC", kyc)
-  }
-
-  const handleDocumentId = () => {
-    setDocumentId(event.target.value)
-    console.log("DocumentId", documentId)
-  }
-
   const handleSave = () => {
-    console.log("Hello from delivery agent",kyc,documentId,comments)
+    console.log("Hello from delivery agent", comments, documentId, kycDocumentList[kycDocumentIdx].description)
   }
 
+  const handleChange = (e) => {
+    console.log(e.target.value)
+    setKycDocumentIdx(kycDocumentList[e.target.value].id)
+  }
   return (
     <div className="orders-detail-card">
       <div className="header">
@@ -74,40 +92,78 @@ function DeliveryAgentDetails({ deliveryAgentPickupDateAndTime, deliveryAgentId,
             showMountModal && (
               <Dialog
                 title="Complete Order"
-                // label1="Select KYC Document"
-                // placeholder1="Select KYC Document"
-                // label2="Comments"
-                // placeholder2="Enter your notes"
                 actions={[
-                  <form>
-                    <div className="form">
-                      <div className ="kyc-create" style={{marginTop:"32px"}}>
-                       <p className="label">Enter KYC Document</p>
-                       <input type="text-box" onChange ={handleKycDocumnet} placeholder ="Enter a KYC document from the List"/>
-                      </div>
-                      <div className="document-id-create">
-                        <p className="label">Enter Document ID</p>
-                        <input type="text-box" onChange={handleDocumentId} placeholder="Enter a valid Document ID"/>
-                      </div>
-                      <div className="comments-create">
-                        <p className="label">Comments</p>
-                        <input type="text-box" onChange={handleComments} placeholder="Enter your Notes"/>
-                      </div>
-                    </div>
-                  </form>,
-                  <button onClick={handleSave} color="primary" style={{marginTop:"32px"}}key={1} autoFocus>
-                    SAVE
-                  </button>,
-                  <button onClick={unmountModal} style={{ marginTop: "32px" }}key={2} color="primary">
+                  <Button color="primary" className={classes.buttonPrimary} onClick={handleSave} key={1} autoFocus>
+                    CONFIRM
+                  </Button>,
+                  <Button onClick={unmountModal} key={2} color="primary" className={classes.buttonPrimary}>
                     CLOSE
-                  </button>
+                  </Button>
                 ]}
-              />
-            )}
+              >
+                <form>
+                  <div className={classes.formRoot}>
+                    <label>Select KYC Document</label>
+                    <Select
+                      native
+                      value={kycDocumentIdx}
+                      className={classes.formControl}
+                      onChange={handleChange}
+                      label="Select a KYC Document from the list"
+                    >
+                      {
+                        kycDocumentList.map((item, index) => {
+                          return <option key={index} value={index}>{item.description}</option>
+                        })
+                      }
+                    </Select>
 
+                    <TextField id="standard-basic"
+                      onChange={handleDocumentChange}
+                      // placeholder="Enter valid Document ID"
+                      className={classes.formInput}
+                      label="Document ID"
+                    />
+
+                    <label style={{ marginTop: "24px" }}>Comments</label>
+                    <TextareaAutosize
+                      className={classes.formControlTextarea}
+                      aria-label="minimum height"
+                      rowsMin={3}
+                      onChange={handleCommentChange}
+                      placeholder="Enter your notes"
+                    />
+                  </div>
+                </form>
+              </Dialog>
+            )
+          }
         </div>
       </div>
     </div>
   )
 }
+
+const useStyles = makeStyles(theme => ({
+  formRoot: {
+    padding: 36
+  },
+  formControl: {
+    width: "100%",
+    marginBottom: 24
+  },
+  formControlTextarea: {
+    width: "100%",
+    marginBottom: 24,
+    padding: 10
+  },
+  buttonPrimary: {
+    background: "#000000",
+    color: "#FFFFFF"
+  },
+  formInput: {
+    width: "100%"
+  }
+}))
+
 export default DeliveryAgentDetails

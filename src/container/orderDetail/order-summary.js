@@ -20,8 +20,8 @@ const OrderSummary = ({orderTotal, cartTotal, cartItems }) => (
       </div>
       {
         cartItems ? 
-        cartItems.map((item) => {
-          return <div className="flex-item" style={{ marginBottom: '16px' }}>
+        cartItems.map((item, index) => {
+          return <div className="flex-item" key={index} style={{ marginBottom: '16px' }}>
                   <p style={{ fontSize: '15px', lineHeight: '20px', fontWeight: '600', color: '#212121' }}>{item.brand_name}</p>
                   <p style={{ fontSize: '15px', lineHeight: '20px' }}>{`$${item.total_price}`}</p>
                 </div>

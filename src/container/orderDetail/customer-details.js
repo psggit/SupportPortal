@@ -1,26 +1,34 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Dialog from "Components/dialog/index"
 import "./order-detail.scss"
 import Button from "@material-ui/core/Button"
 import Select from '@material-ui/core/Select'
 import { makeStyles } from "@material-ui/core/styles"
 import TextareaAutosize from '@material-ui/core/TextareaAutosize'
+import { fetchCancellationReasons } from "./../api"
 
-function CustomerDetails({ customerId, customerName, customerMobileNumber, customerState, customerCity, customerAddress, customerLandmark })  {
- 
+function CustomerDetails({ customerId, customerName, customerMobileNumber, customerState, customerCity, customerAddress, customerLandmark }) {
+
   const classes = useStyles()
   const [showMountModal, setShowUnmountModal] = useState(false)
 
-  const cancellationReasons = [
-    {text: "User under legal age drinking"},
-    { text: "No show of customer" },
-    { text: "Wrong address" },
-    { text: "Vehicle problem" },
-    { text: "Other" }
-  ]
-
   const [comments, setComments] = useState("")
-  const [cancellationReason, setCancellationReason] = useState("")
+  const [cancellationReasonIdx, setCancellationReasonIdx] = useState(0)
+  const [cancellationReasonList, setCancellationReasonList] = useState([])
+
+  useEffect(() => {
+    fetchCancellationReasonList()
+  }, []);
+
+  const fetchCancellationReasonList = () => {
+    fetchCancellationReasons()
+      .then((response) => {
+        setCancellationReasonList(response)
+      })
+      .catch((err) => {
+        console.log("Error in fetching cancellation reasons", err)
+      })
+  }
 
   const handleCommentChange = () => {
     setComments(event.target.value)
@@ -35,17 +43,17 @@ function CustomerDetails({ customerId, customerName, customerMobileNumber, custo
   }
 
   const handleSave = () => {
-    console.log("Hello from delivery agent", comments, cancellationReason)
+    console.log("Hello from delivery agent", comments, cancellationReasonList[cancellationReasonIdx].reason)
   }
 
   const handleChange = (e) => {
     console.log(e.target.value)
-    setCancellationReason(e.target.value)
+    setCancellationReasonIdx(e.target.value)
   }
-  
+
   return (
     <div className="orders-detail-card">
-    
+
       <div className="header">
         <h4>CUSTOMER DETAILS</h4>
       </div>
@@ -58,12 +66,12 @@ function CustomerDetails({ customerId, customerName, customerMobileNumber, custo
 
         <div className="item">
           <p className="label">Customer Name</p>
-            <p className="value">{customerName ? customerName : "-"}</p>
+          <p className="value">{customerName ? customerName : "-"}</p>
         </div>
 
         <div className="item">
           <p className="label">Customer Mobile Number</p>
-            <p className="value">{customerMobileNumber ? customerMobileNumber : "-"}</p>
+          <p className="value">{customerMobileNumber ? customerMobileNumber : "-"}</p>
         </div>
 
         <div className="item multiple-items">
@@ -84,7 +92,7 @@ function CustomerDetails({ customerId, customerName, customerMobileNumber, custo
         <div className="item">
           <p className="label">Customer Address</p>
           <p className="value">
-              {customerAddress ? customerAddress : '-'}
+            {customerAddress ? customerAddress : '-'}
           </p>
         </div>
 
@@ -113,28 +121,28 @@ function CustomerDetails({ customerId, customerName, customerMobileNumber, custo
               >
                 <form>
                   <div className={classes.formRoot}>
-                      <label>Reason for Cancellation</label>
-                      <Select
-                        native
-                        value={cancellationReason}
-                        className={classes.formControl}
-                        onChange={handleChange}
-                        label="Select a reason from the list"
-                      >
-                        {
-                          cancellationReasons.map((item, index) => {
-                          return <option value={item.value}>{item.text}</option>
-                          })
-                        }
-                      </Select>
-                      <label>Comments</label>
-                      <TextareaAutosize 
-                        className={classes.formControl} 
-                        aria-label="minimum height" 
-                        rowsMin={3} 
-                        onChange={handleCommentChange}
-                        placeholder="Enter your notes" 
-                      />
+                    <label>Reason for Cancellation</label>
+                    <Select
+                      native
+                      value={cancellationReasonIdx}
+                      className={classes.formControl}
+                      onChange={handleChange}
+                      label="Select a reason from the list"
+                    >
+                      {
+                        cancellationReasonList.map((item, index) => {
+                          return <option key={index} value={index}>{item.reason}</option>
+                        })
+                      }
+                    </Select>
+                    <label>Comments</label>
+                    <TextareaAutosize
+                      className={classes.formControlTextarea}
+                      aria-label="minimum height"
+                      rowsMin={3}
+                      onChange={handleCommentChange}
+                      placeholder="Enter your notes"
+                    />
                   </div>
                 </form>
               </Dialog>
@@ -152,7 +160,12 @@ const useStyles = makeStyles(theme => ({
   },
   formControl: {
     width: "100%",
-    marginBottom: 24
+    marginBottom: 24,
+  },
+  formControlTextarea: {
+    padding: 10,
+    width: "100%",
+    marginBottom: 24,
   },
   buttonPrimary: {
     background: "#000000",

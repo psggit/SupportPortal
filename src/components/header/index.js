@@ -30,6 +30,13 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
     cursor: "pointer"
   },
+  buttonPrimary: {
+    background: "#000000",
+    color: "#FFFFFF",
+    '&:hover': {
+      background: "#000000"
+    }
+  },
   account:{
     display:"flex",
     alignItems: "center",
@@ -106,10 +113,10 @@ function header() {
           title="Confirm Logout"
           subtitle="Are you sure you want to log out?"
           actions={[
-            <Button onClick={logout} color="primary" key={1} autoFocus>
+            <Button onClick={logout} className={classes.buttonPrimary} color="primary" key={1} autoFocus>
               Yes
             </Button>,
-            <Button onClick={unmountModal} key={2} color="primary">
+            <Button onClick={unmountModal} className={classes.buttonPrimary} key={2} color="primary">
               No
             </Button>
           ]}

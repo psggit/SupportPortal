@@ -16,3 +16,19 @@ export function fetchOrderDetails (payload) {
     data: payload
   })
 }
+
+export function fetchCancellationReasons (payload) {
+  return GET({
+    api: `/deliveryman/api/1/support/cancel-reason`,
+    apiBase: "api",
+    handleError: true
+  })
+}
+
+export function fetchKycDocumentList (payload) {
+  return GET({
+    api: `/deliveryman/api/1/agent/kyc-list`,
+    apiBase: "api",
+    handleError: true
+  })
+}

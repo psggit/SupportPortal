@@ -9,7 +9,7 @@ import PropTypes from "prop-types"
 
 const useStyles = makeStyles(theme => ({
   dialogBody: {
-    padding: 36,
+    //padding: 36,
     fontWeight: "normal",
     fontSize: "16px",
     lineHeight: "19px",
@@ -46,10 +46,13 @@ function dialog(props) {
       <div style={{ width: "492px" }}>
         <DialogTitle id="alert-dialog-title" className={classes.dialogTitle}>{props.title}</DialogTitle>
         <DialogContent className={classes.dialogContent}>
-          {/* <DialogContentText id="alert-dialog-description" className={classes.dialogBody}>
+          <DialogContentText id="alert-dialog-description" className={classes.dialogBody}>
             {props.subtitle}
-          </DialogContentText> */}
-          {props.children}
+          </DialogContentText>
+          {
+            props.children &&
+            props.children
+          }
         </DialogContent>
         <DialogActions className={classes.dialogFooter}>
           {props.actions.map(item => item)}

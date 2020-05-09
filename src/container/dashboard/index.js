@@ -165,7 +165,7 @@ function Dashboard(props) {
                 <Input
                   type="text"
                   name="consumerID"
-                  placeholder="Enter valid digit ID"
+                  placeholder="Enter a valid ID"
                   value={consumerID}
                   autoComplete="off"
                   onChange={handleConsumerIDChange}
@@ -176,7 +176,7 @@ function Dashboard(props) {
                 <Input
                   type="text"
                   name="orderID"
-                  placeholder="Enter minimum of 4 digit"
+                  placeholder="Enter a valid ID"
                   value={orderID}
                   autoComplete="off"
                   onChange={handleOrderIdChange}
@@ -224,7 +224,7 @@ function Dashboard(props) {
                 <Input
                   type="text"
                   name="retailerID"
-                  placeholder="Enter minimum of 4 digit"
+                  placeholder="Enter a valid ID"
                   value={retailerID}
                   autoComplete="off"
                   onChange={handleRetailerIdChange}
@@ -235,7 +235,7 @@ function Dashboard(props) {
                 <Input
                   type="text"
                   name="storeCode"
-                  placeholder="Enter a valid digit code"
+                  placeholder="Enter a valid code"
                   value={storeCode}
                   autoComplete="off"
                   onChange={handleStoreCode}
@@ -283,7 +283,7 @@ function Dashboard(props) {
                 <Input
                   type="text"
                   name="delivertAgentID"
-                  placeholder="Enter minimum of 4 digit"
+                  placeholder="Enter a valid ID"
                   value={deliveryAgentID}
                   autoComplete="off"
                   onChange={handleDeliveryAgentIdChange}

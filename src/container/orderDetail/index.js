@@ -69,7 +69,7 @@ function OrderDetail (props) {
         />
         
         <DeliveryAgentDetails
-          deliveryAgentPickupDateAndTime={orderDetails.delivery_agent_pick_up_date_and_time}
+          //deliveryAgentPickupDateAndTime={orderDetails.delivery_agent_pick_up_date_and_time}
           deliveryAgentId={orderDetails.delivery_agent_id}
           deliveryAgentName={orderDetails.delivery_agent_name}
           deliveryAgentMobileNumber={orderDetails.delivery_agent_contact_number}

@@ -35,6 +35,13 @@ const useStyles = makeStyles(theme => ({
   textField: {
     marginBottom: "40px"
   },
+  buttonPrimary: {
+    background: "#000000",
+    color: "#FFFFFF",
+    '&:hover': {
+      background: "#000000"
+    }
+  },
   note: {
     margin: 0
   }
@@ -299,6 +306,7 @@ function login() {
               variant="contained"
               color="primary"
               size="large"
+              className={classes.buttonPrimary}
               disabled={!enableLogin}
               onClick={(e) => handleLogin(e)}
             >

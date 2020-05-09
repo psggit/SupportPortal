@@ -72,7 +72,7 @@ function OrderList(props) {
         payload = {
           retailer_contact_number: data.retailer_contact_number ? data.retailer_contact_number : "",
           retailer_id: data.retailer_id ? data.retailer_id : "",
-          retailer_qr_code: data.retailer_qr_code ? data.retailer_qr_code : ""
+          retailer_code: data.retailer_qr_code ? data.retailer_code : ""
         }
       break;
     }
@@ -134,8 +134,8 @@ function OrderList(props) {
                         <TableCell align="left">{Moment(data.date_and_time).format("DD/MM/YYYY h:mm A")}</TableCell>
                         <TableCell align="left">{data.order_status}</TableCell>
                         <TableCell align="left">{data.consumer_id}</TableCell>
-                        <TableCell align="left">{data.customer_name}</TableCell>
-                        <TableCell align="left">{data.customer_contact_number}</TableCell>
+                        <TableCell align="left">{data.consumer_name}</TableCell>
+                        <TableCell align="left">{data.consumer_contact_number}</TableCell>
                         <TableCell align="left">{data.retailer_id}</TableCell>
                         <TableCell align="left">{data.retailer_name}</TableCell>
                         <TableCell align="left">{data.delivery_agent_name}</TableCell>
