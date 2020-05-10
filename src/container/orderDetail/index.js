@@ -13,7 +13,10 @@ import { fetchCompleteOrderDetails } from "../api"
 function OrderDetail (props) {
 
   const [orderDetails,setOrderDetails] = useState([])
+  const [orderDetailsTaxes,setOrderDetailsTaxes] = useState([])
   const [loadingOrderDetails, setLoadingOrderDetails] = useState(false)
+
+  console.log("TTTTTT",orderDetailsTaxes.cgst_total)
 
   useEffect(() => {
     fetchOrderDetailsData()
@@ -27,8 +30,10 @@ function OrderDetail (props) {
      fetchCompleteOrderDetails(payload)
       .then((response) => {
         setOrderDetails(response.order_details)
+        setOrderDetailsTaxes(response.order_details.taxes)
         setLoadingOrderDetails(false)
-        console.log("Response", response.order_details, response.order_details.fee_details_struct[0])
+        console.log("HHHHHHHH",response.order_details.taxes.cgst_total)
+        // console.log("Response", response.order_details, response.order_details.fee_details_struct[0])
       })
       .catch((err) => {
         setLoadingOrderDetails(false)
@@ -70,6 +75,10 @@ function OrderDetail (props) {
           cartTotal={orderDetails.original_cart_total}
           cartItems={orderDetails.cart_items}
           feeDetails={orderDetails.fee_details_struct}
+          cgstPercentage={orderDetails.cgst_percentage}
+          cgstAmount ={ orderDetailsTaxes.cgst_total}
+          sgstPercentage={orderDetails.sgst_percentage}
+          sgstAmount={orderDetailsTaxes.sgst_total}
         />
 
         <DeliveryAgentDetails

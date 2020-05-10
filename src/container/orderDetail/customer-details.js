@@ -5,13 +5,14 @@ import Button from "@material-ui/core/Button"
 import Select from '@material-ui/core/Select'
 import { makeStyles } from "@material-ui/core/styles"
 import TextareaAutosize from '@material-ui/core/TextareaAutosize'
-import { fetchCancellationReasons, cancelOrder } from "./../api"
+import { fetchCancellationReasons, cancelOrder , submitNotes } from "./../api"
 import Notification from "Components/notification"
 
 function CustomerDetails({ orderId, customerId, customerName, customerMobileNumber, customerState, customerCity, customerAddress, customerLandmark }) {
 
   const classes = useStyles()
   const [showMountModal, setShowUnmountModal] = useState(false)
+  const [showCommentMountModel, setShowUnmountCommentModel] = useState(false)
 
   const [comments, setComments] = useState("")
   const [successMsg, setSuccessMsg] = useState("")
@@ -32,6 +33,32 @@ function CustomerDetails({ orderId, customerId, customerName, customerMobileNumb
       })
   }
 
+  const commentUnmountModel = () => {
+    setShowUnmountCommentModel(false)
+  }
+
+  const commentMountModel = () => {
+    setShowUnmountCommentModel(true)
+  }
+
+  const handleCommentSubmit = () => {
+    commentUnmountModel()
+    const payload = {
+      order_id: orderId,
+      notes: comments
+    }
+    submitNotes(payload)
+      .then((response) => {
+        setSuccessMsg("Successfully Added Notes")
+        console.log("successfully Added Notes")
+      })
+      .catch((err) => {
+        setSuccessMsg("Error in Adding Notes")
+        console.log("Error in Adding Notes", err)
+      })
+    console.log("comment",comments,orderId)
+  }
+
   const handleCommentChange = (e) => {
     setComments(e.target.value)
   }
@@ -49,9 +76,7 @@ function CustomerDetails({ orderId, customerId, customerName, customerMobileNumb
     const payload = {
       order_id: orderId,
       slot_id: "",
-      reason: cancellationReasonList[cancellationReasonIdx].reason,
       reason_id: cancellationReasonList[cancellationReasonIdx].id,
-      comments
     }
     cancelOrder(payload)
     .then((response) => {
@@ -125,53 +150,80 @@ function CustomerDetails({ orderId, customerId, customerName, customerMobileNumb
             {customerLandmark ? customerLandmark : '-'}
           </p>
         </div>
-
-        <div className="item">
-          <p className="label">Manual Cancellation</p>
-          <button onClick={mountModal}>Cancel Order</button>
-          {
-            showMountModal && (
-              <Dialog
-                title="Cancel Order"
-                actions={[
-                  <Button color="primary" className={classes.buttonPrimary} onClick={handleConfirm} key={1} autoFocus>
-                    CONFIRM
+          <div className="item">
+            <p className="label">Manual Cancellation</p>
+            <button onClick={mountModal}>Cancel Order</button>
+            {
+              showMountModal && (
+                <Dialog
+                  title="Cancel Order"
+                  actions={[
+                    <Button color="primary" className={classes.buttonPrimary} onClick={handleConfirm} key={1} autoFocus>
+                      CONFIRM
                   </Button>,
-                  <Button onClick={unmountModal} key={2} color="primary" className={classes.buttonPrimary}>
-                    CLOSE
+                    <Button onClick={unmountModal} key={2} color="primary" className={classes.buttonPrimary}>
+                      CLOSE
                   </Button>
-                ]}
-              >
-                <form>
-                  <div className={classes.formRoot}>
-                    <label>Reason for Cancellation</label>
-                    <Select
-                      native
-                      value={cancellationReasonIdx}
-                      className={classes.formControl}
-                      onChange={handleChange}
-                      label="Select a reason from the list"
-                    >
-                      {
-                        cancellationReasonList.map((item, index) => {
-                          return <option key={index} value={index}>{item.reason}</option>
-                        })
-                      }
-                    </Select>
-                    <label>Comments</label>
+                  ]}
+                >
+                  <form>
+                    <div className={classes.formRoot}>
+                      <label>Reason for Cancellation</label>
+                      <Select
+                        native
+                        value={cancellationReasonIdx}
+                        className={classes.formControl}
+                        onChange={handleChange}
+                        label="Select a reason from the list"
+                      >
+                        {
+                          cancellationReasonList.map((item, index) => {
+                            return <option key={index} value={index}>{item.reason}</option>
+                          })
+                        }
+                      </Select>
+                      {/* <label>Comments</label>
                     <TextareaAutosize
                       className={classes.formControlTextarea}
                       aria-label="minimum height"
                       rowsMin={3}
                       onChange={handleCommentChange}
                       placeholder="Enter your notes"
-                    />
-                  </div>
-                </form>
-              </Dialog>
-            )
-          }
-        </div>
+                    /> */}
+                    </div>
+                  </form>
+                </Dialog>
+              )
+            }
+          <button className="comment-btn" onClick={commentMountModel}>Comment</button>
+            {
+              showCommentMountModel && (
+                <Dialog
+                  title="Comment"
+                  actions={[
+                    <Button color="primary" className={classes.buttonPrimary} onClick={handleCommentSubmit} key={1} autoFocus>
+                      CONFIRM
+                  </Button>,
+                    <Button onClick={commentUnmountModel} key={2} color="primary" className={classes.buttonPrimary}>
+                      CLOSE
+                  </Button>
+                  ]}
+                >
+                  <form>
+                    <div className={classes.formRoot}>
+                      <TextareaAutosize
+                        className={classes.formControlTextarea}
+                        aria-label="minimum height"
+                        rowsMin={3}
+                        onChange={handleCommentChange}
+                        placeholder="Enter your notes"
+                      />
+                    </div>
+                  </form>
+                </Dialog>
+              )
+            }
+          </div>
       </div>
       {
         successMsg.trim().length > 0 && 

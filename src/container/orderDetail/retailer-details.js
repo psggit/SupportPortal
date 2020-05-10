@@ -5,13 +5,14 @@ import Button from "@material-ui/core/Button"
 import Select from '@material-ui/core/Select'
 import { makeStyles } from "@material-ui/core/styles"
 import TextareaAutosize from '@material-ui/core/TextareaAutosize'
-import { fetchCancellationReasons, cancelOrder } from "./../api"
+import { fetchCancellationReasons, cancelOrder , submitNotes } from "./../api"
 import Notification from "Components/notification"
 
 function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName, retailerMobileNumber, retailerAddress, retailerLandmark }) {
 
   const classes = useStyles()
   const [showMountModal, setShowUnmountModal] = useState(false)
+  const [showCommentMountModel, setShowUnmountCommentModel] = useState(false)
 
   const [comments, setComments] = useState("")
   const [successMsg, setSuccessMsg] = useState("")
@@ -36,13 +37,41 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
     setComments(e.target.value)
   }
 
+  const commentUnmountModel = () => {
+    setShowUnmountCommentModel(false)
+  }
+
+  const commentMountModel = () => {
+    setShowUnmountCommentModel(true)
+  }
+
+  const handleCommentSubmit = () => {
+    commentUnmountModel()
+    const payload = {
+      order_id: orderId,
+      notes: comments
+    }
+    submitNotes(payload)
+      .then((response) => {
+        setSuccessMsg("Successfully Added Notes")
+        console.log("successfully Added Notes")
+      })
+      .catch((err) => {
+        setSuccessMsg("Error in Adding Notes")
+        console.log("Error in Adding Notes", err)
+      })
+    console.log("comment", comments, orderId)
+  }
+
   const unmountModal = () => {
     setShowUnmountModal(false)
+
   }
 
   const mountModal = () => {
     setShowUnmountModal(true)
   }
+
 
   const handleConfirm = () => {
     unmountModal()
@@ -146,7 +175,35 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
                         })
                       }
                     </Select>
-                    <label>Comments</label>
+                    {/* <label>Comments</label>
+                    <TextareaAutosize
+                      className={classes.formControlTextarea}
+                      aria-label="minimum height"
+                      rowsMin={3}
+                      onChange={handleCommentChange}
+                      placeholder="Enter your notes"
+                    /> */}
+                  </div>
+                </form>
+              </Dialog>
+            )
+          }
+          <button className="comment-btn" onClick={commentMountModel}>Comment</button>
+          {
+            showCommentMountModel && (
+              <Dialog
+                title="Comment"
+                actions={[
+                  <Button color="primary" className={classes.buttonPrimary} onClick={handleCommentSubmit} key={1} autoFocus>
+                    CONFIRM
+                  </Button>,
+                  <Button onClick={commentUnmountModel} key={2} color="primary" className={classes.buttonPrimary}>
+                    CLOSE
+                  </Button>
+                ]}
+              >
+                <form>
+                  <div className={classes.formRoot}>
                     <TextareaAutosize
                       className={classes.formControlTextarea}
                       aria-label="minimum height"
@@ -161,6 +218,7 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
           }
 
         </div>
+        
       </div>
       {
         successMsg.trim().length > 0 &&

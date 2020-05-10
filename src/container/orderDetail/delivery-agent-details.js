@@ -6,13 +6,14 @@ import Select from '@material-ui/core/Select'
 import { makeStyles } from "@material-ui/core/styles"
 import TextareaAutosize from '@material-ui/core/TextareaAutosize'
 import TextField from '@material-ui/core/TextField';
-import { fetchKycDocumentList, completeOrder } from '../api'
+import { fetchKycDocumentList, completeOrder , submitNotes } from '../api'
 import Notification from "Components/notification"
 
 function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliveryAgentId, deliveryAgentName, deliveryAgentVehicleNumber, deliveryAgentMobileNumber }) {
 
   const classes = useStyles()
   const [showMountModal, setShowUnmountModal] = useState(false)
+  const [showCommentMountModel, setShowUnmountCommentModel] = useState(false)
 
   const [comments, setComments] = useState("")
   const [documentId, setDocumentId] = useState("")
@@ -39,6 +40,32 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
     setComments(e.target.value)
   }
 
+  const commentUnmountModel = () => {
+    setShowUnmountCommentModel(false)
+  }
+
+  const commentMountModel = () => {
+    setShowUnmountCommentModel(true)
+  }
+
+  const handleCommentSubmit = () => {
+    commentUnmountModel()
+    const payload = {
+      order_id: orderId,
+      notes: comments
+    }
+    submitNotes(payload)
+      .then((response) => {
+        setSuccessMsg("Successfully Added Notes")
+        console.log("successfully Added Notes")
+      })
+      .catch((err) => {
+        setSuccessMsg("Error in Adding Notes")
+        console.log("Error in Adding Notes", err)
+      })
+    console.log("comment", comments, orderId)
+  }
+
   const handleOtpChange = (e) => {
     setOtp(e.target.value)
   }
@@ -63,7 +90,6 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
       slot_id: "",
       id_proof: kycDocumentList[kycDocumentIdx].description,
       digits: documentId,
-      comments
     }
     completeOrder(payload)
       .then((response) => {
@@ -79,7 +105,8 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
 
   const handleChange = (e) => {
     console.log(e.target.value)
-    setKycDocumentIdx(kycDocumentList[e.target.value].id)
+    setKycDocumentIdx(e.target.value)
+    // setKycDocumentIdx(kycDocumentList[e.target.value].id)
   }
 
   const handleClose = () => {
@@ -162,7 +189,35 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
                       label="OTP"
                     />
 
-                    <label style={{ marginTop: "24px" }}>Comments</label>
+                    {/* <label style={{ marginTop: "24px" }}>Comments</label>
+                    <TextareaAutosize
+                      className={classes.formControlTextarea}
+                      aria-label="minimum height"
+                      rowsMin={3}
+                      onChange={handleCommentChange}
+                      placeholder="Enter your notes"
+                    /> */}
+                  </div>
+                </form>
+              </Dialog>
+            )
+          }
+          <button className="comment-btn" onClick={commentMountModel}>Comment</button>
+          {
+            showCommentMountModel && (
+              <Dialog
+                title="Comment"
+                actions={[
+                  <Button color="primary" className={classes.buttonPrimary} onClick={handleCommentSubmit} key={1} autoFocus>
+                    CONFIRM
+                  </Button>,
+                  <Button onClick={commentUnmountModel} key={2} color="primary" className={classes.buttonPrimary}>
+                    CLOSE
+                  </Button>
+                ]}
+              >
+                <form>
+                  <div className={classes.formRoot}>
                     <TextareaAutosize
                       className={classes.formControlTextarea}
                       aria-label="minimum height"
