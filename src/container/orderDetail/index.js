@@ -16,7 +16,6 @@ function OrderDetail (props) {
   const [orderDetailsTaxes,setOrderDetailsTaxes] = useState([])
   const [loadingOrderDetails, setLoadingOrderDetails] = useState(false)
 
-  console.log("TTTTTT",orderDetailsTaxes.cgst_total)
 
   useEffect(() => {
     fetchOrderDetailsData()

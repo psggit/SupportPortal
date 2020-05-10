@@ -76,7 +76,7 @@ function CustomerDetails({ orderId, customerId, customerName, customerMobileNumb
     const payload = {
       order_id: orderId,
       slot_id: "",
-      reason_id: cancellationReasonList[cancellationReasonIdx].id,
+      reason_id:parseInt(cancellationReasonList[cancellationReasonIdx].id),
     }
     cancelOrder(payload)
     .then((response) => {

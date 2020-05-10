@@ -29,15 +29,14 @@ const OrderSummary = ({orderTotal, cartTotal, cartItems, feeDetails,cgstPercenta
 
       {
         feeDetails ?
-        feeDetails.map((item, index) => {
-          return
-                <div className="flex-item" style={{ marginBottom: '8px' }}>
-                  <p style={{ fontSize: '18px', lineHeight: '24px', fontWeight: 'bold' }}>{item.fee_title}</p>
-                  <p style={{ fontSize: '18px', lineHeight: '24px', fontWeight: 'bold', marginLeft: '4px' }}>{item.fee_value_without_taxes}</p>
-                </div>
-        }) : ""
+          feeDetails.map((item, index) => {
+            return <div className="flex-item" key={index} style={{ marginBottom: '16px' }}>
+              <p style={{ fontSize: '15px', lineHeight: '20px', fontWeight: '600', color: '#212121' }}>{item.fee_title}</p>
+              <p style={{ fontSize: '15px', lineHeight: '20px' }}>{`₹${item.fee_value_without_taxes}`}</p>
+            </div>
+          }) : ""
       }
-
+      
       <div className="flex-item" style={{ marginBottom: '6px' }}>
         <p style={{ fontSize: '15px', lineHeight: '20px', fontWeight: '600' }}>{"CGST" +"(" +cgstPercentage +"%)"}</p>
         <p style={{ fontSize: '15px', lineHeight: '20px' }}>{"₹"+cgstAmount}</p>
