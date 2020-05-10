@@ -2,6 +2,8 @@ export function getHasuraRole(data) {
   const hasuraRoles = data.hasura_roles
  
   const rolesMap = {
+    // support_person: 3,
+    // support_admin: 5,
     admin: 8,
     account_manager: 8,
     opadmin: 8,
