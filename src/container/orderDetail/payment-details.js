@@ -12,32 +12,32 @@ const PaymentDetails = ({ walletTotal, paymentTotal, hipbarWallet, giftWallet, u
 
       <div className="flex-item" style={{ marginBottom: '16px' }}>
         <p style={{fontSize: "18px", fontWeight: "bold"}}> Payment Total</p>
-        <p style={{ fontSize: "18px", fontWeight: "bold" }}>{paymentTotal ? `$${paymentTotal}` : "-"}</p>
+        <p style={{ fontSize: "18px", fontWeight: "bold" }}>{paymentTotal ? `₹${paymentTotal}` : "-"}</p>
       </div>
   
       <div className="flex-item" style={{ marginBottom: '8px' }}>
         <p style={{ fontSize: "18px", fontWeight: "bold" }}>{"Wallets"}</p>
-        <p style={{ fontSize: "18px", fontWeight: "bold" }}>{walletTotal ? `$${walletTotal}` : "-"}</p>
+        <p style={{ fontSize: "18px", fontWeight: "bold" }}>{walletTotal ? `₹${walletTotal}` : "-"}</p>
       </div>
 
       <div className="flex-item" style={{ marginBottom: '8px' }}>
         <p>{"Hipbar Wallet"}</p>
-        <p>{hipbarWallet ? `$${hipbarWallet}` : "-"}</p>
+        <p>{hipbarWallet ? `₹${hipbarWallet}` : "-"}</p>
       </div>
 
       <div className="flex-item" style={{ marginBottom: '16px' }}>
         <p>{"Gift Wallet"}</p>
-        <p>{giftWallet ? `$${giftWallet}` : "-"}</p>
+        <p>{giftWallet ? `₹${giftWallet}` : "-"}</p>
       </div>
 
       <div className="flex-item" style={{ marginBottom: '8px' }}>
         <p style={{ fontSize: "18px", fontWeight: "bold" }}>{"Additional Payment Details"}</p>
-        <p style={{ fontSize: "18px", fontWeight: "bold" }}>{upi ? `$${upi}` : "-"}</p>
+        <p style={{ fontSize: "18px", fontWeight: "bold" }}>{upi ? `₹${upi}` : "-"}</p>
       </div>
 
       <div className="flex-item" style={{ marginBottom: '8px' }}>
         <p>{"UPI"}</p>
-        <p>{upi ? `$${upi}` : "-"}</p>
+        <p>{upi ? `₹${upi}` : "-"}</p>
       </div>
     
     </div>

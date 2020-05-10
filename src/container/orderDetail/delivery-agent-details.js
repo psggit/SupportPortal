@@ -79,7 +79,8 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
 
   const handleChange = (e) => {
     console.log(e.target.value)
-    setKycDocumentIdx(kycDocumentList[e.target.value].id)
+    setKycDocumentIdx(e.target.value)
+    // setKycDocumentIdx(kycDocumentList[e.target.value].id)
   }
 
   const handleClose = () => {
