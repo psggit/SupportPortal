@@ -12,6 +12,7 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
 
   const classes = useStyles()
   const [showMountModal, setShowUnmountModal] = useState(false)
+  const [showCommentMountModel, setShowUnmountCommentModel] = useState(false)
 
   const [comments, setComments] = useState("")
   const [successMsg, setSuccessMsg] = useState("")
@@ -36,13 +37,27 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
     setComments(e.target.value)
   }
 
+  const commentUnmountModel = () => {
+    setShowUnmountCommentModel(false)
+  }
+
+  const commentMountModel = () => {
+    setShowUnmountCommentModel(true)
+  }
+
+  const handleCommentSubmit = () => {
+    console.log("comment", comments)
+  }
+
   const unmountModal = () => {
     setShowUnmountModal(false)
+
   }
 
   const mountModal = () => {
     setShowUnmountModal(true)
   }
+
 
   const handleConfirm = () => {
     unmountModal()
@@ -146,7 +161,35 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
                         })
                       }
                     </Select>
-                    <label>Comments</label>
+                    {/* <label>Comments</label>
+                    <TextareaAutosize
+                      className={classes.formControlTextarea}
+                      aria-label="minimum height"
+                      rowsMin={3}
+                      onChange={handleCommentChange}
+                      placeholder="Enter your notes"
+                    /> */}
+                  </div>
+                </form>
+              </Dialog>
+            )
+          }
+          <button className="comment-btn" onClick={commentMountModel}>Comment</button>
+          {
+            showCommentMountModel && (
+              <Dialog
+                title="Comment"
+                actions={[
+                  <Button color="primary" className={classes.buttonPrimary} onClick={handleCommentSubmit} key={1} autoFocus>
+                    CONFIRM
+                  </Button>,
+                  <Button onClick={commentUnmountModel} key={2} color="primary" className={classes.buttonPrimary}>
+                    CLOSE
+                  </Button>
+                ]}
+              >
+                <form>
+                  <div className={classes.formRoot}>
                     <TextareaAutosize
                       className={classes.formControlTextarea}
                       aria-label="minimum height"
@@ -161,6 +204,7 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
           }
 
         </div>
+        
       </div>
       {
         successMsg.trim().length > 0 &&

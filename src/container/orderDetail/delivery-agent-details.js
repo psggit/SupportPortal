@@ -13,6 +13,7 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
 
   const classes = useStyles()
   const [showMountModal, setShowUnmountModal] = useState(false)
+  const [showCommentMountModel, setShowUnmountCommentModel] = useState(false)
 
   const [comments, setComments] = useState("")
   const [documentId, setDocumentId] = useState("")
@@ -37,6 +38,18 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
 
   const handleCommentChange = (e) => {
     setComments(e.target.value)
+  }
+
+  const commentUnmountModel = () => {
+    setShowUnmountCommentModel(false)
+  }
+
+  const commentMountModel = () => {
+    setShowUnmountCommentModel(true)
+  }
+
+  const handleCommentSubmit = (e) => {
+    console.log("comment",comments)
   }
 
   const handleOtpChange = (e) => {
@@ -162,7 +175,35 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
                       label="OTP"
                     />
 
-                    <label style={{ marginTop: "24px" }}>Comments</label>
+                    {/* <label style={{ marginTop: "24px" }}>Comments</label>
+                    <TextareaAutosize
+                      className={classes.formControlTextarea}
+                      aria-label="minimum height"
+                      rowsMin={3}
+                      onChange={handleCommentChange}
+                      placeholder="Enter your notes"
+                    /> */}
+                  </div>
+                </form>
+              </Dialog>
+            )
+          }
+          <button className="comment-btn" onClick={commentMountModel}>Comment</button>
+          {
+            showCommentMountModel && (
+              <Dialog
+                title="Comment"
+                actions={[
+                  <Button color="primary" className={classes.buttonPrimary} onClick={handleCommentSubmit} key={1} autoFocus>
+                    CONFIRM
+                  </Button>,
+                  <Button onClick={commentUnmountModel} key={2} color="primary" className={classes.buttonPrimary}>
+                    CLOSE
+                  </Button>
+                ]}
+              >
+                <form>
+                  <div className={classes.formRoot}>
                     <TextareaAutosize
                       className={classes.formControlTextarea}
                       aria-label="minimum height"
