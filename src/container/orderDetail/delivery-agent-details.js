@@ -63,7 +63,6 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
       slot_id: "",
       id_proof: kycDocumentList[kycDocumentIdx].description,
       digits: documentId,
-      comments
     }
     completeOrder(payload)
       .then((response) => {
