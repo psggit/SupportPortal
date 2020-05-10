@@ -18,7 +18,7 @@ const OrderSummary = ({orderTotal, cartTotal, cartItems, feeDetails,cgstPercenta
         <span style={{ fontSize: '18px', lineHeight: '24px', fontWeight: 'bold' }}>{cartTotal ? `₹${cartTotal}` : "-"}</span>
       </div>
       {
-        cartItems ? 
+        cartItems ?
         cartItems.map((item, index) => {
           return <div className="flex-item" key={index} style={{ marginBottom: '16px' }}>
                   <p style={{ fontSize: '15px', lineHeight: '20px', fontWeight: '600', color: '#212121' }}>{item.brand_name}</p>
@@ -26,31 +26,16 @@ const OrderSummary = ({orderTotal, cartTotal, cartItems, feeDetails,cgstPercenta
                 </div>
         }) : ""
       }
-  
-      <div className="flex-item" style={{ marginBottom: '8px' }}>
-        <p style={{ fontSize: '18px', lineHeight: '24px', fontWeight: 'bold' }}>{"Additional Charges"}</p>
-        <p style={{ fontSize: '18px', lineHeight: '24px', fontWeight: 'bold', marginLeft: '4px' }}>{"₹0"}</p>
-      </div>
 
-      <div className="flex-item" style={{ marginBottom: '6px' }}>
-        <p style={{ fontSize: '15px', lineHeight: '20px', fontWeight: '600' }}>{"Delivery Charges"}</p>
-        <p style={{ fontSize: '15px', lineHeight: '20px' }}>{"₹0"}</p>
-      </div>
-
-      <div className="flex-item" style={{ marginBottom: '6px' }}>
-        <p style={{ fontSize: '15px', lineHeight: '20px', fontWeight: '600' }}>{"Packing Charges"}</p>
-        <p style={{ fontSize: '15px', lineHeight: '20px' }}>{"₹0"}</p>
-      </div>
-
-      <div className="flex-item" style={{ marginBottom: '6px' }}>
-        <p style={{ fontSize: '15px', lineHeight: '20px', fontWeight: '600' }}>{"Priority Charges"}</p>
-        <p style={{ fontSize: '15px', lineHeight: '20px' }}>{"₹0"}</p>
-      </div>
-   
-      <div className="flex-item" style={{ marginBottom: '6px' }}>
-        <p style={{ fontSize: '15px', lineHeight: '20px', fontWeight: '600' }}>{"Other Charges"}</p>
-        <p style={{ fontSize: '15px', lineHeight: '20px' }}>{"₹1"}</p>
-      </div>
+      {
+        feeDetails ?
+          feeDetails.map((item, index) => {
+            return <div className="flex-item" key={index} style={{ marginBottom: '16px' }}>
+              <p style={{ fontSize: '15px', lineHeight: '20px', fontWeight: '600', color: '#212121' }}>{item.fee_title}</p>
+              <p style={{ fontSize: '15px', lineHeight: '20px' }}>{`₹${item.fee_value_without_taxes}`}</p>
+            </div>
+          }) : ""
+      }
       
       <div className="flex-item" style={{ marginBottom: '6px' }}>
         <p style={{ fontSize: '15px', lineHeight: '20px', fontWeight: '600' }}>{"CGST" +"(" +cgstPercentage +"%)"}</p>

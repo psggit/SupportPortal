@@ -78,9 +78,7 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
     const payload = {
       order_id: orderId,
       slot_id: "",
-      reason: cancellationReasonList[cancellationReasonIdx].reason,
-      reason_id: cancellationReasonList[cancellationReasonIdx].id,
-      comments
+      reason_id: parseInt(cancellationReasonList[cancellationReasonIdx].id),
     }
     cancelOrder(payload)
       .then((response) => {
