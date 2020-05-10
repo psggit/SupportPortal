@@ -35,6 +35,15 @@ export function completeOrder (payload) {
   })
 }
 
+export function submitNotes (payload) {
+  return POST({
+    api: `/deliveryman/api/1/support/order-notes`,
+    apiBase: "api",
+    handleError: true,
+    data: payload
+  })
+}
+
 export function fetchCancellationReasons (payload) {
   return GET({
     api: `/deliveryman/api/1/support/cancel-reason`,

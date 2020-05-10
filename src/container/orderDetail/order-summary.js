@@ -22,29 +22,29 @@ const OrderSummary = ({orderTotal, cartTotal, cartItems, feeDetails,cgstPercenta
         cartItems.map((item, index) => {
           return <div className="flex-item" key={index} style={{ marginBottom: '16px' }}>
                   <p style={{ fontSize: '15px', lineHeight: '20px', fontWeight: '600', color: '#212121' }}>{item.brand_name}</p>
-                  <p style={{ fontSize: '15px', lineHeight: '20px' }}>{`$${item.total_price}`}</p>
+            <p style={{ fontSize: '15px', lineHeight: '20px' }}>{`₹${item.total_price}`}</p>
                 </div>
         }) : ""
       }
   
       <div className="flex-item" style={{ marginBottom: '8px' }}>
         <p style={{ fontSize: '18px', lineHeight: '24px', fontWeight: 'bold' }}>{"Additional Charges"}</p>
-        <p style={{ fontSize: '18px', lineHeight: '24px', fontWeight: 'bold', marginLeft: '4px' }}>{`${feeDetails ?  `$${parseInt(feeDetails[0].fee_value) + parseInt(feeDetails[1].fee_value) + parseInt(feeDetails[2].fee_value)}` : ""}`}</p>
+        <p style={{ fontSize: '18px', lineHeight: '24px', fontWeight: 'bold', marginLeft: '4px' }}>{"₹0"}</p>
       </div>
 
       <div className="flex-item" style={{ marginBottom: '6px' }}>
         <p style={{ fontSize: '15px', lineHeight: '20px', fontWeight: '600' }}>{"Delivery Charges"}</p>
-        <p style={{ fontSize: '15px', lineHeight: '20px' }}>{`${feeDetails ? '₹'+feeDetails[2].fee_value : "-"}`}</p>
+        <p style={{ fontSize: '15px', lineHeight: '20px' }}>{"₹0"}</p>
       </div>
 
       <div className="flex-item" style={{ marginBottom: '6px' }}>
         <p style={{ fontSize: '15px', lineHeight: '20px', fontWeight: '600' }}>{"Packing Charges"}</p>
-        <p style={{ fontSize: '15px', lineHeight: '20px' }}>{`${feeDetails ? '₹'+feeDetails[0].fee_value : "-"}`}</p>
+        <p style={{ fontSize: '15px', lineHeight: '20px' }}>{"₹0"}</p>
       </div>
 
       <div className="flex-item" style={{ marginBottom: '6px' }}>
         <p style={{ fontSize: '15px', lineHeight: '20px', fontWeight: '600' }}>{"Priority Charges"}</p>
-        <p style={{ fontSize: '15px', lineHeight: '20px' }}>{`${feeDetails ? '₹'+feeDetails[1].fee_value : "-"}`}</p>
+        <p style={{ fontSize: '15px', lineHeight: '20px' }}>{"₹0"}</p>
       </div>
    
       <div className="flex-item" style={{ marginBottom: '6px' }}>

@@ -5,7 +5,7 @@ import Button from "@material-ui/core/Button"
 import Select from '@material-ui/core/Select'
 import { makeStyles } from "@material-ui/core/styles"
 import TextareaAutosize from '@material-ui/core/TextareaAutosize'
-import { fetchCancellationReasons, cancelOrder } from "./../api"
+import { fetchCancellationReasons, cancelOrder , submitNotes } from "./../api"
 import Notification from "Components/notification"
 
 function CustomerDetails({ orderId, customerId, customerName, customerMobileNumber, customerState, customerCity, customerAddress, customerLandmark }) {
@@ -42,7 +42,21 @@ function CustomerDetails({ orderId, customerId, customerName, customerMobileNumb
   }
 
   const handleCommentSubmit = () => {
-    console.log("comment",comments)
+    commentUnmountModel()
+    const payload = {
+      order_id: orderId,
+      notes: comments
+    }
+    submitNotes(payload)
+      .then((response) => {
+        setSuccessMsg("Successfully Added Notes")
+        console.log("successfully Added Notes")
+      })
+      .catch((err) => {
+        setSuccessMsg("Error in Adding Notes")
+        console.log("Error in Adding Notes", err)
+      })
+    console.log("comment",comments,orderId)
   }
 
   const handleCommentChange = (e) => {

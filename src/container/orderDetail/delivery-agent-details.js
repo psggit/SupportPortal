@@ -6,7 +6,7 @@ import Select from '@material-ui/core/Select'
 import { makeStyles } from "@material-ui/core/styles"
 import TextareaAutosize from '@material-ui/core/TextareaAutosize'
 import TextField from '@material-ui/core/TextField';
-import { fetchKycDocumentList, completeOrder } from '../api'
+import { fetchKycDocumentList, completeOrder , submitNotes } from '../api'
 import Notification from "Components/notification"
 
 function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliveryAgentId, deliveryAgentName, deliveryAgentVehicleNumber, deliveryAgentMobileNumber }) {
@@ -48,8 +48,22 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
     setShowUnmountCommentModel(true)
   }
 
-  const handleCommentSubmit = (e) => {
-    console.log("comment",comments)
+  const handleCommentSubmit = () => {
+    commentUnmountModel()
+    const payload = {
+      order_id: orderId,
+      notes: comments
+    }
+    submitNotes(payload)
+      .then((response) => {
+        setSuccessMsg("Successfully Added Notes")
+        console.log("successfully Added Notes")
+      })
+      .catch((err) => {
+        setSuccessMsg("Error in Adding Notes")
+        console.log("Error in Adding Notes", err)
+      })
+    console.log("comment", comments, orderId)
   }
 
   const handleOtpChange = (e) => {
