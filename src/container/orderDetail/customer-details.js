@@ -8,7 +8,7 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize'
 import { fetchCancellationReasons, cancelOrder , submitNotes } from "./../api"
 import Notification from "Components/notification"
 
-function CustomerDetails({ orderId, customerId, customerName, customerMobileNumber, customerState, customerCity, customerAddress, customerLandmark }) {
+function CustomerDetails({ orderId, customerId, customerName, customerMobileNumber, customerState, customerCity, customerAddress, customerLandmark,orderButtonStatus}) {
 
   const classes = useStyles()
   const [showMountModal, setShowUnmountModal] = useState(false)
@@ -29,6 +29,7 @@ function CustomerDetails({ orderId, customerId, customerName, customerMobileNumb
     }
     fetchCancellationReasons(payload)
       .then((response) => {
+        console.log("response",response)
         setCancellationReasonList(response)
       })
       .catch((err) => {
@@ -71,7 +72,8 @@ function CustomerDetails({ orderId, customerId, customerName, customerMobileNumb
   }
 
   const mountModal = () => {
-    setShowUnmountModal(true)
+    console.log("from mountModal", orderButtonStatus)
+      setShowUnmountModal(true)   
   }
 
   const handleConfirm = () => {
@@ -155,7 +157,12 @@ function CustomerDetails({ orderId, customerId, customerName, customerMobileNumb
         </div>
           <div className="item">
             <p className="label">Manual Cancellation</p>
-            <button onClick={mountModal}>Cancel Order</button>
+            <button
+            variant="contained"
+            color="secondary"
+             onClick={mountModal}
+              disabled ={!orderButtonStatus}
+              >Cancel Order</button>
             {
               showMountModal && (
                 <Dialog

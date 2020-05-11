@@ -31,7 +31,7 @@ function OrderDetail (props) {
         setOrderDetails(response.order_details)
         setOrderDetailsTaxes(response.order_details.taxes)
         setLoadingOrderDetails(false)
-        console.log("HHHHHHHH",response.order_details.taxes.cgst_total)
+        console.log("HHHHHHHH",response.order_details.order_status_button)
         // console.log("Response", response.order_details, response.order_details.fee_details_struct[0])
       })
       .catch((err) => {
@@ -60,6 +60,7 @@ function OrderDetail (props) {
           customerCity={orderDetails.customer_city}
           customerAddress={orderDetails.customer_address}
           customerLandmark={orderDetails.customer_landmark}
+          orderButtonStatus={orderDetails.order_status_button}
         />
         <RetailerDetails
           orderId={props.match.params.orderId}
@@ -68,6 +69,7 @@ function OrderDetail (props) {
           retailerName={orderDetails.retailer_name}
           retailerMobileNumber={orderDetails.retailer_contact_number}
           retailerAddress={orderDetails.retailer_address}
+          orderButtonStatus={orderDetails.order_status_button}
         />
         <OrderSummary
           orderTotal={orderDetails.original_order_total}
