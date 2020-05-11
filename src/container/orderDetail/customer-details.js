@@ -24,7 +24,10 @@ function CustomerDetails({ orderId, customerId, customerName, customerMobileNumb
   }, []);
 
   const fetchCancellationReasonList = () => {
-    fetchCancellationReasons()
+    const payload = {
+      order_id: orderId,
+    }
+    fetchCancellationReasons(payload)
       .then((response) => {
         setCancellationReasonList(response)
       })

@@ -45,10 +45,11 @@ export function submitNotes (payload) {
 }
 
 export function fetchCancellationReasons (payload) {
-  return GET({
+  return POST({
     api: `/deliveryman/api/1/support/cancel-reason`,
     apiBase: "api",
-    handleError: true
+    handleError: true,
+    data:payload
   })
 }
 
