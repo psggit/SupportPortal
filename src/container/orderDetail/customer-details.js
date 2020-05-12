@@ -230,7 +230,6 @@ function CustomerDetails({ orderId, customerId, customerName, customerMobileNumb
             className={classes.button}
             variant="contained"
             color="secondary"
-            disabled={!orderButtonStatus}
             onClick={commentMountModel}
           >
             Comment

@@ -220,7 +220,6 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
             className={classes.button}
             variant="contained"
             color="secondary"
-            disabled={!orderButtonStatus}
             onClick={commentMountModel}
           >
             Comment
