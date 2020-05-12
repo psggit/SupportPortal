@@ -153,7 +153,7 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
             variant="contained"
             color="secondary"
             disabled={!orderButtonStatus}
-            onClick={commentMountModel}
+            onClick={mountModal}
           >
             Cancel Order
            </Button>
@@ -162,12 +162,28 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
               <Dialog
                 title="Cancel Order"
                 actions={[
-                  <Button color="primary" className={classes.buttonPrimary} onClick={handleConfirm} key={1} autoFocus>
-                    CONFIRM
-                  </Button>,
-                  <Button onClick={unmountModal} key={2} color="primary" className={classes.buttonPrimary}>
-                    CLOSE
-                  </Button>
+                  // <Button color="primary" className={classes.buttonPrimary} onClick={handleConfirm} key={1} autoFocus>
+                  //   CONFIRM
+                  // </Button>,
+                  <Button
+                    className={classes.button}
+                    variant="contained"
+                    color="secondary"
+                    onClick={handleConfirm}
+                  >
+                    Confirm
+                    </Button>,
+                  // <Button onClick={unmountModal} key={2} color="primary" className={classes.buttonPrimary}>
+                  //   CLOSE
+                  // </Button>
+                  <Button
+                    className={classes.button}
+                    variant="contained"
+                    color="secondary"
+                    onClick={unmountModal}
+                  >
+                    Close
+                    </Button>,
                 ]}
               >
                 <form>
@@ -214,12 +230,28 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
               <Dialog
                 title="Comment"
                 actions={[
-                  <Button color="primary" className={classes.buttonPrimary} onClick={handleCommentSubmit} key={1} autoFocus>
-                    CONFIRM
-                  </Button>,
-                  <Button onClick={commentUnmountModel} key={2} color="primary" className={classes.buttonPrimary}>
-                    CLOSE
-                  </Button>
+                  // <Button color="primary" className={classes.buttonPrimary} onClick={handleCommentSubmit} key={1} autoFocus>
+                  //   CONFIRM
+                  // </Button>,
+                  // <Button onClick={commentUnmountModel} key={2} color="primary" className={classes.buttonPrimary}>
+                  //   CLOSE
+                  // </Button>
+                  <Button
+                    className={classes.button}
+                    variant="contained"
+                    color="secondary"
+                    onClick={handleCommentSubmit}
+                  >
+                    Confirm
+                    </Button>,
+                  <Button
+                    className={classes.button}
+                    variant="contained"
+                    color="secondary"
+                    onClick={commentUnmountModel}
+                  >
+                    Cancel
+                    </Button>
                 ]}
               >
                 <form>
