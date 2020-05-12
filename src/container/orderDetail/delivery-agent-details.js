@@ -144,12 +144,11 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
 
         <div className="item">
           <p className="label">Manual Completion</p>
-          {/* <button onClick={mountModal}>Complete Order</button> */}
           <Button
             className={classes.button}
             variant="contained"
             color="secondary"
-            //disabled={!orderButtonStatus}
+            disabled={!orderButtonStatus}
             onClick={mountModal}
           >
             Cancel Order
@@ -159,9 +158,6 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
               <Dialog
                 title="Complete Order"
                 actions={[
-                  // <Button color="primary" className={classes.buttonPrimary} onClick={handleConfirm} key={1} autoFocus>
-                  //   CONFIRM
-                  // </Button>,
                   <Button
                     className={classes.button}
                     variant="contained"
@@ -169,10 +165,7 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
                     onClick={handleConfirm}
                   >
                     Confirm
-                    </Button>,
-                  // <Button onClick={unmountModal} key={2} color="primary" className={classes.buttonPrimary}>
-                  //   CLOSE
-                  // </Button>
+                  </Button>,
                   <Button
                     className={classes.button}
                     variant="contained"
@@ -213,26 +206,15 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
                       className={classes.formControl}
                       label="OTP"
                     />
-
-                    {/* <label style={{ marginTop: "24px" }}>Comments</label>
-                    <TextareaAutosize
-                      className={classes.formControlTextarea}
-                      aria-label="minimum height"
-                      rowsMin={3}
-                      onChange={handleCommentChange}
-                      placeholder="Enter your notes"
-                    /> */}
                   </div>
                 </form>
               </Dialog>
             )
           }
-          {/* <button className="comment-btn" onClick={commentMountModel}>Comment</button> */}
           <Button
             className={classes.button}
             variant="contained"
             color="secondary"
-            //disabled={!orderButtonStatus}
             onClick={commentMountModel}
           >
             Comment
@@ -242,9 +224,6 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
               <Dialog
                 title="Comment"
                 actions={[
-                  // <Button color="primary" className={classes.buttonPrimary} onClick={handleCommentSubmit} key={1} autoFocus>
-                  //   CONFIRM
-                  // </Button>,
                   <Button
                     className={classes.button}
                     variant="contained"
@@ -252,10 +231,7 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
                     onClick={handleCommentSubmit}
                   >
                     Confirm
-                    </Button>,
-                  // <Button onClick={commentUnmountModel} key={2} color="primary" className={classes.buttonPrimary}>
-                  //   CLOSE
-                  // </Button>
+                  </Button>,
                   <Button
                     className={classes.button}
                     variant="contained"
