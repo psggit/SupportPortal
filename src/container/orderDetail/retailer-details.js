@@ -8,7 +8,7 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize'
 import { fetchCancellationReasons, cancelOrder , submitNotes } from "./../api"
 import Notification from "Components/notification"
 
-function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName, retailerMobileNumber, retailerAddress, retailerLandmark }) {
+function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName, retailerMobileNumber, retailerAddress, retailerLandmark, orderButtonStatus}) {
 
   const classes = useStyles()
   const [showMountModal, setShowUnmountModal] = useState(false)
@@ -72,6 +72,7 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
   }
 
   const mountModal = () => {
+    console.log("from mountModal", orderButtonStatus)
     setShowUnmountModal(true)
   }
 
@@ -146,18 +147,43 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
 
         <div className="item">
           <p className="label">Manual Cancellation</p>
-          <button onClick={mountModal}>Cancel Order</button>
+          {/* <button onClick={mountModal} disabled={!orderButtonStatus}>Cancel Order</button> */}
+          <Button
+            className={classes.button}
+            variant="contained"
+            color="secondary"
+            disabled={!orderButtonStatus}
+            onClick={mountModal}
+          >
+            Cancel Order
+           </Button>
           {
             showMountModal && (
               <Dialog
                 title="Cancel Order"
                 actions={[
-                  <Button color="primary" className={classes.buttonPrimary} onClick={handleConfirm} key={1} autoFocus>
-                    CONFIRM
-                  </Button>,
-                  <Button onClick={unmountModal} key={2} color="primary" className={classes.buttonPrimary}>
-                    CLOSE
-                  </Button>
+                  // <Button color="primary" className={classes.buttonPrimary} onClick={handleConfirm} key={1} autoFocus>
+                  //   CONFIRM
+                  // </Button>,
+                  <Button
+                    className={classes.button}
+                    variant="contained"
+                    color="secondary"
+                    onClick={handleConfirm}
+                  >
+                    Confirm
+                    </Button>,
+                  // <Button onClick={unmountModal} key={2} color="primary" className={classes.buttonPrimary}>
+                  //   CLOSE
+                  // </Button>
+                  <Button
+                    className={classes.button}
+                    variant="contained"
+                    color="secondary"
+                    onClick={unmountModal}
+                  >
+                    Close
+                    </Button>,
                 ]}
               >
                 <form>
@@ -189,18 +215,42 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
               </Dialog>
             )
           }
-          <button className="comment-btn" onClick={commentMountModel}>Comment</button>
+          {/* <button className="comment-btn" onClick={commentMountModel}>Comment</button> */}
+          <Button
+            className={classes.button}
+            variant="contained"
+            color="secondary"
+            onClick={commentMountModel}
+          >
+            Comment
+           </Button>
           {
             showCommentMountModel && (
               <Dialog
                 title="Comment"
                 actions={[
-                  <Button color="primary" className={classes.buttonPrimary} onClick={handleCommentSubmit} key={1} autoFocus>
-                    CONFIRM
-                  </Button>,
-                  <Button onClick={commentUnmountModel} key={2} color="primary" className={classes.buttonPrimary}>
-                    CLOSE
-                  </Button>
+                  // <Button color="primary" className={classes.buttonPrimary} onClick={handleCommentSubmit} key={1} autoFocus>
+                  //   CONFIRM
+                  // </Button>,
+                  // <Button onClick={commentUnmountModel} key={2} color="primary" className={classes.buttonPrimary}>
+                  //   CLOSE
+                  // </Button>
+                  <Button
+                    className={classes.button}
+                    variant="contained"
+                    color="secondary"
+                    onClick={handleCommentSubmit}
+                  >
+                    Confirm
+                    </Button>,
+                  <Button
+                    className={classes.button}
+                    variant="contained"
+                    color="secondary"
+                    onClick={commentUnmountModel}
+                  >
+                    Cancel
+                    </Button>
                 ]}
               >
                 <form>
@@ -250,6 +300,11 @@ const useStyles = makeStyles(theme => ({
   buttonPrimary: {
     background: "#000000",
     color: "#FFFFFF"
+  },
+  button: {
+    marginLeft: "10px",
+    cursor: "pointer",
+    marginTop: "10px"
   }
 }))
 

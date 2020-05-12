@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import { fetchKycDocumentList, completeOrder , submitNotes } from '../api'
 import Notification from "Components/notification"
 
-function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliveryAgentId, deliveryAgentName, deliveryAgentVehicleNumber, deliveryAgentMobileNumber }) {
+function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliveryAgentId, deliveryAgentName, deliveryAgentVehicleNumber, deliveryAgentMobileNumber,orderButtonStatus }) {
 
   const classes = useStyles()
   const [showMountModal, setShowUnmountModal] = useState(false)
@@ -144,18 +144,43 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
 
         <div className="item">
           <p className="label">Manual Completion</p>
-          <button onClick={mountModal}>Complete Order</button>
+          {/* <button onClick={mountModal}>Complete Order</button> */}
+          <Button
+            className={classes.button}
+            variant="contained"
+            color="secondary"
+            //disabled={!orderButtonStatus}
+            onClick={mountModal}
+          >
+            Cancel Order
+           </Button>
           {
             showMountModal && (
               <Dialog
                 title="Complete Order"
                 actions={[
-                  <Button color="primary" className={classes.buttonPrimary} onClick={handleConfirm} key={1} autoFocus>
-                    CONFIRM
-                  </Button>,
-                  <Button onClick={unmountModal} key={2} color="primary" className={classes.buttonPrimary}>
-                    CLOSE
-                  </Button>
+                  // <Button color="primary" className={classes.buttonPrimary} onClick={handleConfirm} key={1} autoFocus>
+                  //   CONFIRM
+                  // </Button>,
+                  <Button
+                    className={classes.button}
+                    variant="contained"
+                    color="secondary"
+                    onClick={handleConfirm}
+                  >
+                    Confirm
+                    </Button>,
+                  // <Button onClick={unmountModal} key={2} color="primary" className={classes.buttonPrimary}>
+                  //   CLOSE
+                  // </Button>
+                  <Button
+                    className={classes.button}
+                    variant="contained"
+                    color="secondary"
+                    onClick={unmountModal}
+                  >
+                    Close
+                    </Button>,
                 ]}
               >
                 <form>
@@ -202,18 +227,43 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
               </Dialog>
             )
           }
-          <button className="comment-btn" onClick={commentMountModel}>Comment</button>
+          {/* <button className="comment-btn" onClick={commentMountModel}>Comment</button> */}
+          <Button
+            className={classes.button}
+            variant="contained"
+            color="secondary"
+            //disabled={!orderButtonStatus}
+            onClick={commentMountModel}
+          >
+            Comment
+           </Button>
           {
             showCommentMountModel && (
               <Dialog
                 title="Comment"
                 actions={[
-                  <Button color="primary" className={classes.buttonPrimary} onClick={handleCommentSubmit} key={1} autoFocus>
-                    CONFIRM
-                  </Button>,
-                  <Button onClick={commentUnmountModel} key={2} color="primary" className={classes.buttonPrimary}>
-                    CLOSE
-                  </Button>
+                  // <Button color="primary" className={classes.buttonPrimary} onClick={handleCommentSubmit} key={1} autoFocus>
+                  //   CONFIRM
+                  // </Button>,
+                  <Button
+                    className={classes.button}
+                    variant="contained"
+                    color="secondary"
+                    onClick={handleCommentSubmit}
+                  >
+                    Confirm
+                    </Button>,
+                  // <Button onClick={commentUnmountModel} key={2} color="primary" className={classes.buttonPrimary}>
+                  //   CLOSE
+                  // </Button>
+                  <Button
+                    className={classes.button}
+                    variant="contained"
+                    color="secondary"
+                    onClick={commentUnmountModel}
+                  >
+                    Close
+                    </Button>,
                 ]}
               >
                 <form>
@@ -264,6 +314,11 @@ const useStyles = makeStyles(theme => ({
   },
   formInput: {
     width: "100%"
+  },
+  button: {
+    marginLeft: "10px",
+    cursor: "pointer",
+    marginTop: "10px"
   }
 }))
 
