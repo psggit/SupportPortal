@@ -151,7 +151,7 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
             disabled={!orderButtonStatus}
             onClick={mountModal}
           >
-            Cancel Order
+            Complete Order
            </Button>
           {
             showMountModal && (
