@@ -147,7 +147,16 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
 
         <div className="item">
           <p className="label">Manual Cancellation</p>
-          <button onClick={mountModal} disabled={!orderButtonStatus}>Cancel Order</button>
+          {/* <button onClick={mountModal} disabled={!orderButtonStatus}>Cancel Order</button> */}
+          <Button
+            className={classes.button}
+            variant="contained"
+            color="secondary"
+            disabled={!orderButtonStatus}
+            onClick={commentMountModel}
+          >
+            Cancel Order
+           </Button>
           {
             showMountModal && (
               <Dialog
@@ -190,7 +199,16 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
               </Dialog>
             )
           }
-          <button className="comment-btn" onClick={commentMountModel}>Comment</button>
+          {/* <button className="comment-btn" onClick={commentMountModel}>Comment</button> */}
+          <Button
+            className={classes.button}
+            variant="contained"
+            color="secondary"
+            disabled={!orderButtonStatus}
+            onClick={commentMountModel}
+          >
+            Comment
+           </Button>
           {
             showCommentMountModel && (
               <Dialog
@@ -251,6 +269,11 @@ const useStyles = makeStyles(theme => ({
   buttonPrimary: {
     background: "#000000",
     color: "#FFFFFF"
+  },
+  button: {
+    marginLeft: "10px",
+    cursor: "pointer",
+    marginTop: "10px"
   }
 }))
 

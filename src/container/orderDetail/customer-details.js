@@ -72,7 +72,7 @@ function CustomerDetails({ orderId, customerId, customerName, customerMobileNumb
   }
 
   const mountModal = () => {
-    console.log("from mountModal", orderButtonStatus)
+    console.log("from mountModal", orderButtonStatus, !orderButtonStatus)
       setShowUnmountModal(true)   
   }
 
@@ -157,12 +157,16 @@ function CustomerDetails({ orderId, customerId, customerName, customerMobileNumb
         </div>
           <div className="item">
             <p className="label">Manual Cancellation</p>
-            <button
+            {/* <button onClick={mountModal} disabled ={!orderButtonStatus}>Cancel Order</button> */}
+          <Button
+            className={classes.button}
             variant="contained"
             color="secondary"
-             onClick={mountModal}
-              disabled ={!orderButtonStatus}
-              >Cancel Order</button>
+            disabled={!orderButtonStatus}
+            onClick={mountModal}
+          >
+            Cancel Order
+           </Button>
             {
               showMountModal && (
                 <Dialog
@@ -205,7 +209,16 @@ function CustomerDetails({ orderId, customerId, customerName, customerMobileNumb
                 </Dialog>
               )
             }
-          <button className="comment-btn" onClick={commentMountModel}>Comment</button>
+          {/* <button className="comment-btn" onClick={commentMountModel}>Comment</button> */}
+          <Button
+            className={classes.button}
+            variant="contained"
+            color="secondary"
+            disabled={!orderButtonStatus}
+            onClick={commentMountModel}
+          >
+            Comment
+           </Button>
             {
               showCommentMountModel && (
                 <Dialog
@@ -264,6 +277,11 @@ const useStyles = makeStyles(theme => ({
   buttonPrimary: {
     background: "#000000",
     color: "#FFFFFF"
+  },
+  button: {
+    marginLeft: "10px",
+    cursor:"pointer",
+    marginTop:"10px"
   }
 }))
 

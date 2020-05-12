@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import { fetchKycDocumentList, completeOrder , submitNotes } from '../api'
 import Notification from "Components/notification"
 
-function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliveryAgentId, deliveryAgentName, deliveryAgentVehicleNumber, deliveryAgentMobileNumber }) {
+function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliveryAgentId, deliveryAgentName, deliveryAgentVehicleNumber, deliveryAgentMobileNumber,orderButtonStatus }) {
 
   const classes = useStyles()
   const [showMountModal, setShowUnmountModal] = useState(false)
@@ -144,7 +144,16 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
 
         <div className="item">
           <p className="label">Manual Completion</p>
-          <button onClick={mountModal}>Complete Order</button>
+          {/* <button onClick={mountModal}>Complete Order</button> */}
+          <Button
+            className={classes.button}
+            variant="contained"
+            color="secondary"
+            //disabled={!orderButtonStatus}
+            onClick={commentMountModel}
+          >
+            Cancel Order
+           </Button>
           {
             showMountModal && (
               <Dialog
@@ -202,7 +211,16 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
               </Dialog>
             )
           }
-          <button className="comment-btn" onClick={commentMountModel}>Comment</button>
+          {/* <button className="comment-btn" onClick={commentMountModel}>Comment</button> */}
+          <Button
+            className={classes.button}
+            variant="contained"
+            color="secondary"
+            //disabled={!orderButtonStatus}
+            onClick={commentMountModel}
+          >
+            Comment
+           </Button>
           {
             showCommentMountModel && (
               <Dialog
@@ -264,6 +282,11 @@ const useStyles = makeStyles(theme => ({
   },
   formInput: {
     width: "100%"
+  },
+  button: {
+    marginLeft: "10px",
+    cursor: "pointer",
+    marginTop: "10px"
   }
 }))
 
