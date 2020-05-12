@@ -89,6 +89,7 @@ function OrderDetail (props) {
           deliveryAgentName={orderDetails.delivery_agent_name}
           deliveryAgentMobileNumber={orderDetails.delivery_agent_contact_number}
           deliveryAgentVehicleNumber={orderDetails.delivery_agent_vehicle_number}
+          orderButtonStatus={orderDetails.order_status_button}
         />
 
         <PaymentDetails
