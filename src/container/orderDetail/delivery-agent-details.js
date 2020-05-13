@@ -1,117 +1,109 @@
-import React, { useState, useEffect } from 'react'
-import Dialog from "Components/dialog/index"
+import React from 'react'
 import "./order-detail.scss"
-import Button from "@material-ui/core/Button"
-import Select from '@material-ui/core/Select'
-import { makeStyles } from "@material-ui/core/styles"
-import TextareaAutosize from '@material-ui/core/TextareaAutosize'
-import TextField from '@material-ui/core/TextField';
-import { fetchKycDocumentList, completeOrder , submitNotes } from '../api'
-import Notification from "Components/notification"
 
 function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliveryAgentId, deliveryAgentName, deliveryAgentVehicleNumber, deliveryAgentMobileNumber,orderButtonStatus }) {
 
-  const classes = useStyles()
-  const [showMountModal, setShowUnmountModal] = useState(false)
-  const [showCommentMountModel, setShowUnmountCommentModel] = useState(false)
+  // const classes = useStyles()
+  // const [showMountModal, setShowUnmountModal] = useState(false)
+  // const [showCommentMountModel, setShowUnmountCommentModel] = useState(false)
 
-  const [comments, setComments] = useState("")
-  const [documentId, setDocumentId] = useState("")
-  const [successMsg, setSuccessMsg] = useState("")
-  const [kycDocumentIdx, setKycDocumentIdx] = useState(0)
-  const [kycDocumentList, setKycDocumentList] = useState([])
-  const [otp, setOtp] = useState("")
+  // const [comments, setComments] = useState("")
+  // const [documentId, setDocumentId] = useState("")
+  // const [successMsg, setSuccessMsg] = useState("")
+  // const [kycDocumentIdx, setKycDocumentIdx] = useState(0)
+  // const [kycDocumentList, setKycDocumentList] = useState([])
+  // const [otp, setOtp] = useState("")
 
-  useEffect(() => {
-    fetchKycDetails()
-  }, []);
+  // useEffect(() => {
+  //   fetchKycDetails()
+  // }, []);
 
-  const fetchKycDetails = () => {
-    fetchKycDocumentList()
-      .then((response) => {
-        setKycDocumentList(response)
-      })
-      .catch((err) => {
-        console.log("Error in fetching kyc details", err)
-      })
-  }
+  // const fetchKycDetails = () => {
+  //   fetchKycDocumentList()
+  //     .then((response) => {
+  //       setKycDocumentList(response)
+  //     })
+  //     .catch((err) => {
+  //       console.log("Error in fetching kyc details", err)
+  //     })
+  // }
 
-  const handleCommentChange = (e) => {
-    setComments(e.target.value)
-  }
+  // const handleCommentChange = (e) => {
+  //   setComments(e.target.value)
+  // }
 
-  const commentUnmountModel = () => {
-    setShowUnmountCommentModel(false)
-  }
+  // const commentUnmountModel = () => {
+  //   setShowUnmountCommentModel(false)
+  // }
 
-  const commentMountModel = () => {
-    setShowUnmountCommentModel(true)
-  }
+  // const commentMountModel = () => {
+  //   setShowUnmountCommentModel(true)
+  // }
 
-  const handleCommentSubmit = () => {
-    commentUnmountModel()
-    const payload = {
-      order_id: orderId,
-      notes: comments
-    }
-    submitNotes(payload)
-      .then((response) => {
-        setSuccessMsg("Successfully Added Notes")
-        console.log("successfully Added Notes")
-      })
-      .catch((err) => {
-        setSuccessMsg("Error in Adding Notes")
-        console.log("Error in Adding Notes", err)
-      })
-    console.log("comment", comments, orderId)
-  }
+  // const handleCommentSubmit = () => {
+  //   commentUnmountModel()
+  //   const payload = {
+  //     order_id: orderId,
+  //     notes: comments
+  //   }
+  //   submitNotes(payload)
+  //     .then((response) => {
+  //       setSuccessMsg("Successfully Added Notes")
+  //       console.log("successfully Added Notes")
+  //     })
+  //     .catch((err) => {
+  //       setSuccessMsg("Error in Adding Notes")
+  //       console.log("Error in Adding Notes", err)
+  //     })
+  //   console.log("comment", comments, orderId)
+  // }
 
-  const handleOtpChange = (e) => {
-    setOtp(e.target.value)
-  }
+  // const handleOtpChange = (e) => {
+  //   setOtp(e.target.value)
+  // }
 
-  const handleDocumentChange = (e) => {
-    setDocumentId(e.target.value)
-  }
+  // const handleDocumentChange = (e) => {
+  //   setDocumentId(e.target.value)
+  // }
 
-  const unmountModal = () => {
-    setShowUnmountModal(false)
-  }
+  // const unmountModal = () => {
+  //   setShowUnmountModal(false)
+  // }
 
-  const mountModal = () => {
-    setShowUnmountModal(true)
-  }
+  // const mountModal = () => {
+  //   setShowUnmountModal(true)
+  // }
 
-  const handleConfirm = () => {
-    unmountModal()
-    const payload = {
-      order_id: orderId,
-      otp,
-      slot_id: "",
-      id_proof: kycDocumentList[kycDocumentIdx].description,
-      digits: documentId,
-    }
-    completeOrder(payload)
-      .then((response) => {
-        setSuccessMsg("Successfully completed the order")
-        console.log("successfully completed the order")
-      })
-      .catch((err) => {
-        setSuccessMsg("Error in completing the order")
-        console.log("Error in completing order", err)
-      })
-    console.log("Hello from delivery agent", comments, documentId, kycDocumentList[kycDocumentIdx].description)
-  }
+  // const handleConfirm = () => {
+  //   unmountModal()
+  //   const payload = {
+  //     order_id: orderId,
+  //     otp,
+  //     slot_id: "",
+  //     id_proof: kycDocumentList[kycDocumentIdx].description,
+  //     digits: documentId,
+  //   }
+  //   completeOrder(payload)
+  //     .then((response) => {
+  //       setSuccessMsg("Successfully completed the order")
+  //       console.log("successfully completed the order")
+  //     })
+  //     .catch((err) => {
+  //       setSuccessMsg("Error in completing the order")
+  //       console.log("Error in completing order", err)
+  //     })
+  //   console.log("Hello from delivery agent", comments, documentId, kycDocumentList[kycDocumentIdx].description)
+  // }
 
-  const handleChange = (e) => {
-    console.log(e.target.value)
-    setKycDocumentIdx(e.target.value)
-    // setKycDocumentIdx(kycDocumentList[e.target.value].id)
-  }
+  // const handleChange = (e) => {
+  //   console.log(e.target.value)
+  //   setKycDocumentIdx(e.target.value)
+  //   // setKycDocumentIdx(kycDocumentList[e.target.value].id)
+  // }
 
-  const handleClose = () => {
-    setSuccessMsg("")
-  }
+  // const handleClose = () => {
+  //   setSuccessMsg("")
+  // }
 
   return (
     <div className="orders-detail-card">
@@ -140,8 +132,8 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
           <p className="value" style={{ marginBottom: '10px' }}>
             {deliveryAgentMobileNumber ? deliveryAgentMobileNumber : "-"}
           </p>
-        </div>
-
+        </div>       
+{/* 
         <div className="item">
           <p className="label">Manual Completion</p>
           <Button
@@ -256,9 +248,9 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
               </Dialog>
             )
           }
-        </div>
+        </div> */}
       </div>
-      {
+      {/* {
         successMsg.trim().length > 0 &&
         <Notification
           message={successMsg}
@@ -266,36 +258,36 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
           open={successMsg.trim().length > 0}
           handleClose={handleClose}
         />
-      }
+      } */}
     </div>
   )
 }
 
-const useStyles = makeStyles(theme => ({
-  formRoot: {
-    padding: 36
-  },
-  formControl: {
-    width: "100%",
-    marginBottom: 24
-  },
-  formControlTextarea: {
-    width: "100%",
-    marginBottom: 24,
-    padding: 10
-  },
-  buttonPrimary: {
-    background: "#000000",
-    color: "#FFFFFF"
-  },
-  formInput: {
-    width: "100%"
-  },
-  button: {
-    marginLeft: "10px",
-    cursor: "pointer",
-    marginTop: "10px"
-  }
-}))
+// const useStyles = makeStyles(theme => ({
+//   formRoot: {
+//     padding: 36
+//   },
+//   formControl: {
+//     width: "100%",
+//     marginBottom: 24
+//   },
+//   formControlTextarea: {
+//     width: "100%",
+//     marginBottom: 24,
+//     padding: 10
+//   },
+//   buttonPrimary: {
+//     background: "#000000",
+//     color: "#FFFFFF"
+//   },
+//   formInput: {
+//     width: "100%"
+//   },
+//   button: {
+//     marginLeft: "10px",
+//     cursor: "pointer",
+//     marginTop: "10px"
+//   }
+// }))
 
 export default DeliveryAgentDetails

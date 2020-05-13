@@ -1,109 +1,102 @@
-import React, { useState, useEffect } from 'react'
-import Dialog from "./../../components/dialog/index"
+import React from 'react'
 import "./order-detail.scss"
-import Button from "@material-ui/core/Button"
-import Select from '@material-ui/core/Select'
-import { makeStyles } from "@material-ui/core/styles"
-import TextareaAutosize from '@material-ui/core/TextareaAutosize'
-import { fetchCancellationReasons, cancelOrder , submitNotes } from "./../api"
-import Notification from "Components/notification"
 
 function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName, retailerMobileNumber, retailerAddress, retailerLandmark, orderButtonStatus}) {
 
-  const classes = useStyles()
-  const [showMountModal, setShowUnmountModal] = useState(false)
-  const [showCommentMountModel, setShowUnmountCommentModel] = useState(false)
+  // const classes = useStyles()
+  // const [showMountModal, setShowUnmountModal] = useState(false)
+  // const [showCommentMountModel, setShowUnmountCommentModel] = useState(false)
 
-  const [comments, setComments] = useState("")
-  const [successMsg, setSuccessMsg] = useState("")
-  const [cancellationReasonIdx, setCancellationReasonIdx] = useState(0)
-  const [cancellationReasonList, setCancellationReasonList] = useState([])
+  // const [comments, setComments] = useState("")
+  // const [successMsg, setSuccessMsg] = useState("")
+  // const [cancellationReasonIdx, setCancellationReasonIdx] = useState(0)
+  // const [cancellationReasonList, setCancellationReasonList] = useState([])
 
-  useEffect(() => {
-    fetchCancellationReasonList()
-  }, []);
+  // useEffect(() => {
+  //   fetchCancellationReasonList()
+  // }, []);
 
-  const fetchCancellationReasonList = () => {
-    const payload = {
-      order_id: orderId,
-    }
-    fetchCancellationReasons(payload)
-      .then((response) => {
-        setCancellationReasonList(response)
-      })
-      .catch((err) => {
-        console.log("Error in fetching cancellation reasons", err)
-      })
-  }
+  // const fetchCancellationReasonList = () => {
+  //   const payload = {
+  //     order_id: orderId,
+  //   }
+  //   fetchCancellationReasons(payload)
+  //     .then((response) => {
+  //       setCancellationReasonList(response)
+  //     })
+  //     .catch((err) => {
+  //       console.log("Error in fetching cancellation reasons", err)
+  //     })
+  // }
 
-  const handleCommentChange = (e) => {
-    setComments(e.target.value)
-  }
+  // const handleCommentChange = (e) => {
+  //   setComments(e.target.value)
+  // }
 
-  const commentUnmountModel = () => {
-    setShowUnmountCommentModel(false)
-  }
+  // const commentUnmountModel = () => {
+  //   setShowUnmountCommentModel(false)
+  // }
 
-  const commentMountModel = () => {
-    setShowUnmountCommentModel(true)
-  }
+  // const commentMountModel = () => {
+  //   setShowUnmountCommentModel(true)
+  // }
 
-  const handleCommentSubmit = () => {
-    commentUnmountModel()
-    const payload = {
-      order_id: orderId,
-      notes: comments
-    }
-    submitNotes(payload)
-      .then((response) => {
-        setSuccessMsg("Successfully Added Notes")
-        console.log("successfully Added Notes")
-      })
-      .catch((err) => {
-        setSuccessMsg("Error in Adding Notes")
-        console.log("Error in Adding Notes", err)
-      })
-    console.log("comment", comments, orderId)
-  }
+  // const handleCommentSubmit = () => {
+  //   commentUnmountModel()
+  //   const payload = {
+  //     order_id: orderId,
+  //     notes: comments
+  //   }
+  //   submitNotes(payload)
+  //     .then((response) => {
+  //       setSuccessMsg("Successfully Added Notes")
+  //       console.log("successfully Added Notes")
+  //     })
+  //     .catch((err) => {
+  //       setSuccessMsg("Error in Adding Notes")
+  //       console.log("Error in Adding Notes", err)
+  //     })
+  //   console.log("comment", comments, orderId)
+  // }
 
-  const unmountModal = () => {
-    setShowUnmountModal(false)
+  // const unmountModal = () => {
+  //   setShowUnmountModal(false)
 
-  }
+  // }
 
-  const mountModal = () => {
-    console.log("from mountModal", orderButtonStatus)
-    setShowUnmountModal(true)
-  }
+  // const mountModal = () => {
+  //   console.log("from mountModal", orderButtonStatus)
+  //   setShowUnmountModal(true)
+  // }
 
 
-  const handleConfirm = () => {
-    unmountModal()
-    const payload = {
-      order_id: orderId,
-      slot_id: "",
-      reason_id: parseInt(cancellationReasonList[cancellationReasonIdx].id),
-    }
-    cancelOrder(payload)
-      .then((response) => {
-        setSuccessMsg("Successfully cancelled the order")
-        console.log("successfully cancelled the order")
-      })
-      .catch((err) => {
-        setSuccessMsg("Error in completing the order")
-        console.log("Error in cancelling order", err)
-      })
-    console.log("Hello from delivery agent", comments, cancellationReasonList[cancellationReasonIdx].reason)
-  }
+  // const handleConfirm = () => {
+  //   unmountModal()
+  //   const payload = {
+  //     order_id: orderId,
+  //     slot_id: "",
+  //     reason_id: parseInt(cancellationReasonList[cancellationReasonIdx].id),
+  //   }
+  //   cancelOrder(payload)
+  //     .then((response) => {
+  //       setSuccessMsg("Successfully cancelled the order")
+  //       console.log("successfully cancelled the order")
+  //     })
+  //     .catch((err) => {
+  //       setSuccessMsg("Error in completing the order")
+  //       console.log("Error in cancelling order", err)
+  //     })
+  //   console.log("Hello from delivery agent", comments, cancellationReasonList[cancellationReasonIdx].reason)
+  // }
 
-  const handleChange = (e) => {
-    console.log(e.target.value)
-    setCancellationReasonIdx(e.target.value)
-  }
+  // const handleChange = (e) => {
+  //   console.log(e.target.value)
+  //   setCancellationReasonIdx(e.target.value)
+  // }
 
-  const handleClose = () => {
-    setSuccessMsg("")
-  }
+  // const handleClose = () => {
+  //   setSuccessMsg("")
+  // }
 
   return (
     <div className="orders-detail-card">
@@ -138,16 +131,15 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
           </p>
         </div>
 
-        <div className="item">
+        {/* <div className="item">
           <p className="label">Retailer Landmark</p>
           <p className="value">
             {retailerLandmark ? retailerLandmark : '-'}
           </p>
-        </div>
+        </div> */}
 
-        <div className="item">
+        {/* <div className="item">
           <p className="label">Manual Cancellation</p>
-          {/* <button onClick={mountModal} disabled={!orderButtonStatus}>Cancel Order</button> */}
           <Button
             className={classes.button}
             variant="contained"
@@ -162,9 +154,6 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
               <Dialog
                 title="Cancel Order"
                 actions={[
-                  // <Button color="primary" className={classes.buttonPrimary} onClick={handleConfirm} key={1} autoFocus>
-                  //   CONFIRM
-                  // </Button>,
                   <Button
                     className={classes.button}
                     variant="contained"
@@ -173,9 +162,6 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
                   >
                     Confirm
                     </Button>,
-                  // <Button onClick={unmountModal} key={2} color="primary" className={classes.buttonPrimary}>
-                  //   CLOSE
-                  // </Button>
                   <Button
                     className={classes.button}
                     variant="contained"
@@ -202,20 +188,11 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
                         })
                       }
                     </Select>
-                    {/* <label>Comments</label>
-                    <TextareaAutosize
-                      className={classes.formControlTextarea}
-                      aria-label="minimum height"
-                      rowsMin={3}
-                      onChange={handleCommentChange}
-                      placeholder="Enter your notes"
-                    /> */}
                   </div>
                 </form>
               </Dialog>
             )
           }
-          {/* <button className="comment-btn" onClick={commentMountModel}>Comment</button> */}
           <Button
             className={classes.button}
             variant="contained"
@@ -229,12 +206,6 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
               <Dialog
                 title="Comment"
                 actions={[
-                  // <Button color="primary" className={classes.buttonPrimary} onClick={handleCommentSubmit} key={1} autoFocus>
-                  //   CONFIRM
-                  // </Button>,
-                  // <Button onClick={commentUnmountModel} key={2} color="primary" className={classes.buttonPrimary}>
-                  //   CLOSE
-                  // </Button>
                   <Button
                     className={classes.button}
                     variant="contained"
@@ -268,10 +239,10 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
             )
           }
 
-        </div>
+        </div> */}
         
       </div>
-      {
+      {/* {
         successMsg.trim().length > 0 &&
         <Notification
           message={successMsg}
@@ -279,33 +250,33 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
           open={successMsg.trim().length > 0}
           handleClose={handleClose}
         />
-      }
+      } */}
     </div>
   )
 }
 
-const useStyles = makeStyles(theme => ({
-  formRoot: {
-    padding: 36
-  },
-  formControl: {
-    width: "100%",
-    marginBottom: 24
-  },
-  formControlTextarea: {
-    width: "100%",
-    marginBottom: 24,
-    padding: 10
-  },
-  buttonPrimary: {
-    background: "#000000",
-    color: "#FFFFFF"
-  },
-  button: {
-    marginLeft: "10px",
-    cursor: "pointer",
-    marginTop: "10px"
-  }
-}))
+// const useStyles = makeStyles(theme => ({
+//   formRoot: {
+//     padding: 36
+//   },
+//   formControl: {
+//     width: "100%",
+//     marginBottom: 24
+//   },
+//   formControlTextarea: {
+//     width: "100%",
+//     marginBottom: 24,
+//     padding: 10
+//   },
+//   buttonPrimary: {
+//     background: "#000000",
+//     color: "#FFFFFF"
+//   },
+//   button: {
+//     marginLeft: "10px",
+//     cursor: "pointer",
+//     marginTop: "10px"
+//   }
+// }))
 
 export default RetailerDetails
