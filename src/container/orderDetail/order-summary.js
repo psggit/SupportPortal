@@ -17,16 +17,35 @@ const OrderSummary = ({orderTotal, cartTotal, cartItems, feeDetails,cgstPercenta
         <span style={{ fontSize: '18px', lineHeight: '24px', fontWeight: 'bold' }}>Cart Total</span>
         <span style={{ fontSize: '18px', lineHeight: '24px', fontWeight: 'bold' }}>{cartTotal ? `₹${cartTotal}` : "-"}</span>
       </div>
+      <div className="flex-item" style={{ marginBottom: "8px" }}>
+        <span style={{ fontSize: '18px', lineHeight: '24px', fontWeight: 'bold' }}>Ordered Cart Items</span>
+      </div>
       {
         cartItems ?
         cartItems.map((item, index) => {
           return <div className="flex-item" key={index} style={{ marginBottom: '16px' }}>
-                  <p style={{ fontSize: '15px', lineHeight: '20px', fontWeight: '600', color: '#212121' }}>{item.brand_name}</p>
+                  <p style={{ fontSize: '15px', lineHeight: '20px', fontWeight: '600', color: '#212121' }}>`{item.brand_name} x {item.ordered_count}`</p>
             <p style={{ fontSize: '15px', lineHeight: '20px' }}>{`₹${item.total_price}`}</p>
                 </div>
         }) : ""
       }
 
+      <div className="flex-item" style={{ marginBottom: "8px" }}>
+        <span style={{ fontSize: '18px', lineHeight: '24px', fontWeight: 'bold' }}>Delivered/Deliverable Cart Items</span>
+      </div>
+      {
+        cartItems ?
+        cartItems.map((item, index) => {
+          return <div className="flex-item" key={index} style={{ marginBottom: '16px' }}>
+                  <p style={{ fontSize: '15px', lineHeight: '20px', fontWeight: '600', color: '#212121' }}>`{item.brand_name} x {item.deliverable_count}`</p>
+            <p style={{ fontSize: '15px', lineHeight: '20px' }}>{`₹${item.revised_total_price}`}</p>
+                </div>
+        }) : ""
+      }
+
+      <div className="flex-item" style={{ marginBottom: "8px" }}>
+        <span style={{ fontSize: '18px', lineHeight: '24px', fontWeight: 'bold' }}>Fee Details</span>
+      </div>
       {
         feeDetails ?
           feeDetails.map((item, index) => {
@@ -36,7 +55,7 @@ const OrderSummary = ({orderTotal, cartTotal, cartItems, feeDetails,cgstPercenta
             </div>
           }) : ""
       }
-      
+
       <div className="flex-item" style={{ marginBottom: '6px' }}>
         <p style={{ fontSize: '15px', lineHeight: '20px', fontWeight: '600' }}>{"CGST" +"(" +cgstPercentage +"%)"}</p>
         <p style={{ fontSize: '15px', lineHeight: '20px' }}>{"₹"+cgstAmount}</p>

@@ -39,7 +39,7 @@ function OrderDetail (props) {
         console.log("Error in fetching order details", err)
       })
   }
- 
+
   return (
     <div id="order-detail">
       <div className="order-details" style={{ marginBottom: "40px" }}>
