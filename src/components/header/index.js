@@ -94,7 +94,7 @@ function header() {
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
           <div>
-            <NavLink to={`/home/orders`}><Icon name="headerHipbarLogo" /></NavLink>
+            <NavLink to={`/home/dashboard`}><Icon name="headerHipbarLogo" /></NavLink>
           </div>
           <div className={classes.account}>
             {/* <div className={classes.myaccount}>
