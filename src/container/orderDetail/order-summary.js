@@ -8,11 +8,6 @@ const OrderSummary = ({orderTotal, cartTotal, cartItems, feeDetails,cgstPercenta
     </div>
     <div className="content">
 
-      <div className="flex-item" style={{ marginBottom: '16px' }}>
-          <span style={{ fontSize: '18px', lineHeight: '24px', fontWeight: '800' }}>Order Total</span>
-        <span style={{ fontSize: '18px', lineHeight: '24px', fontWeight: '800' }}>{orderTotal ? `₹${orderTotal}` : "-"}</span>
-      </div>
-
       <div className="flex-item" style={{ marginBottom: "8px" }}>
         <span style={{ fontSize: '18px', lineHeight: '24px', fontWeight: 'bold' }}>Cart Total</span>
         <span style={{ fontSize: '18px', lineHeight: '24px', fontWeight: 'bold' }}>{cartTotal ? `₹${cartTotal}` : "-"}</span>
@@ -44,7 +39,7 @@ const OrderSummary = ({orderTotal, cartTotal, cartItems, feeDetails,cgstPercenta
       }
 
       <div className="flex-item" style={{ marginBottom: "8px" }}>
-        <span style={{ fontSize: '18px', lineHeight: '24px', fontWeight: 'bold', color:"757575" }}>Fee Details</span>
+        <span style={{ fontSize: '18px', lineHeight: '24px', fontWeight: 'bold', color:"757575" }}>Additional Total Charges</span>
       </div>
       {
         feeDetails ?
@@ -64,6 +59,11 @@ const OrderSummary = ({orderTotal, cartTotal, cartItems, feeDetails,cgstPercenta
       <div className="flex-item" style={{ marginBottom: '6px' }}>
         <p style={{ fontSize: '15px', lineHeight: '20px', fontWeight: '600' }}>{"SGST" + "(" + sgstPercentage + "%)"}</p>
         <p style={{ fontSize: '15px', lineHeight: '20px' }}>{"₹" +sgstAmount}</p>
+      </div>
+
+      <div className="flex-item" style={{ marginTop: '10px' }}>
+        <span style={{ fontSize: '18px', lineHeight: '24px', fontWeight: '800' }}>Order Total</span>
+        <span style={{ fontSize: '18px', lineHeight: '24px', fontWeight: '800' }}>{orderTotal ? `₹${orderTotal}` : "-"}</span>
       </div>
     </div>
   </div>

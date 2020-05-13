@@ -9,8 +9,7 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize'
 import { fetchCancellationReasons, cancelOrder, submitNotes ,fetchKycDocumentList ,completeOrder} from "./../api"
 import Notification from "Components/notification"
 
-function DeliveryStatusDetails ({ deliveryStatus, deliveryPickupTime, deliveryDateAndTime, deliveryIdVerification ,orderId, orderButtonStatus}) {
-
+function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, deliveryPickupTime, deliveryIdVerification , orderButtonStatus}) {
   const classes = useStyles()
   const [showMountModal, setShowUnmountModal] = useState(false)
   const [showCommentMountModal, setCompleteShowUnmountModal] = useState(false)
@@ -30,13 +29,13 @@ function DeliveryStatusDetails ({ deliveryStatus, deliveryPickupTime, deliveryDa
     fetchKycDetails()
   }, []);
 
-
   const fetchCancellationReasonList = () => {
     const payload = {
-      order_id: orderId
+      order_id: orderId,
     }
     fetchCancellationReasons(payload)
       .then((response) => {
+        console.log("response",response)
         setCancellationReasonList(response)
       })
       .catch((err) => {
@@ -89,6 +88,7 @@ function DeliveryStatusDetails ({ deliveryStatus, deliveryPickupTime, deliveryDa
     completeOrder(payload)
       .then((response) => {
         setSuccessMsg("Successfully completed the order")
+        location.reload()
         console.log("successfully completed the order")
       })
       .catch((err) => {
@@ -148,6 +148,7 @@ function DeliveryStatusDetails ({ deliveryStatus, deliveryPickupTime, deliveryDa
     cancelOrder(payload)
       .then((response) => {
         setSuccessMsg("Successfully cancelled the order")
+        location.reload()
         console.log("successfully cancelled the order")
       })
       .catch((err) => {
