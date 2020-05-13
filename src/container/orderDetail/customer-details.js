@@ -1,108 +1,108 @@
 import React, { useState, useEffect } from 'react'
-import Dialog from "Components/dialog/index"
+// import Dialog from "Components/dialog/index"
 import "./order-detail.scss"
-import Button from "@material-ui/core/Button"
-import Select from '@material-ui/core/Select'
-import { makeStyles } from "@material-ui/core/styles"
-import TextareaAutosize from '@material-ui/core/TextareaAutosize'
-import { fetchCancellationReasons, cancelOrder , submitNotes } from "./../api"
-import Notification from "Components/notification"
+// import Button from "@material-ui/core/Button"
+// import Select from '@material-ui/core/Select'
+// import { makeStyles } from "@material-ui/core/styles"
+// import TextareaAutosize from '@material-ui/core/TextareaAutosize'
+// import { fetchCancellationReasons, cancelOrder , submitNotes } from "./../api"
+// import Notification from "Components/notification"
 
 function CustomerDetails({ orderId, customerId, customerName, customerMobileNumber, customerState, customerCity, customerAddress, customerLandmark,orderButtonStatus}) {
 
-  const classes = useStyles()
-  const [showMountModal, setShowUnmountModal] = useState(false)
-  const [showCommentMountModel, setShowUnmountCommentModel] = useState(false)
+  // const classes = useStyles()
+  // const [showMountModal, setShowUnmountModal] = useState(false)
+  // const [showCommentMountModel, setShowUnmountCommentModel] = useState(false)
 
-  const [comments, setComments] = useState("")
-  const [successMsg, setSuccessMsg] = useState("")
-  const [cancellationReasonIdx, setCancellationReasonIdx] = useState(0)
-  const [cancellationReasonList, setCancellationReasonList] = useState([])
+  // const [comments, setComments] = useState("")
+  // const [successMsg, setSuccessMsg] = useState("")
+  // const [cancellationReasonIdx, setCancellationReasonIdx] = useState(0)
+  // const [cancellationReasonList, setCancellationReasonList] = useState([])
 
-  useEffect(() => {
-    fetchCancellationReasonList()
-  }, []);
+  // useEffect(() => {
+  //   fetchCancellationReasonList()
+  // }, []);
 
-  const fetchCancellationReasonList = () => {
-    const payload = {
-      order_id: orderId,
-    }
-    fetchCancellationReasons(payload)
-      .then((response) => {
-        console.log("response",response)
-        setCancellationReasonList(response)
-      })
-      .catch((err) => {
-        console.log("Error in fetching cancellation reasons", err)
-      })
-  }
+  // const fetchCancellationReasonList = () => {
+  //   const payload = {
+  //     order_id: orderId,
+  //   }
+  //   fetchCancellationReasons(payload)
+  //     .then((response) => {
+  //       console.log("response",response)
+  //       setCancellationReasonList(response)
+  //     })
+  //     .catch((err) => {
+  //       console.log("Error in fetching cancellation reasons", err)
+  //     })
+  // }
 
-  const commentUnmountModel = () => {
-    setShowUnmountCommentModel(false)
-  }
+  // const commentUnmountModel = () => {
+  //   setShowUnmountCommentModel(false)
+  // }
 
-  const commentMountModel = () => {
-    setShowUnmountCommentModel(true)
-  }
+  // const commentMountModel = () => {
+  //   setShowUnmountCommentModel(true)
+  // }
 
-  const handleCommentSubmit = () => {
-    commentUnmountModel()
-    const payload = {
-      order_id: orderId,
-      notes: comments
-    }
-    submitNotes(payload)
-      .then((response) => {
-        setSuccessMsg("Successfully Added Notes")
-        console.log("successfully Added Notes")
-      })
-      .catch((err) => {
-        setSuccessMsg("Error in Adding Notes")
-        console.log("Error in Adding Notes", err)
-      })
-    console.log("comment",comments,orderId)
-  }
+  // const handleCommentSubmit = () => {
+  //   commentUnmountModel()
+  //   const payload = {
+  //     order_id: orderId,
+  //     notes: comments
+  //   }
+  //   submitNotes(payload)
+  //     .then((response) => {
+  //       setSuccessMsg("Successfully Added Notes")
+  //       console.log("successfully Added Notes")
+  //     })
+  //     .catch((err) => {
+  //       setSuccessMsg("Error in Adding Notes")
+  //       console.log("Error in Adding Notes", err)
+  //     })
+  //   console.log("comment",comments,orderId)
+  // }
 
-  const handleCommentChange = (e) => {
-    setComments(e.target.value)
-  }
+  // const handleCommentChange = (e) => {
+  //   setComments(e.target.value)
+  // }
 
-  const unmountModal = () => {
-    setShowUnmountModal(false)
-  }
+  // const unmountModal = () => {
+  //   setShowUnmountModal(false)
+  // }
 
-  const mountModal = () => {
-    console.log("from mountModal", orderButtonStatus, !orderButtonStatus)
-      setShowUnmountModal(true)   
-  }
+  // const mountModal = () => {
+  //   console.log("from mountModal", orderButtonStatus, !orderButtonStatus)
+  //     setShowUnmountModal(true)   
+  // }
 
-  const handleConfirm = () => {
-    unmountModal()
-    const payload = {
-      order_id: orderId,
-      slot_id: "",
-      reason_id:parseInt(cancellationReasonList[cancellationReasonIdx].id),
-    }
-    cancelOrder(payload)
-    .then((response) => {
-      setSuccessMsg("Successfully cancelled the order")
-      console.log("successfully cancelled the order")
-    })
-    .catch((err) => {
-      setSuccessMsg("Error in cancelling the order")
-      console.log("Error in cancelling order", err)
-    })
-    console.log("Hello from delivery agent", comments, cancellationReasonList[cancellationReasonIdx].reason)
-  }
+  // const handleConfirm = () => {
+  //   unmountModal()
+  //   const payload = {
+  //     order_id: orderId,
+  //     slot_id: "",
+  //     reason_id:parseInt(cancellationReasonList[cancellationReasonIdx].id),
+  //   }
+  //   cancelOrder(payload)
+  //   .then((response) => {
+  //     setSuccessMsg("Successfully cancelled the order")
+  //     console.log("successfully cancelled the order")
+  //   })
+  //   .catch((err) => {
+  //     setSuccessMsg("Error in cancelling the order")
+  //     console.log("Error in cancelling order", err)
+  //   })
+  //   console.log("Hello from delivery agent", comments, cancellationReasonList[cancellationReasonIdx].reason)
+  // }
 
-  const handleChange = (e) => {
-    console.log(e.target.value)
-    setCancellationReasonIdx(e.target.value)
-  }
+  // const handleChange = (e) => {
+  //   console.log(e.target.value)
+  //   setCancellationReasonIdx(e.target.value)
+  // }
 
-  const handleClose = () => {
-    setSuccessMsg("")
-  }
+  // const handleClose = () => {
+  //   setSuccessMsg("")
+  // }
 
   return (
     <div className="orders-detail-card">
@@ -155,9 +155,11 @@ function CustomerDetails({ orderId, customerId, customerName, customerMobileNumb
             {customerLandmark ? customerLandmark : '-'}
           </p>
         </div>
-          <div className="item">
+
+        {/* Modal box not required asf now */}
+
+          {/* <div className="item">
             <p className="label">Manual Cancellation</p>
-            {/* <button onClick={mountModal} disabled ={!orderButtonStatus}>Cancel Order</button> */}
           <Button
             className={classes.button}
             variant="contained"
@@ -172,9 +174,6 @@ function CustomerDetails({ orderId, customerId, customerName, customerMobileNumb
                 <Dialog
                   title="Cancel Order"
                   actions={[
-                  //   <Button color="primary" className={classes.buttonPrimary} onClick={handleConfirm} key={1} autoFocus>
-                  //     CONFIRM
-                  // </Button>,
                     <Button
                       className={classes.button}
                       variant="contained"
@@ -183,9 +182,6 @@ function CustomerDetails({ orderId, customerId, customerName, customerMobileNumb
                     >
                       Confirm
                     </Button>,
-                  //   <Button onClick={unmountModal} key={2} color="primary" className={classes.buttonPrimary}>
-                  //     CLOSE
-                  // </Button>
                     <Button
                       className={classes.button}
                       variant="contained"
@@ -212,21 +208,12 @@ function CustomerDetails({ orderId, customerId, customerName, customerMobileNumb
                           })
                         }
                       </Select>
-                      {/* <label>Comments</label>
-                    <TextareaAutosize
-                      className={classes.formControlTextarea}
-                      aria-label="minimum height"
-                      rowsMin={3}
-                      onChange={handleCommentChange}
-                      placeholder="Enter your notes"
-                    /> */}
                     </div>
                   </form>
                 </Dialog>
               )
             }
-          {/* <button className="comment-btn" onClick={commentMountModel}>Comment</button> */}
-          <Button
+         <Button
             className={classes.button}
             variant="contained"
             color="secondary"
@@ -239,9 +226,6 @@ function CustomerDetails({ orderId, customerId, customerName, customerMobileNumb
                 <Dialog
                   title="Comment"
                   actions={[
-                  //   <Button color="primary" className={classes.buttonPrimary} onClick={handleCommentSubmit} key={1} autoFocus>
-                  //     CONFIRM
-                  // </Button>,
                     <Button
                       className={classes.button}
                       variant="contained"
@@ -250,9 +234,6 @@ function CustomerDetails({ orderId, customerId, customerName, customerMobileNumb
                     >
                       Confirm
                     </Button>,
-                  //   <Button onClick={commentUnmountModel} key={2} color="primary" className={classes.buttonPrimary}>
-                  //     CLOSE
-                  // </Button>
                     <Button
                       className={classes.button}
                       variant="contained"
@@ -277,9 +258,10 @@ function CustomerDetails({ orderId, customerId, customerName, customerMobileNumb
                 </Dialog>
               )
             }
-          </div>
+          </div> */}
+
       </div>
-      {
+      {/* {
         successMsg.trim().length > 0 && 
         <Notification
           message={successMsg}
@@ -287,33 +269,33 @@ function CustomerDetails({ orderId, customerId, customerName, customerMobileNumb
           open={successMsg.trim().length > 0}
           handleClose={handleClose}
         />
-      }
+      } */}
     </div>
   )
 }
 
-const useStyles = makeStyles(theme => ({
-  formRoot: {
-    padding: 36
-  },
-  formControl: {
-    width: "100%",
-    marginBottom: 24,
-  },
-  formControlTextarea: {
-    padding: 10,
-    width: "100%",
-    marginBottom: 24,
-  },
-  buttonPrimary: {
-    background: "#000000",
-    color: "#FFFFFF"
-  },
-  button: {
-    marginLeft: "10px",
-    cursor:"pointer",
-    marginTop:"10px"
-  }
-}))
+// const useStyles = makeStyles(theme => ({
+//   formRoot: {
+//     padding: 36
+//   },
+//   formControl: {
+//     width: "100%",
+//     marginBottom: 24,
+//   },
+//   formControlTextarea: {
+//     padding: 10,
+//     width: "100%",
+//     marginBottom: 24,
+//   },
+//   buttonPrimary: {
+//     background: "#000000",
+//     color: "#FFFFFF"
+//   },
+//   button: {
+//     marginLeft: "10px",
+//     cursor:"pointer",
+//     marginTop:"10px"
+//   }
+// }))
 
 export default CustomerDetails

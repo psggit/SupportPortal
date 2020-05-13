@@ -8,6 +8,7 @@ import PaymentDetails from "./payment-details"
 import DeliveryStatusDetails from "./delivery-status-details"
 import SupportDetails from "./support-details"
 import OrderDetailsHeader from "./order-details-header"
+import RevisedPaymentDetails from "./revised-payment-details"
 import { fetchCompleteOrderDetails } from "../api"
 
 function OrderDetail (props) {
@@ -93,18 +94,27 @@ function OrderDetail (props) {
         />
 
         <PaymentDetails
-          walletTotal={orderDetails.WalletTotal}
+          walletTotal={orderDetails.wallet_total}
           hipbarWallet={orderDetails.hipbar_wallet}
           giftWallet={orderDetails.gift_wallet}
-          paymentTotal={orderDetails.payment_total}
+          paymentTotal={orderDetails.original_order_total}
           upi={orderDetails.upi}
         />
 
         <DeliveryStatusDetails
+          orderId={props.match.params.orderId}
           deliveryStatus={orderDetails.delivery_status}
-          deliveryDateAndTime={orderDetails.delivery_date_and_time}
+          deliveryDateAndTime={orderDetails.delivered_date_and_time}
           deliveryPickupTime={orderDetails.delivery_agent_pick_up_date_and_time}
-          deliveryIdVerification={orderDetails.delivery_id_verification}
+          deliveryIdVerification={orderDetails.verification_type}
+          orderButtonStatus={orderDetails.order_status_button}
+        />
+
+        <RevisedPaymentDetails
+          revisedWalletTotal={orderDetails.revised_wallet_total}
+          revisedHipbarWallet={orderDetails.revised_hipbar_wallet}
+          revisedGiftWallet={orderDetails.revised_gift_wallet}
+          revisedPaymentTotal={orderDetails.original_order_total}
         />
 
         <SupportDetails />
