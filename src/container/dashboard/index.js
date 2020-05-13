@@ -19,73 +19,97 @@ const useStyles = makeStyles(theme => ({
 }))
 
 function Dashboard(props) {
-  
-  const[consumerMobile, setConsumerMobile] = useState("")
-  const[consumerID, setConsumerID] = useState("")
-  const[orderID, setOrderID] = useState("")
-  const[retailerMobile, setRetailerMobile] = useState("")
-  const[retailerID, setRetailerID] = useState("")
-  const[storeCode, setStoreCode] = useState("")
-  const[deliveryAgentMobile, setDeliveryAgentMobile] = useState("")
-  const[deliveryAgentID, setDeliveryAgentID] = useState("")
-  const[enableConsumer, setEnableConsumer] = useState(false)
-  const[enableRetailer, setEnabledRetailer] = useState(false)
-  const[enableDeliveryAgent, setEnableDeliveryAgent] = useState(false)
+
+  const [consumerMobile, setConsumerMobile] = useState("")
+  const [consumerID, setConsumerID] = useState("")
+  const [orderID, setOrderID] = useState("")
+  const [retailerMobile, setRetailerMobile] = useState("")
+  const [retailerID, setRetailerID] = useState("")
+  const [storeCode, setStoreCode] = useState("")
+  const [deliveryAgentMobile, setDeliveryAgentMobile] = useState("")
+  const [deliveryAgentID, setDeliveryAgentID] = useState("")
+  const [enableConsumer, setEnableConsumer] = useState(false)
+  const [enableRetailer, setEnabledRetailer] = useState(false)
+  const [enableDeliveryAgent, setEnableDeliveryAgent] = useState(false)
 
   const classes = useStyles()
- 
+
   const handleConsumerMobileChange = e => {
-    setConsumerMobile(e.target.value)
-    if(e.target.value.length > 0) {
+    if (!isNaN(e.target.value)) {
+      setConsumerMobile(e.target.value)
+    }
+
+    if (e.target.value.trim().length === 10 && !isNaN(e.target.value)) {
       setEnableConsumer(true)
     }
   }
 
   const handleConsumerIDChange = e => {
-    setConsumerID(e.target.value)
-    if(e.target.value.length > 0) {
+    if (!isNaN(e.target.value)) {
+      setConsumerID(e.target.value)
+    }
+
+    if (e.target.value.trim().length > 0 && !isNaN(e.target.value)) {
       setEnableConsumer(true)
     }
   }
 
   const handleOrderIdChange = e => {
-    setOrderID(e.target.value)
-    if(e.target.value.length > 0) {
+    if (!isNaN(e.target.value)) {
+      setOrderID(e.target.value)
+    }
+
+    if (e.target.value.trim().length === 4 && !isNaN(e.target.value)) {
       setEnableConsumer(true)
     }
   }
 
   const handleRetailerMobileChange = e => {
-    setRetailerMobile(e.target.value)
-    if(e.target.value.length > 0) {
+    if (!isNaN(e.target.value)) {
+      setRetailerMobile(e.target.value)
+    }
+
+    if (e.target.value.trim().length === 10 && !isNaN(e.target.value)) {
       setEnabledRetailer(true)
     }
   }
 
   const handleRetailerIdChange = e => {
-    setRetailerID(e.target.value)
-    if(e.target.value.length > 0) {
+    if (!isNaN(e.target.value)) {
+      setRetailerID(e.target.value)
+    }
+
+    if (e.target.value.trim().length > 0 && isNaN(e.target.value)) {
       setEnabledRetailer(true)
     }
   }
 
   const handleStoreCode = e => {
-    setStoreCode(e.target.value)
-    if(e.target.value.length > 0){
+    if (!isNaN(e.target.value)) {
+      setStoreCode(e.target.value)
+    }
+
+    if (e.target.value.trim().length === 4 && !isNaN(e.target.value)) {
       setEnabledRetailer(true)
     }
   }
 
   const handleDeliveryAgentChange = e => {
-    setDeliveryAgentMobile(e.target.value)
-    if(e.target.value.length > 0) {
+    if (!isNaN(e.target.value)) {
+      setDeliveryAgentMobile(e.target.value)
+    }
+
+    if (e.target.value.trim().length === 10 && !isNaN(e.target.value)) {
       setEnableDeliveryAgent(true)
     }
   }
 
   const handleDeliveryAgentIdChange = e => {
-    setDeliveryAgentID(e.target.value)
-    if(e.target.value.length > 0) {
+    if (!isNaN(e.target.value)) {
+      setDeliveryAgentID(e.target.value)
+    }
+
+    if (e.target.value.trim().length === 4 && !isNaN(e.target.value)) {
       setEnableDeliveryAgent(true)
     }
   }
@@ -146,170 +170,186 @@ function Dashboard(props) {
   return (
     <div id="dashboard">
       <form name="consumerDetails">
-          <div className="dashboard-detail">
-            <h4>CUSTOMER DETAILS</h4>
-            <div className="text-field">
-              <FormGroup inline>
-                <label>Consumer Mobile</label>
-                <Input
-                  type="text"
-                  name="consumerMobile"
-                  placeholder="Enter valid 10 digit mobile number"
-                  value={consumerMobile}
-                  autoComplete="off"
-                  onChange={handleConsumerMobileChange}
-                />
-              </FormGroup>
-              <FormGroup inline>
-                <label>Consumer ID</label>
-                <Input
-                  type="text"
-                  name="consumerID"
-                  placeholder="Enter a valid ID"
-                  value={consumerID}
-                  autoComplete="off"
-                  onChange={handleConsumerIDChange}
-                />
-              </FormGroup>
-              <FormGroup inline>
-                <label>Order ID</label>
-                <Input
-                  type="text"
-                  name="orderID"
-                  placeholder="Enter minimum of 4 digits"
-                  value={orderID}
-                  autoComplete="off"
-                  onChange={handleOrderIdChange}
-                />
-              </FormGroup>
-              <div className={classes.root}>
-                <Button
-                  className={classes.button}
-                  variant="contained"
-                  color="secondary"
-                  disabled={!enableConsumer}
-                  onClick={fetchConsumerDetails}
-                >
-                  Fetch Details
-                </Button>   
-                <Button 
-                 variant="contained"
-                 color="secondary"
-                 disabled={!enableConsumer}
-                 onClick={handeReset}
-                >
-                  Reset
+        <div className="dashboard-detail">
+          <h4>CUSTOMER DETAILS</h4>
+          <div className="text-field">
+            <FormGroup inline>
+              <label>Consumer Mobile</label>
+              <Input
+                type="text"
+                name="consumerMobile"
+                placeholder="Enter valid 10 digit mobile number"
+                value={consumerMobile}
+                autoComplete="off"
+                required
+                maxLength={10}
+                onChange={handleConsumerMobileChange}
+              />
+            </FormGroup>
+            <FormGroup inline>
+              <label>Consumer ID</label>
+              <Input
+                type="text"
+                name="consumerID"
+                placeholder="Enter a valid ID"
+                value={consumerID}
+                autoComplete="off"
+                required
+                maxLength={6}
+                onChange={handleConsumerIDChange}
+              />
+            </FormGroup>
+            <FormGroup inline>
+              <label>Order ID</label>
+              <Input
+                type="text"
+                name="orderID"
+                placeholder="Enter a valid ID"
+                value={orderID}
+                autoComplete="off"
+                required
+                maxLength={6}
+                onChange={handleOrderIdChange}
+              />
+            </FormGroup>
+            <div className={classes.root}>
+              <Button
+                className={classes.button}
+                variant="contained"
+                color="secondary"
+                disabled={!enableConsumer}
+                onClick={fetchConsumerDetails}
+              >
+                Fetch Details
                 </Button>
-              </div>
-            </div>    
-          </div>
-      </form>
-        <form>
-          <div className="dashboard-detail">
-            <h4>RETAILER DETAILS</h4>
-            <div className="text-field">
-              <FormGroup inline>
-                <label>Retailer Mobile</label>
-                <Input
-                  type="text"
-                  name="retailerMobile"
-                  placeholder="Enter valid 10 digit mobile number"
-                  value={retailerMobile}
-                  autoComplete="off"
-                  onChange={handleRetailerMobileChange}
-                />
-              </FormGroup>
-              <FormGroup inline>
-                <label>Retailer ID</label>
-                <Input
-                  type="text"
-                  name="retailerID"
-                  placeholder="Enter a valid ID"
-                  value={retailerID}
-                  autoComplete="off"
-                  onChange={handleRetailerIdChange}
-                />
-              </FormGroup>
-              <FormGroup inline>
-                <label>Store Code</label>
-                <Input
-                  type="text"
-                  name="storeCode"
-                  placeholder="Enter a valid code"
-                  value={storeCode}
-                  autoComplete="off"
-                  onChange={handleStoreCode}
-                />
-              </FormGroup>
-              <div className={classes.root}>
-                <Button
-                  className={classes.button}
-                  variant="contained"
-                  color="secondary"
-                  disabled={!enableRetailer}
-                  onClick={fetchRetailerDetails}
-                >
-                  Fetch Details
+              <Button
+                variant="contained"
+                color="secondary"
+                disabled={!enableConsumer}
+                onClick={handeReset}
+              >
+                Reset
                 </Button>
-                <Button 
-                 variant="contained" 
-                 color="secondary"
-                 disabled={!enableRetailer}
-                 onClick={handleRetailerReset}
-                 >
-                  Reset
-                </Button>
-              </div>
-            </div>          
-          </div>
-        </form>
-        <form>
-          <div className="dashboard-detail">
-            <h4>DELIVERY AGENT DETAILS</h4>
-            <div className="text-field">
-              <FormGroup inline>
-                <label>Delivery Agent Mobile</label>
-                <Input
-                  type="text"
-                  name="deliveryAgentMobile"
-                  placeholder="Enter valid 10 digit mobile number"
-                  value={deliveryAgentMobile}
-                  autoComplete="off"
-                  onChange={handleDeliveryAgentChange}
-                />
-              </FormGroup>
-              <FormGroup inline>
-                <label>Delivery Agent ID</label>
-                <Input
-                  type="text"
-                  name="delivertAgentID"
-                  placeholder="Enter a valid ID"
-                  value={deliveryAgentID}
-                  autoComplete="off"
-                  onChange={handleDeliveryAgentIdChange}
-                />
-              </FormGroup>
-              <div className={classes.root}>
-                <Button
-                  className={classes.button}
-                  variant="contained"
-                  disabled={!enableDeliveryAgent}
-                  color="secondary"
-                  onClick={fetchDeliveryAgentDetails}
-                >
-                  Fetch Details
-                </Button>
-                <Button 
-                 variant="contained"
-                 disabled={!enableDeliveryAgent}
-                 color="secondary"
-                 onClick={handleDeliveryAgentReset}
-                 >
-                  Reset
-                </Button>
-              </div>
             </div>
-          </div> 
+          </div>
+        </div>
+      </form>
+      <form>
+        <div className="dashboard-detail">
+          <h4>RETAILER DETAILS</h4>
+          <div className="text-field">
+            <FormGroup inline>
+              <label>Retailer Mobile</label>
+              <Input
+                type="text"
+                name="retailerMobile"
+                placeholder="Enter valid 10 digit mobile number"
+                value={retailerMobile}
+                autoComplete="off"
+                required
+                maxLength={10}
+                onChange={handleRetailerMobileChange}
+              />
+            </FormGroup>
+            <FormGroup inline>
+              <label>Retailer ID</label>
+              <Input
+                type="text"
+                name="retailerID"
+                placeholder="Enter a valid ID"
+                value={retailerID}
+                autoComplete="off"
+                required
+                maxLength={6}
+                onChange={handleRetailerIdChange}
+              />
+            </FormGroup>
+            <FormGroup inline>
+              <label>Store Code</label>
+              <Input
+                type="text"
+                name="storeCode"
+                placeholder="Enter a valid code"
+                value={storeCode}
+                autoComplete="off"
+                required
+                maxLength={6}
+                onChange={handleStoreCode}
+              />
+            </FormGroup>
+            <div className={classes.root}>
+              <Button
+                className={classes.button}
+                variant="contained"
+                color="secondary"
+                disabled={!enableRetailer}
+                onClick={fetchRetailerDetails}
+              >
+                Fetch Details
+                </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                disabled={!enableRetailer}
+                onClick={handleRetailerReset}
+              >
+                Reset
+                </Button>
+            </div>
+          </div>
+        </div>
+      </form>
+      <form>
+        <div className="dashboard-detail">
+          <h4>DELIVERY AGENT DETAILS</h4>
+          <div className="text-field">
+            <FormGroup inline>
+              <label>Delivery Agent Mobile</label>
+              <Input
+                type="text"
+                name="deliveryAgentMobile"
+                placeholder="Enter valid 10 digit mobile number"
+                value={deliveryAgentMobile}
+                autoComplete="off"
+                required
+                maxLength={10}
+                onChange={handleDeliveryAgentChange}
+              />
+            </FormGroup>
+            <FormGroup inline>
+              <label>Delivery Agent ID</label>
+              <Input
+                type="text"
+                name="delivertAgentID"
+                placeholder="Enter a valid ID"
+                value={deliveryAgentID}
+                autoComplete="off"
+                required
+                maxLength={6}
+                onChange={handleDeliveryAgentIdChange}
+              />
+            </FormGroup>
+            <div className={classes.root}>
+              <Button
+                className={classes.button}
+                variant="contained"
+                disabled={!enableDeliveryAgent}
+                color="secondary"
+                onClick={fetchDeliveryAgentDetails}
+              >
+                Fetch Details
+                </Button>
+              <Button
+                variant="contained"
+                disabled={!enableDeliveryAgent}
+                color="secondary"
+                onClick={handleDeliveryAgentReset}
+              >
+                Reset
+                </Button>
+            </div>
+          </div>
+        </div>
       </form>
     </div>
   )
