@@ -96,7 +96,8 @@ function OrderDetail (props) {
           walletTotal={orderDetails.WalletTotal}
           hipbarWallet={orderDetails.hipbar_wallet}
           giftWallet={orderDetails.gift_wallet}
-          paymentTotal={orderDetails.payment_total}
+          paymentTotal={orderDetails.revised_order_total}
+          orderId={orderDetails.order_id}
           upi={orderDetails.upi}
         />
 
@@ -105,6 +106,8 @@ function OrderDetail (props) {
           deliveryDateAndTime={orderDetails.delivery_date_and_time}
           deliveryPickupTime={orderDetails.delivery_agent_pick_up_date_and_time}
           deliveryIdVerification={orderDetails.delivery_id_verification}
+          orderButtonStatus={orderDetails.order_status_button}
+          orderId={orderDetails.order_id}
         />
 
         <SupportDetails />
