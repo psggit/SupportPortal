@@ -81,6 +81,9 @@ function OrderDetail (props) {
           cgstAmount ={ orderDetailsTaxes.cgst_total}
           sgstPercentage={orderDetails.sgst_percentage}
           sgstAmount={orderDetailsTaxes.sgst_total}
+          igstPercentage={orderDetails.igst_percentage}
+          igstAmount={orderDetailsTaxes.igst_total}
+          additionalTotalCharges={orderDetails.total_additional_fee}
         />
 
         <DeliveryAgentDetails
@@ -108,13 +111,14 @@ function OrderDetail (props) {
           deliveryPickupTime={orderDetails.delivery_agent_pick_up_date_and_time}
           deliveryIdVerification={orderDetails.verification_type}
           orderButtonStatus={orderDetails.order_status_button}
+          cancelledBy={orderDetails.cancelled_by}
         />
 
         <RevisedPaymentDetails
           revisedWalletTotal={orderDetails.revised_wallet_total}
           revisedHipbarWallet={orderDetails.revised_hipbar_wallet}
           revisedGiftWallet={orderDetails.revised_gift_wallet}
-          revisedPaymentTotal={orderDetails.original_order_total}
+          revisedPaymentTotal={orderDetails.revised_order_total}
         />
 
         <SupportDetails />

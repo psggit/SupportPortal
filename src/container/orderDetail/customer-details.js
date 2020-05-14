@@ -127,7 +127,7 @@ function CustomerDetails({ orderId, customerId, customerName, customerMobileNumb
           <p className="value">{customerMobileNumber ? customerMobileNumber : "-"}</p>
         </div>
 
-        <div className="item multiple-items">
+        {/* <div className="item multiple-items">
           <div>
             <p className="label">Customer State</p>
             <p className="value">
@@ -140,7 +140,7 @@ function CustomerDetails({ orderId, customerId, customerName, customerMobileNumb
               {customerCity ? customerCity : "-"}
             </p>
           </div>
-        </div>
+        </div> */}
 
         <div className="item">
           <p className="label">Customer Address</p>

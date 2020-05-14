@@ -37,6 +37,7 @@ function Dashboard(props) {
   const handleConsumerMobileChange = e => {
     if (!isNaN(e.target.value)) {
       setConsumerMobile(e.target.value)
+      setEnableConsumer(false)
     }
 
     if (e.target.value.trim().length === 10 && !isNaN(e.target.value)) {
@@ -47,6 +48,7 @@ function Dashboard(props) {
   const handleConsumerIDChange = e => {
     if (!isNaN(e.target.value)) {
       setConsumerID(e.target.value)
+      setEnableConsumer(false)
     }
 
     if (e.target.value.trim().length > 0 && !isNaN(e.target.value)) {
@@ -57,9 +59,10 @@ function Dashboard(props) {
   const handleOrderIdChange = e => {
     if (!isNaN(e.target.value)) {
       setOrderID(e.target.value)
+      setEnableConsumer(false)
     }
 
-    if (e.target.value.trim().length === 4 && !isNaN(e.target.value)) {
+    if (e.target.value.trim().length > 3 && !isNaN(e.target.value)) {
       setEnableConsumer(true)
     }
   }
@@ -67,6 +70,7 @@ function Dashboard(props) {
   const handleRetailerMobileChange = e => {
     if (!isNaN(e.target.value)) {
       setRetailerMobile(e.target.value)
+      setEnabledRetailer(false)
     }
 
     if (e.target.value.trim().length === 10 && !isNaN(e.target.value)) {
@@ -77,9 +81,10 @@ function Dashboard(props) {
   const handleRetailerIdChange = e => {
     if (!isNaN(e.target.value)) {
       setRetailerID(e.target.value)
+      setEnabledRetailer(false)
     }
 
-    if (e.target.value.trim().length > 0 && isNaN(e.target.value)) {
+    if (e.target.value.trim().length > 0 && !isNaN(e.target.value)) {
       setEnabledRetailer(true)
     }
   }
@@ -87,9 +92,10 @@ function Dashboard(props) {
   const handleStoreCode = e => {
     if (!isNaN(e.target.value)) {
       setStoreCode(e.target.value)
+      setEnabledRetailer(false)
     }
 
-    if (e.target.value.trim().length === 4 && !isNaN(e.target.value)) {
+    if (e.target.value.trim().length > 0 && !isNaN(e.target.value)) {
       setEnabledRetailer(true)
     }
   }
@@ -97,6 +103,7 @@ function Dashboard(props) {
   const handleDeliveryAgentChange = e => {
     if (!isNaN(e.target.value)) {
       setDeliveryAgentMobile(e.target.value)
+      setEnableDeliveryAgent(false)
     }
 
     if (e.target.value.trim().length === 10 && !isNaN(e.target.value)) {
@@ -107,9 +114,10 @@ function Dashboard(props) {
   const handleDeliveryAgentIdChange = e => {
     if (!isNaN(e.target.value)) {
       setDeliveryAgentID(e.target.value)
+      setEnableDeliveryAgent(false)
     }
 
-    if (e.target.value.trim().length === 4 && !isNaN(e.target.value)) {
+    if (e.target.value.trim().length > 0 && !isNaN(e.target.value)) {
       setEnableDeliveryAgent(true)
     }
   }
@@ -125,6 +133,7 @@ function Dashboard(props) {
     e.preventDefault()
     setRetailerMobile("")
     setRetailerID("")
+    setStoreCode("")
   }
 
   const handleDeliveryAgentReset = (e) => {
@@ -195,7 +204,7 @@ function Dashboard(props) {
                 value={consumerID}
                 autoComplete="off"
                 required
-                maxLength={6}
+                //maxLength={4}
                 onChange={handleConsumerIDChange}
               />
             </FormGroup>
@@ -208,7 +217,7 @@ function Dashboard(props) {
                 value={orderID}
                 autoComplete="off"
                 required
-                maxLength={6}
+                //maxLength={4}
                 onChange={handleOrderIdChange}
               />
             </FormGroup>
@@ -260,7 +269,7 @@ function Dashboard(props) {
                 value={retailerID}
                 autoComplete="off"
                 required
-                maxLength={6}
+                //maxLength={4}
                 onChange={handleRetailerIdChange}
               />
             </FormGroup>
@@ -273,7 +282,7 @@ function Dashboard(props) {
                 value={storeCode}
                 autoComplete="off"
                 required
-                maxLength={6}
+                //maxLength={4}
                 onChange={handleStoreCode}
               />
             </FormGroup>
@@ -325,7 +334,7 @@ function Dashboard(props) {
                 value={deliveryAgentID}
                 autoComplete="off"
                 required
-                maxLength={6}
+                //maxLength={4}
                 onChange={handleDeliveryAgentIdChange}
               />
             </FormGroup>

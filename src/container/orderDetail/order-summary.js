@@ -1,7 +1,7 @@
 import React from 'react'
 import './order-detail.scss'
 
-const OrderSummary = ({orderTotal, cartTotal, cartItems, feeDetails,cgstPercentage, sgstPercentage ,cgstAmount,sgstAmount}) => (
+const OrderSummary = ({ orderTotal, cartTotal, cartItems, feeDetails, cgstPercentage, sgstPercentage, cgstAmount, sgstAmount, igstPercentage, igstAmount, additionalTotalCharges}) => (
   <div className="orders-detail-card">
     <div className="header">
       <h4>ORDER SUMMARY</h4>
@@ -40,6 +40,8 @@ const OrderSummary = ({orderTotal, cartTotal, cartItems, feeDetails,cgstPercenta
 
       <div className="flex-item" style={{ marginBottom: "8px" }}>
         <span style={{ fontSize: '18px', lineHeight: '24px', fontWeight: 'bold', color:"757575" }}>Additional Total Charges</span>
+        <span style={{ fontSize: '18px', lineHeight: '24px', fontWeight: 'bold' }}>{additionalTotalCharges ? `₹${additionalTotalCharges}` : "-"}</span>
+
       </div>
       {
         feeDetails ?
@@ -59,6 +61,11 @@ const OrderSummary = ({orderTotal, cartTotal, cartItems, feeDetails,cgstPercenta
       <div className="flex-item" style={{ marginBottom: '6px' }}>
         <p style={{ fontSize: '15px', lineHeight: '20px', fontWeight: '600' }}>{"SGST" + "(" + sgstPercentage + "%)"}</p>
         <p style={{ fontSize: '15px', lineHeight: '20px' }}>{"₹" +sgstAmount}</p>
+      </div>
+
+      <div className="flex-item" style={{ marginBottom: '6px' }}>
+        <p style={{ fontSize: '15px', lineHeight: '20px', fontWeight: '600' }}>{"IGST" + "(" + igstPercentage + "%)"}</p>
+        <p style={{ fontSize: '15px', lineHeight: '20px' }}>{"₹" + igstAmount}</p>
       </div>
 
       <div className="flex-item" style={{ marginTop: '10px' }}>
