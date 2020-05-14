@@ -56,10 +56,11 @@ export function checkStatus(response) {
 
   // return response
   else {
+    throw response
     //var error = new Error()
-    var error = new Error(response.statusText)
-    error.response = response
-    throw error
+    // var error = new Error(response.statusText)
+    // error.response = response
+    // throw error
   }
 }
 

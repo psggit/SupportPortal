@@ -97,11 +97,12 @@ function OrderList(props) {
         setOrderDetailsList(response.order_details)
         setCount(response.count)
       })
-      .catch((response) => {
-        console.log("ERROR RESPONSE",response.message)
-        setLoading(false)
-        setError(true)
-        setErrorMessage("Error in Fetching Order List")
+      .catch((error) => {
+        error.json().then((json) => {
+          setLoading(false)
+          setError(true)
+          setErrorMessage(json.message)
+        })
       })
   }
 

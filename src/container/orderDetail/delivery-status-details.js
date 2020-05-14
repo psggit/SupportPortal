@@ -25,6 +25,8 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
   const [otp, setOtp] = useState("")
   const [cancellationReasonIdx, setCancellationReasonIdx] = useState(0)
   const [cancellationReasonList, setCancellationReasonList] = useState([])
+  const [isError, setError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState([""])
 
   const [viewComment, setViewComment] = useState([])
   useEffect(() => {
@@ -51,8 +53,11 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
       .then((response) => {
         setKycDocumentList(response)
       })
-      .catch((err) => {
-        console.log("Error in fetching kyc details", err)
+      .catch((error) => {
+        error.json().then((json) => {
+          setError(true)
+          setErrorMessage(json.message)
+        })
       })
   }
 
@@ -95,9 +100,11 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
         location.reload()
         console.log("successfully completed the order")
       })
-      .catch((err) => {
-        setSuccessMsg("Error in completing the order")
-        console.log("Error in completing order", err)
+      .catch((error) => {
+        error.json().then((json) => {
+          setError(true)
+          setErrorMessage(json.message)
+        })
       })
     console.log("Hello from delivery agent", comments, documentId, kycDocumentList[kycDocumentIdx].description)
   }
@@ -112,8 +119,11 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
        console.log("maap",response.orderNotes.map((item) => item.notes) )
         setViewComment(response.orderNotes)
       })
-      .catch((err) => {
-        console.log("Error in fetching notes details", err)
+      .catch((error) => {
+        error.json().then((json) => {
+          setError(true)
+          setErrorMessage(json.message)
+        })
       })
   }
 
@@ -144,9 +154,11 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
         setSuccessMsg("Successfully Added Notes")
         console.log("successfully Added Notes")
       })
-      .catch((err) => {
-        setSuccessMsg("Error in Adding Notes")
-        console.log("Error in Adding Notes", err)
+      .catch((error) => {
+        error.json().then((json) => {
+          setError(true)
+          setErrorMessage(json.message)
+        })
       })
     console.log("comment", comments, orderId)
   }
@@ -173,9 +185,11 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
         location.reload()
         console.log("successfully cancelled the order")
       })
-      .catch((err) => {
-        setSuccessMsg("Error in completing the order")
-        console.log("Error in cancelling order", err)
+      .catch((error) => {
+        error.json().then((json) => {
+          setError(true)
+          setErrorMessage(json.message)
+        })
       })
     console.log("Hello from delivery agent", comments, cancellationReasonList[cancellationReasonIdx].reason)
   }
@@ -446,6 +460,15 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
 
         </div>  
     </div>
+      {
+        isError &&
+        <Notification
+          message={errorMessage}
+          messageType="error"
+          open={isError}
+          handleClose={handleClose}
+        />
+      }
       {
         successMsg.trim().length > 0 &&
         <Notification

@@ -67,15 +67,15 @@ function App() {
 
   const [currentRoute, setCurrentRoute] = useState(location.pathname.split("/")[2] || "")
   const [key, setKey] = useState(0)
-  //const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("hasura-id") ? true : false)
-  const [isLoggedIn, setIsLoggedIn] = useState(true)
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("hasura-id") ? true : false)
+  // const [isLoggedIn, setIsLoggedIn] = useState(true)
 
   useEffect(() => {
     const fetchOptions = {
       method: 'get',
       credentials: 'include',
       mode: 'cors',
-      'x-hasura-role': 'support_person'
+      // 'x-hasura-role': 'support_person'
     }
     fetch(`https://${authUrl}/user/account/info`, fetchOptions)
       .then((response) => {
