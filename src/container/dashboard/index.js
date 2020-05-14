@@ -62,7 +62,7 @@ function Dashboard(props) {
       setEnableConsumer(false)
     }
 
-    if (e.target.value.trim().length === 4 && !isNaN(e.target.value)) {
+    if (e.target.value.trim().length > 3 && !isNaN(e.target.value)) {
       setEnableConsumer(true)
     }
   }
@@ -217,7 +217,7 @@ function Dashboard(props) {
                 value={orderID}
                 autoComplete="off"
                 required
-                maxLength={4}
+                //maxLength={4}
                 onChange={handleOrderIdChange}
               />
             </FormGroup>

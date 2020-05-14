@@ -60,3 +60,11 @@ export function fetchKycDocumentList (payload) {
     handleError: true
   })
 }
+
+export function fetchNotes (payload) {
+  return GET({
+    api: `/deliveryman/api/1/support/fetch_notes/${payload.order_id}`,
+    apiBase: "api",
+    handleError: true,
+  })
+}
