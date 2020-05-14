@@ -27,8 +27,6 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
   const [cancellationReasonList, setCancellationReasonList] = useState([])
 
   const [viewComment, setViewComment] = useState([])
-  console.log("viecomment", viewComment)
-
   useEffect(() => {
     fetchCancellationReasonList()
     fetchKycDetails()
@@ -111,8 +109,7 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
     }
     fetchNotes(payload)
       .then((response) => {
-        console.log("notess", response)
-        console.log("maap",response.orderNotes.map((item) => item.notes) )
+       console.log("maap",response.orderNotes.map((item) => item.notes) )
         setViewComment(response.orderNotes)
       })
       .catch((err) => {
@@ -430,22 +427,17 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
                     color="secondary"
                     onClick={viewCommentUnmountModel}
                   >
-                    Cancel
+                    Close
                     </Button>
                 ]}
               >
                 <form>
-                  <div className={classes.formRoot}>
+                  <div className={classes.formRoot} style={{fontSize:"18px",lineHeight:"40px"}}>
                  {
-                   viewComment.map((items)=> items.notes)
-                  //  viewComment.map((item,index) => {
-                  //    <div>
-                  //      <ul>
-                  //      <li key="0">{item.notes}</li>
-                  //      </ul>
-                  //    </div>
-                  //  })
-                 }
+                  viewComment.map((item,index) => {
+                    return<option key={index} value={index}>{item.notes}</option>
+                  })
+                }
                   </div>
                 </form>
               </Dialog>

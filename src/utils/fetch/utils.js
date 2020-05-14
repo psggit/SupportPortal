@@ -57,7 +57,7 @@ export function checkStatus(response) {
   // return response
   else {
     //var error = new Error()
-    var error = new Error(response.statusText)
+    var error = new Error(response.status)
     error.response = response
     throw error
   }

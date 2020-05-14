@@ -34,7 +34,7 @@ function OrderList(props) {
   const [pageNo, setPageNo] = useState(activePage)
   const [count, setCount] = useState(0)
   const [isError, setError] = useState(false)
-  const [errorMessage, setErrorMessage] = useState("")
+  const [errorMessage, setErrorMessage] = useState([""])
   const [appliedFilters, setAppliedFilters] = useState(getQueryParamByName('filter') ? JSON.parse(decodeURI(getQueryParamByName('filter'))) : {})
  
   const classes = useStyles()
@@ -92,15 +92,16 @@ function OrderList(props) {
     setLoading(true)
     fetchOrderDetails(payload)
       .then((response) => {
-        console.log("response", response)
+        console.log("response from then", response.message)
         setLoading(false)
         setOrderDetailsList(response.order_details)
         setCount(response.count)
       })
-      .catch((json) => {
+      .catch((response) => {
+        console.log("ERROR RESPONSE",response.message)
         setLoading(false)
         setError(true)
-        setErrorMessage("Error in fetching Orders list")
+        setErrorMessage(response.message)
       })
   }
 
