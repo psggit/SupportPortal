@@ -101,7 +101,7 @@ function OrderList(props) {
         console.log("ERROR RESPONSE",response.message)
         setLoading(false)
         setError(true)
-        setErrorMessage(response.message)
+        setErrorMessage("Error in Fetching Order List")
       })
   }
 
