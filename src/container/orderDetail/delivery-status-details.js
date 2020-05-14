@@ -6,14 +6,16 @@ import Select from '@material-ui/core/Select'
 import { makeStyles } from "@material-ui/core/styles"
 import TextField from '@material-ui/core/TextField';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize'
-import { fetchCancellationReasons, cancelOrder, submitNotes ,fetchKycDocumentList ,completeOrder} from "./../api"
+import { fetchCancellationReasons, cancelOrder, submitNotes ,fetchKycDocumentList ,completeOrder, fetchNotes} from "./../api"
 import Notification from "Components/notification"
+import Moment from "moment"
 
-function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, deliveryPickupTime, deliveryIdVerification , orderButtonStatus}) {
+function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, deliveryPickupTime, deliveryIdVerification, orderButtonStatus, cancelledBy}) {
   const classes = useStyles()
   const [showMountModal, setShowUnmountModal] = useState(false)
   const [showCommentMountModal, setCompleteShowUnmountModal] = useState(false)
   const [showCommentMountModel, setShowUnmountCommentModel] = useState(false)
+  const [showViewCommentModel, setShowViewCommentModel] = useState(false)
 
   const [comments, setComments] = useState("")
   const [documentId, setDocumentId] = useState("")
@@ -23,6 +25,9 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
   const [otp, setOtp] = useState("")
   const [cancellationReasonIdx, setCancellationReasonIdx] = useState(0)
   const [cancellationReasonList, setCancellationReasonList] = useState([])
+
+  const [viewComment, setViewComment] = useState([])
+  console.log("viecomment", viewComment)
 
   useEffect(() => {
     fetchCancellationReasonList()
@@ -52,6 +57,7 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
         console.log("Error in fetching kyc details", err)
       })
   }
+
 
   const completeUnmountModal = () => {
     setCompleteShowUnmountModal(false)
@@ -98,6 +104,25 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
     console.log("Hello from delivery agent", comments, documentId, kycDocumentList[kycDocumentIdx].description)
   }
 
+  const viewCommentMountModal = () => {
+    setShowViewCommentModel(true)
+    const payload = {
+      order_id: orderId,
+    }
+    fetchNotes(payload)
+      .then((response) => {
+        console.log("notess", response)
+        console.log("maap",response.orderNotes.map((item) => item.notes) )
+        setViewComment(response.orderNotes)
+      })
+      .catch((err) => {
+        console.log("Error in fetching notes details", err)
+      })
+  }
+
+  const viewCommentUnmountModel = () => {
+    setShowViewCommentModel(false)
+  }
 
   const handleCommentChange = (e) => {
     setComments(e.target.value)
@@ -182,21 +207,39 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
 
       <div className="item">
         <p className="label">Pickup Date &amp; Time</p>
-        <p className="value">{deliveryPickupTime ? deliveryPickupTime : '-'}</p>
+        {/* <p className="value">{deliveryPickupTime ? deliveryPickupTime : '-'}</p> */}
+        <p className="value">{deliveryPickupTime ? Moment(deliveryPickupTime).format("DD-MM-YYYY | hh:mm A") : "-"}</p>
+
       </div>
 
       <div className="item">
         <p className="label">Delivered Date &amp; Time</p>
-        <p className="value">{deliveryDateAndTime ? deliveryDateAndTime : '-'}</p>
+        {/* <p className="value">{deliveryDateAndTime ? deliveryDateAndTime : '-'}</p> */}
+        <p className="value">{deliveryDateAndTime ? Moment(deliveryDateAndTime).format("DD-MM-YYYY | hh:mm A") : "-"}</p>
+
       </div>
 
       <div className="item">
         <p className="label">ID Verification</p>
-        <p className="value">{deliveryIdVerification ? deliveryIdVerification : ''}</p>
+        <p className="value">{deliveryIdVerification ? deliveryIdVerification : '-'}</p>
       </div>
 
         <div className="item">
+          <p className="label">Cancelled By</p>
+          <p className="value">{cancelledBy ? cancelledBy : '-'}</p>
+        </div>
+
+        <div className="item">
           <p className="label">Manual Completion</p>
+          {/* <Button
+            className={classes.button}
+            variant="contained"
+            color="secondary"
+            disabled={!orderButtonStatus}
+            onClick={completeMountModal}
+          >
+            View Comments
+           </Button> */}
           <Button
             className={classes.button}
             variant="contained"
@@ -269,7 +312,6 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
 
         <div className="item">
           <p className="label">Manual Cancellation</p>
-          {/* <button onClick={mountModal} disabled={!orderButtonStatus}>Cancel Order</button> */}
           <Button
             className={classes.button}
             variant="contained"
@@ -284,9 +326,6 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
               <Dialog
                 title="Cancel Order"
                 actions={[
-                  // <Button color="primary" className={classes.buttonPrimary} onClick={handleConfirm} key={1} autoFocus>
-                  //   CONFIRM
-                  // </Button>,
                   <Button
                     className={classes.button}
                     variant="contained"
@@ -294,10 +333,7 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
                     onClick={handleConfirm}
                   >
                     Confirm
-                    </Button>,
-                  // <Button onClick={unmountModal} key={2} color="primary" className={classes.buttonPrimary}>
-                  //   CLOSE
-                  // </Button>
+                  </Button>,
                   <Button
                     className={classes.button}
                     variant="contained"
@@ -324,20 +360,11 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
                         })
                       }
                     </Select>
-                    {/* <label>Comments</label>
-                    <TextareaAutosize
-                      className={classes.formControlTextarea}
-                      aria-label="minimum height"
-                      rowsMin={3}
-                      onChange={handleCommentChange}
-                      placeholder="Enter your notes"
-                    /> */}
                   </div>
                 </form>
               </Dialog>
             )
           }
-          {/* <button className="comment-btn" onClick={commentMountModel}>Comment</button> */}
           <Button
             className={classes.button}
             variant="contained"
@@ -351,12 +378,6 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
               <Dialog
                 title="Comment"
                 actions={[
-                  // <Button color="primary" className={classes.buttonPrimary} onClick={handleCommentSubmit} key={1} autoFocus>
-                  //   CONFIRM
-                  // </Button>,
-                  // <Button onClick={commentUnmountModel} key={2} color="primary" className={classes.buttonPrimary}>
-                  //   CLOSE
-                  // </Button>
                   <Button
                     className={classes.button}
                     variant="contained"
@@ -384,6 +405,47 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
                       onChange={handleCommentChange}
                       placeholder="Enter your notes"
                     />
+                  </div>
+                </form>
+              </Dialog>
+            )
+          }
+
+          <Button
+            className={classes.button}
+            variant="contained"
+            color="secondary"
+            onClick={viewCommentMountModal}
+          >
+            View Comment
+           </Button>
+          {
+            showViewCommentModel && (
+              <Dialog
+                title="Comment"
+                actions={[
+                  <Button
+                    className={classes.button}
+                    variant="contained"
+                    color="secondary"
+                    onClick={viewCommentUnmountModel}
+                  >
+                    Cancel
+                    </Button>
+                ]}
+              >
+                <form>
+                  <div className={classes.formRoot}>
+                 {
+                   viewComment.map((items)=> items.notes)
+                  //  viewComment.map((item,index) => {
+                  //    <div>
+                  //      <ul>
+                  //      <li key="0">{item.notes}</li>
+                  //      </ul>
+                  //    </div>
+                  //  })
+                 }
                   </div>
                 </form>
               </Dialog>
