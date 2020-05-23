@@ -35,15 +35,21 @@ function Dashboard(props) {
   const classes = useStyles()
 
   const handleConsumerMobileChange = e => {
-    if (!isNaN(e.target.value)) {
-      setConsumerMobile(e.target.value)
-      setEnableConsumer(false)
-    }
+      //console.log("role", localStorage.getItem("x-hasura-role"))
+      if (!isNaN(e.target.value)) {
+        setConsumerMobile(e.target.value)
+        setEnableConsumer(false)
+      }
+      // if (localStorage.getItem("x-hasura-role") === 'delivery_manager') {
+      //   setEnableConsumer(false)
+      if (e.target.value.trim().length === 10 && !isNaN(e.target.value)) {
+        setEnableConsumer(true)
+      }
 
-    if (e.target.value.trim().length === 10 && !isNaN(e.target.value)) {
-      setEnableConsumer(true)
+      // if (e.target.value.trim().length === 10 && !isNaN(e.target.value)) {
+      // setEnableConsumer(true)
+      // }
     }
-  }
 
   const handleConsumerIDChange = e => {
     if (!isNaN(e.target.value)) {
@@ -226,11 +232,11 @@ function Dashboard(props) {
                 className={classes.button}
                 variant="contained"
                 color="secondary"
-                disabled={!enableConsumer}
+                disabled={localStorage.getItem("x-hasura-role") === 'delivery_manager' || !enableConsumer}
                 onClick={fetchConsumerDetails}
               >
                 Fetch Details
-                </Button>
+              </Button>
               <Button
                 variant="contained"
                 color="secondary"
@@ -303,7 +309,7 @@ function Dashboard(props) {
                 onClick={handleRetailerReset}
               >
                 Reset
-                </Button>
+              </Button>
             </div>
           </div>
         </div>

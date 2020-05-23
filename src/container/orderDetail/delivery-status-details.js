@@ -30,8 +30,8 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
 
   const [viewComment, setViewComment] = useState([])
   useEffect(() => {
-    fetchCancellationReasonList()
-    fetchKycDetails()
+    // fetchCancellationReasonList()
+    // fetchKycDetails()
   }, []);
 
   const fetchCancellationReasonList = () => {
@@ -67,6 +67,7 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
   }
 
   const completeMountModal = () => {
+    fetchKycDetails()
     setCompleteShowUnmountModal(true)
   }
 
@@ -167,6 +168,7 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
   }
 
   const mountModal = () => {
+    fetchCancellationReasonList()
     console.log("from mountModal", orderButtonStatus)
     setShowUnmountModal(true)
   }
