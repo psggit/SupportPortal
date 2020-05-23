@@ -112,6 +112,7 @@ function OrderDetail (props) {
           deliveryIdVerification={orderDetails.verification_type}
           orderButtonStatus={orderDetails.order_status_button}
           cancelledBy={orderDetails.cancelled_by}
+          showNotes={orderDetails.show_notes}
         />
 
         <RevisedPaymentDetails

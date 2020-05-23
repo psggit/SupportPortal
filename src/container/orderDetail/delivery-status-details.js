@@ -10,7 +10,7 @@ import { fetchCancellationReasons, cancelOrder, submitNotes ,fetchKycDocumentLis
 import Notification from "Components/notification"
 import Moment from "moment"
 
-function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, deliveryPickupTime, deliveryIdVerification, orderButtonStatus, cancelledBy}) {
+function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, deliveryPickupTime, deliveryIdVerification, orderButtonStatus, cancelledBy,showNotes}) {
   const classes = useStyles()
   const [showMountModal, setShowUnmountModal] = useState(false)
   const [showCommentMountModal, setCompleteShowUnmountModal] = useState(false)
@@ -67,7 +67,6 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
   }
 
   const completeMountModal = () => {
-    console.log("from mountModal", orderButtonStatus)
     setCompleteShowUnmountModal(true)
   }
 
@@ -327,6 +326,7 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
             className={classes.button}
             variant="contained"
             color="secondary"
+            //disabled={!orderButtonStatus}
             disabled={!orderButtonStatus}
             onClick={mountModal}
           >
@@ -381,6 +381,7 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
             variant="contained"
             color="secondary"
             onClick={commentMountModel}
+            disabled={!showNotes}
           >
             Comment
            </Button>
@@ -427,6 +428,7 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
             variant="contained"
             color="secondary"
             onClick={viewCommentMountModal}
+            disabled={!showNotes}
           >
             View Comment
            </Button>

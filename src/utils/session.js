@@ -13,6 +13,7 @@ export function getHasuraRole(data) {
     // support_master: 4,
     support_person: 3,
     support_admin: 3,
+    delivery_manager: 5,
     // business_team: 9,
     // product_team: 5,
     // delivery_support_person: 3,
