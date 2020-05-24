@@ -42,13 +42,13 @@ function Dashboard(props) {
       }
       // if (localStorage.getItem("x-hasura-role") === 'delivery_manager') {
       //   setEnableConsumer(false)
+      // } else if (e.target.value.trim().length === 10 && !isNaN(e.target.value)) {
+      //   setEnableConsumer(true)
+      // }
+
       if (e.target.value.trim().length === 10 && !isNaN(e.target.value)) {
         setEnableConsumer(true)
       }
-
-      // if (e.target.value.trim().length === 10 && !isNaN(e.target.value)) {
-      // setEnableConsumer(true)
-      // }
     }
 
   const handleConsumerIDChange = e => {
@@ -232,7 +232,7 @@ function Dashboard(props) {
                 className={classes.button}
                 variant="contained"
                 color="secondary"
-                disabled={localStorage.getItem("x-hasura-role") === 'delivery_manager' || !enableConsumer}
+                disabled={!enableConsumer}
                 onClick={fetchConsumerDetails}
               >
                 Fetch Details
