@@ -19,10 +19,11 @@ import { apiUrl } from "Utils/config"
 const useStyles = makeStyles(theme => ({
   form: {
     "& > .input-field": {
-      marginBottom: "40px"
+      marginBottom: "40px",
+      fontSize: "16"
     },
     "& > .input-field input": {
-      padding: "18.5px 40px"
+      padding: "18.5px 50px"
     },
     "& > .input-field label.MuiInputLabel-shrink": {
       paddingLeft: "0px",
