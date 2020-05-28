@@ -97,6 +97,7 @@ function OrderDetail (props) {
         />
 
         <PaymentDetails
+          nodalAmount={orderDetails.nodal_amount}
           walletTotal={orderDetails.wallet_total}
           hipbarWallet={orderDetails.hipbar_wallet}
           giftWallet={orderDetails.gift_wallet}
@@ -113,6 +114,7 @@ function OrderDetail (props) {
           orderButtonStatus={orderDetails.order_status_button}
           cancelledBy={orderDetails.cancelled_by}
           showNotes={orderDetails.show_notes}
+          cancellationReason={orderDetails.delivery_cancellation_reason}
         />
 
         <RevisedPaymentDetails

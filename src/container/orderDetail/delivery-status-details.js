@@ -10,7 +10,7 @@ import { fetchCancellationReasons, cancelOrder, submitNotes ,fetchKycDocumentLis
 import Notification from "Components/notification"
 import Moment from "moment"
 
-function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, deliveryPickupTime, deliveryIdVerification, orderButtonStatus, cancelledBy,showNotes}) {
+function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, deliveryPickupTime, deliveryIdVerification, orderButtonStatus, cancelledBy,showNotes,cancellationReason}) {
   const classes = useStyles()
   const [showMountModal, setShowUnmountModal] = useState(false)
   const [showCommentMountModal, setCompleteShowUnmountModal] = useState(false)
@@ -22,7 +22,7 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
   const [successMsg, setSuccessMsg] = useState("")
   const [kycDocumentIdx, setKycDocumentIdx] = useState(0)
   const [kycDocumentList, setKycDocumentList] = useState([])
-  const [otp, setOtp] = useState("")
+  // const [otp, setOtp] = useState("")
   const [cancellationReasonIdx, setCancellationReasonIdx] = useState(0)
   const [cancellationReasonList, setCancellationReasonList] = useState([])
   const [isError, setError] = useState(false)
@@ -71,9 +71,9 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
     setCompleteShowUnmountModal(true)
   }
 
-  const handleOtpChange = (e) => {
-    setOtp(e.target.value)
-  }
+  // const handleOtpChange = (e) => {
+  //   setOtp(e.target.value)
+  // }
 
   const handleDocumentChange = (e) => {
     setDocumentId(e.target.value)
@@ -89,7 +89,7 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
     unmountModal()
     const payload = {
       order_id: orderId,
-      otp,
+      // otp,
       slot_id: "",
       id_proof: kycDocumentList[kycDocumentIdx].description,
       digits: documentId,
@@ -242,6 +242,11 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
         </div>
 
         <div className="item">
+          <p className="label">Cancellation Reason</p>
+          <p className="value">{cancellationReason ? cancellationReason : '-'}</p>
+        </div>
+
+        <div className="item">
           <p className="label">Manual Completion</p>
           {/* <Button
             className={classes.button}
@@ -308,12 +313,12 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
                       label="Document ID"
                     />
 
-                    <TextField id="standard-basic"
+                    {/* <TextField id="standard-basic"
                       onChange={handleOtpChange}
                       //placeholder="Enter last four digits of document"
                       className={classes.formControl}
                       label="OTP"
-                    />
+                    /> */}
                   </div>
                 </form>
               </Dialog>

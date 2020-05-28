@@ -1,7 +1,7 @@
 import React from 'react'
 import './order-detail.scss'
 
-const PaymentDetails = ({ walletTotal, paymentTotal, hipbarWallet, giftWallet, upi }) => (
+const PaymentDetails = ({ walletTotal, paymentTotal, hipbarWallet, giftWallet, upi ,nodalAmount}) => (
 
   <div className="orders-detail-card">
     <div className="header">
@@ -31,6 +31,11 @@ const PaymentDetails = ({ walletTotal, paymentTotal, hipbarWallet, giftWallet, u
       </div>
 
       <div className="flex-item" style={{ marginBottom: '8px' }}>
+        <p style={{ fontSize: "18px", fontWeight: "bold" }}>{"Nodal Amount"}</p>
+        <p style={{ fontSize: "18px", fontWeight: "bold" }}>{nodalAmount ? `₹${nodalAmount}` : "-"}</p>
+      </div>
+
+      {/* <div className="flex-item" style={{ marginBottom: '8px' }}>
         <p style={{ fontSize: "18px", fontWeight: "bold" }}>{"Additional Payment Details"}</p>
         <p style={{ fontSize: "18px", fontWeight: "bold" }}>{upi ? `₹${upi}` : "-"}</p>
       </div>
@@ -38,7 +43,7 @@ const PaymentDetails = ({ walletTotal, paymentTotal, hipbarWallet, giftWallet, u
       <div className="flex-item" style={{ marginBottom: '8px' }}>
         <p>{"UPI"}</p>
         <p>{upi ? `₹${upi}` : "-"}</p>
-      </div>
+      </div> */}
     
     </div>
   </div>
