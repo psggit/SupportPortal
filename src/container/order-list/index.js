@@ -26,7 +26,7 @@ const tableHeaders = [
 ]
 
 function OrderList(props) {
-  const pageLimit = 5
+  const pageLimit = 25
   const activePage = getQueryParamByName("activePage") || 1
 
   const [orderDetailsList, setOrderDetailsList] = useState([])
