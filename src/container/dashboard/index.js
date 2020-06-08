@@ -4,7 +4,8 @@ import "./dashboard.scss"
 import Input from "./../../components/input"
 import Button from '@material-ui/core/Button';
 import { FormGroup } from "./../../components/Form"
-import { NavLink } from 'react-router-dom'
+import { fetchPreponeOrderDelivery } from "./../api"
+import Notification from "Components/notification"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,6 +24,7 @@ function Dashboard(props) {
   const [consumerMobile, setConsumerMobile] = useState("")
   const [consumerID, setConsumerID] = useState("")
   const [orderID, setOrderID] = useState("")
+  const [preponeOrderID, setPreponeOrderId] = useState("")
   const [retailerMobile, setRetailerMobile] = useState("")
   const [retailerID, setRetailerID] = useState("")
   const [storeCode, setStoreCode] = useState("")
@@ -31,6 +33,12 @@ function Dashboard(props) {
   const [enableConsumer, setEnableConsumer] = useState(false)
   const [enableRetailer, setEnabledRetailer] = useState(false)
   const [enableDeliveryAgent, setEnableDeliveryAgent] = useState(false)
+  const [enablePreponeOrder, setEnablePreponeOrder] = useState(false)
+  //const [isError, setError] = useState(false)
+  const [showMessage, setShowMessage] = useState(false)
+  //const [errorMessage, setErrorMessage] = useState([""])
+  const [message,setMessage] = useState("")
+
 
   const classes = useStyles()
 
@@ -128,6 +136,17 @@ function Dashboard(props) {
     }
   }
 
+  const handlePreponeOrderIdChange = e => {
+    if (!isNaN(e.target.value)) {
+      setPreponeOrderId(e.target.value)
+      setEnablePreponeOrder(false)
+    }
+
+    if (e.target.value.trim().length > 0 && !isNaN(e.target.value)) {
+      setEnablePreponeOrder(true)
+    }
+  }
+
   const handeReset = (e) => {
     e.preventDefault()
     setConsumerMobile("")
@@ -176,6 +195,39 @@ function Dashboard(props) {
       filter_by: "retailer_details"
     }
     props.history.push(`/home/order-list`, payload)
+  }
+
+  const fetchOrderIdMessage = () => {
+    console.log("hello", preponeOrderID)
+    const payload = {
+      order_id: preponeOrderID,
+    }
+    // fetch(`https://api.hipbar-dev.com/deliveryman/api/1/support/assign-warehouse`,
+    //   {
+    //     method: "post",
+    //     body: JSON.stringify(payload),
+    //     credentials: "include",
+    //     headers: {
+    //       "x-hasura-role": `support_admin`
+    //     }
+    //   })
+     fetchPreponeOrderDelivery(payload)
+      .then((response) => {
+        console.log("response", response.message, response)
+        setShowMessage(true)
+        setMessage(response.message)
+      })
+      .catch((error) => {
+        console.log("Error in fetching prepone order delivery", error)
+        error.json().then((json) => {
+          setShowMessage(true)
+          setMessage(json.message)
+        })
+      })
+  }
+
+  const handleClose = () => {
+    setShowMessage(false)
   }
 
   // const handleOnClick = (e) => {
@@ -362,6 +414,47 @@ function Dashboard(props) {
               >
                 Reset
                 </Button>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <form>
+        <div className="dashboard-detail">
+          <h4>PREPONE ORDER DELIVERY</h4>
+          <div className="text-field">
+            <FormGroup inline>
+              <label>Order ID</label>
+              <Input
+                type="text"
+                name="preponeOrderID"
+                placeholder="Enter a valid ID"
+                value={preponeOrderID}
+                autoComplete="off"
+                required
+                //maxLength={4}
+                onChange={handlePreponeOrderIdChange}
+              />
+            </FormGroup>
+            <div className={classes.root}>
+              <Button
+                className={classes.button}
+                variant="contained"
+                disabled={!enablePreponeOrder}
+                color="secondary"
+                onClick={fetchOrderIdMessage}
+              >
+                Submit
+                </Button>
+              {
+                showMessage &&
+                <Notification
+                  message={message}
+                  messageType="info"
+                  open={showMessage}
+                  handleClose={handleClose}
+                />
+              }
             </div>
           </div>
         </div>

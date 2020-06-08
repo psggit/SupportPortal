@@ -68,3 +68,12 @@ export function fetchNotes (payload) {
     handleError: true,
   })
 }
+
+export function fetchPreponeOrderDelivery(payload) {
+  return POST({
+    api: `/deliveryman/api/1/support/assign-warehouse`,
+    apiBase: "api",
+    handleError: true,
+    data: payload
+  })
+}
