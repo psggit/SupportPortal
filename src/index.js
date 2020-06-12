@@ -17,6 +17,8 @@ import { menuItemsMap, menuItems } from "Components/constant/navbar-items"
 import OrderDetail from "Container/orderDetail"
 import Dashboard from "Container/dashboard"
 import OrderList from "Container/order-list"
+import OrderModification from "Container/orderModification"
+
 
 const history = createHistory()
 const theme = createMuiTheme({
@@ -164,6 +166,16 @@ function App() {
                   render={
                     props => (
                       <OrderList {...props} />
+                    )
+                  }
+                />
+
+                <Route
+                  exact
+                  path="/home/orderModification"
+                  render={
+                    props => (
+                      <OrderModification {...props} />
                     )
                   }
                 />

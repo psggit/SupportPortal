@@ -77,3 +77,12 @@ export function fetchPreponeOrderDelivery(payload) {
     data: payload
   })
 }
+
+export function fetchDissolveLot(payload) {
+  return POST({
+    api: `/deliveryman/api/1/support/dissolve-lot`,
+    apiBase: "api",
+    handleError: true,
+    data: payload
+  })
+}

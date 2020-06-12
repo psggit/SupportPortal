@@ -49,6 +49,7 @@ function OrderDetail (props) {
           partialDelivery={orderDetails.partial_delivery}
           dateAndTime={orderDetails.order_date_and_time}
           slotDate={orderDetails.slot_time}
+          lotID={orderDetails.lot_id}
         />
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
