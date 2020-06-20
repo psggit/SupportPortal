@@ -91,6 +91,7 @@ function OrderDetail (props) {
           //deliveryAgentPickupDateAndTime={orderDetails.delivery_agent_pick_up_date_and_time}
           orderId={props.match.params.orderId}
           deliveryAgentId={orderDetails.delivery_agent_id}
+          retailerId={orderDetails.retailer_id}
           deliveryAgentName={orderDetails.delivery_agent_name}
           deliveryAgentMobileNumber={orderDetails.delivery_agent_contact_number}
           deliveryAgentVehicleNumber={orderDetails.delivery_agent_vehicle_number}
@@ -116,6 +117,7 @@ function OrderDetail (props) {
           cancelledBy={orderDetails.cancelled_by}
           showNotes={orderDetails.show_notes}
           cancellationReason={orderDetails.delivery_cancellation_reason}
+          orderCancellationDateAndTime={orderDetails.order_cancelled_time}
         />
 
         <RevisedPaymentDetails

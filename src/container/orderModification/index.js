@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { makeStyles } from "@material-ui/core/styles"
-import "Sass/dashboard.scss"
+import "./../dashboard/dashboard.scss"
 import Input from "Components/input"
 import Button from '@material-ui/core/Button'
 import { FormGroup } from "Components/Form"

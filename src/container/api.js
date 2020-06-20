@@ -86,3 +86,45 @@ export function fetchDissolveLot(payload) {
     data: payload
   })
 }
+
+export function reassignRetailer(payload) {
+  return POST({
+    api: `/deliveryman/api/1/support/retailer/reassign`,
+    apiBase: "api",
+    handleError: true,
+    data: payload
+  })
+}
+
+export function fetchRetailerList(payload) {
+  return GET({
+    api: `/deliveryman/api/1/support/retailer/list/${payload.retailer_id}`,
+    apiBase: "api",
+    handleError: true,
+  })
+}
+
+export function fetchDeliveryAgentList(payload) {
+  return GET({
+    api: `/deliveryman/api/1/support/deliveryagent/list/${payload.retailer_id}`,
+    apiBase: "api",
+    handleError: true,
+  })
+}
+
+export function reserveOrders(payload) {
+  return POST({
+    api: `/deliveryman/api/1/support/deliveryagent/reserveorder`,
+    apiBase: "api",
+    handleError: true,
+    data: payload
+  })
+}
+
+export function unassignDeliveryAgent(payload) {
+  return GET({
+    api: `/deliveryman/api/1/support/deliveryagent/unassign/${payload.order_id}`,
+    apiBase: "api",
+    handleError: true,
+  })
+}

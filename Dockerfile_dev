@@ -11,3 +11,4 @@ COPY ./ /app
 RUN yarn run build
 
 ENTRYPOINT ["yarn", "run", "start"]
+

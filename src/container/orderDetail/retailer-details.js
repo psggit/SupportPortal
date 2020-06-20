@@ -1,102 +1,78 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import "./order-detail.scss"
+import Button from "@material-ui/core/Button"
+import { makeStyles } from "@material-ui/core/styles"
+import Dialog from "./../../components/dialog/index"
+import Select from '@material-ui/core/Select'
+import { fetchRetailerList, reassignRetailer } from "./../api"
+import Notification from "Components/notification"
 
-function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName, retailerMobileNumber, retailerAddress, retailerLandmark, orderButtonStatus}) {
+function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName, retailerMobileNumber, retailerAddress, retailerLandmark}) {
 
-  // const classes = useStyles()
-  // const [showMountModal, setShowUnmountModal] = useState(false)
-  // const [showCommentMountModel, setShowUnmountCommentModel] = useState(false)
+  const classes = useStyles()
+  const [showMountModal, setShowUnmountModal] = useState(false)
+  const [retailerList, setRetailerList] = useState([])
+  const [retailerIdx, setRetailerIdx] = useState(0)
+  const [showMessage, setShowMessage] = useState(false)
+  const [message, setMessage] = useState("")
 
-  // const [comments, setComments] = useState("")
-  // const [successMsg, setSuccessMsg] = useState("")
-  // const [cancellationReasonIdx, setCancellationReasonIdx] = useState(0)
-  // const [cancellationReasonList, setCancellationReasonList] = useState([])
+  const fetchRetailer = () => {
+    const payload = {
+      retailer_id: retailerId
+    }
+    fetchRetailerList(payload)
+    .then((response) => {
+      console.log("response", response.data )
+      setRetailerList(response.data)
+    })
+    .catch((err) => {
+      console.log("Error in fetching retailer list", err)
+    })
+  }
 
-  // useEffect(() => {
-  //   fetchCancellationReasonList()
-  // }, []);
+  const unmountModal = () => {
+    setShowUnmountModal(false)
+  }
 
-  // const fetchCancellationReasonList = () => {
-  //   const payload = {
-  //     order_id: orderId,
-  //   }
-  //   fetchCancellationReasons(payload)
-  //     .then((response) => {
-  //       setCancellationReasonList(response)
-  //     })
-  //     .catch((err) => {
-  //       console.log("Error in fetching cancellation reasons", err)
-  //     })
-  // }
-
-  // const handleCommentChange = (e) => {
-  //   setComments(e.target.value)
-  // }
-
-  // const commentUnmountModel = () => {
-  //   setShowUnmountCommentModel(false)
-  // }
-
-  // const commentMountModel = () => {
-  //   setShowUnmountCommentModel(true)
-  // }
-
-  // const handleCommentSubmit = () => {
-  //   commentUnmountModel()
-  //   const payload = {
-  //     order_id: orderId,
-  //     notes: comments
-  //   }
-  //   submitNotes(payload)
-  //     .then((response) => {
-  //       setSuccessMsg("Successfully Added Notes")
-  //       console.log("successfully Added Notes")
-  //     })
-  //     .catch((err) => {
-  //       setSuccessMsg("Error in Adding Notes")
-  //       console.log("Error in Adding Notes", err)
-  //     })
-  //   console.log("comment", comments, orderId)
-  // }
-
-  // const unmountModal = () => {
-  //   setShowUnmountModal(false)
-
-  // }
-
-  // const mountModal = () => {
-  //   console.log("from mountModal", orderButtonStatus)
-  //   setShowUnmountModal(true)
-  // }
+  const mountModal = () => {
+    fetchRetailer()
+    setShowUnmountModal(true)
+  }
 
 
-  // const handleConfirm = () => {
-  //   unmountModal()
-  //   const payload = {
-  //     order_id: orderId,
-  //     slot_id: "",
-  //     reason_id: parseInt(cancellationReasonList[cancellationReasonIdx].id),
-  //   }
-  //   cancelOrder(payload)
-  //     .then((response) => {
-  //       setSuccessMsg("Successfully cancelled the order")
-  //       console.log("successfully cancelled the order")
-  //     })
-  //     .catch((err) => {
-  //       setSuccessMsg("Error in completing the order")
-  //       console.log("Error in cancelling order", err)
-  //     })
-  //   console.log("Hello from delivery agent", comments, cancellationReasonList[cancellationReasonIdx].reason)
-  // }
+  const handleConfirm = () => {
+    unmountModal()
+    const payload = {
+      order_id: orderId,
+      retailer_name: retailerName,
+      retailer_id: parseInt(retailerList[retailerIdx].retailer_id)
+    }
+    reassignRetailer(payload)
+      .then((response) => {
+        console.log("successfully reassigned retailer")
+        setShowMessage(true)
+        setMessage(response.message)
+      })
+      .catch((err) => {
+        console.log("Error in reassigning retailer", err)
+        err.json().then((json) => {
+          setShowMessage(true)
+          setMessage(json.message)
+        })
+      })
+  }
 
-  // const handleChange = (e) => {
-  //   console.log(e.target.value)
-  //   setCancellationReasonIdx(e.target.value)
-  // }
+  const handleChange = (e) => {
+    setRetailerIdx(e.target.value)
+  }
 
   // const handleClose = () => {
   //   setSuccessMsg("")
   // }
+
+  const handleClose = () => {
+    setShowMessage(false)
+  }
 
   return (
     <div className="orders-detail-card">
@@ -138,21 +114,20 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
           </p>
         </div> */}
 
-        {/* <div className="item">
-          <p className="label">Manual Cancellation</p>
+        <div className="item">
+          {/* <p className="label">Manual Cancellation</p> */}
           <Button
             className={classes.button}
             variant="contained"
             color="secondary"
-            disabled={!orderButtonStatus}
             onClick={mountModal}
           >
-            Cancel Order
+            Reassign Retailer
            </Button>
           {
             showMountModal && (
               <Dialog
-                title="Cancel Order"
+                title="Reassign Retailer"
                 actions={[
                   <Button
                     className={classes.button}
@@ -161,7 +136,7 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
                     onClick={handleConfirm}
                   >
                     Confirm
-                    </Button>,
+                  </Button>,
                   <Button
                     className={classes.button}
                     variant="contained"
@@ -169,22 +144,21 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
                     onClick={unmountModal}
                   >
                     Close
-                    </Button>,
+                  </Button>,
                 ]}
               >
                 <form>
                   <div className={classes.formRoot}>
-                    <label>Reason for Cancellation</label>
+                    <label>Retailer List</label>
                     <Select
                       native
-                      value={cancellationReasonIdx}
+                      //value={retailerIdx}
                       className={classes.formControl}
                       onChange={handleChange}
-                      label="Select a reason from the list"
                     >
                       {
-                        cancellationReasonList.map((item, index) => {
-                          return <option key={index} value={index}>{item.reason}</option>
+                        retailerList.map((item, index) => {
+                        return <option key={index} value={index}>{item.retailer_name}  {item.retailer_id}</option>
                         })
                       }
                     </Select>
@@ -193,90 +167,43 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
               </Dialog>
             )
           }
-          <Button
-            className={classes.button}
-            variant="contained"
-            color="secondary"
-            onClick={commentMountModel}
-          >
-            Comment
-           </Button>
-          {
-            showCommentMountModel && (
-              <Dialog
-                title="Comment"
-                actions={[
-                  <Button
-                    className={classes.button}
-                    variant="contained"
-                    color="secondary"
-                    onClick={handleCommentSubmit}
-                  >
-                    Confirm
-                    </Button>,
-                  <Button
-                    className={classes.button}
-                    variant="contained"
-                    color="secondary"
-                    onClick={commentUnmountModel}
-                  >
-                    Cancel
-                    </Button>
-                ]}
-              >
-                <form>
-                  <div className={classes.formRoot}>
-                    <TextareaAutosize
-                      className={classes.formControlTextarea}
-                      aria-label="minimum height"
-                      rowsMin={3}
-                      onChange={handleCommentChange}
-                      placeholder="Enter your notes"
-                    />
-                  </div>
-                </form>
-              </Dialog>
-            )
-          }
-
-        </div> */}
-        
+        </div>
+        {
+          showMessage &&
+          <Notification
+            message={message}
+            messageType="info"
+            open={showMessage}
+            handleClose={handleClose}
+          />
+        }
       </div>
-      {/* {
-        successMsg.trim().length > 0 &&
-        <Notification
-          message={successMsg}
-          messageType={successMsg.includes("Success") ? "success" : "error"}
-          open={successMsg.trim().length > 0}
-          handleClose={handleClose}
-        />
-      } */}
     </div>
   )
 }
 
-// const useStyles = makeStyles(theme => ({
-//   formRoot: {
-//     padding: 36
-//   },
-//   formControl: {
-//     width: "100%",
-//     marginBottom: 24
-//   },
-//   formControlTextarea: {
-//     width: "100%",
-//     marginBottom: 24,
-//     padding: 10
-//   },
-//   buttonPrimary: {
-//     background: "#000000",
-//     color: "#FFFFFF"
-//   },
-//   button: {
-//     marginLeft: "10px",
-//     cursor: "pointer",
-//     marginTop: "10px"
-//   }
-// }))
+const useStyles = makeStyles(theme => ({
+  formRoot: {
+    padding: 36
+  },
+  formControl: {
+    width: "100%",
+    marginBottom: 24
+  },
+  formControlTextarea: {
+    width: "100%",
+    marginBottom: 24,
+    padding: 10
+  },
+  buttonPrimary: {
+    background: "#000000",
+    color: "#FFFFFF"
+  },
+  button: {
+    marginLeft: "10px",
+    cursor: "pointer",
+    marginTop: "10px"
+  }
+}))
 
 export default RetailerDetails

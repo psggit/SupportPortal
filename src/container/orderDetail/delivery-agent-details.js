@@ -1,10 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "./order-detail.scss"
+import Button from "@material-ui/core/Button"
+import { makeStyles } from "@material-ui/core/styles"
+import Dialog from "./../../components/dialog/index"
+import Select from '@material-ui/core/Select'
+import { fetchDeliveryAgentList, reserveOrders,unassignDeliveryAgent } from "./../api"
+import Notification from "Components/notification"
 
-function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliveryAgentId, deliveryAgentName, deliveryAgentVehicleNumber, deliveryAgentMobileNumber,orderButtonStatus }) {
+function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliveryAgentId, deliveryAgentName, deliveryAgentVehicleNumber, deliveryAgentMobileNumber,orderButtonStatus,retailerId }) {
 
-  // const classes = useStyles()
-  // const [showMountModal, setShowUnmountModal] = useState(false)
+  const classes = useStyles()
+  const [showMountModal, setShowMountModal] = useState(false)
+  const [deliveryAgentList, setDeliveryAgentList] = useState([])
+  const [deliveryAgentIdx, setDeliveryAgentIdx] = useState(0)
+  const [showMessage, setShowMessage] = useState(false)
+  const [message, setMessage] = useState("")
+
   // const [showCommentMountModel, setShowUnmountCommentModel] = useState(false)
 
   // const [comments, setComments] = useState("")
@@ -17,6 +28,73 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
   // useEffect(() => {
   //   fetchKycDetails()
   // }, []);
+
+  const fetchDeliveryAgent = () => {
+    const payload = {
+      retailer_id: retailerId
+    }
+    fetchDeliveryAgentList(payload)
+      .then((response) => {
+        setDeliveryAgentList(response.data)
+      })
+      .catch((err) => {
+        console.log("Error in fetching Delivery Agent list", err)
+      })
+  }
+
+  const unmountModal = () => {
+    setShowMountModal(false)
+  }
+
+  const mountModal = () => {
+    fetchDeliveryAgent()
+    setShowMountModal(true)
+  }
+
+
+  const handleConfirm = () => {
+    unmountModal()
+    const payload = {
+      order_id: orderId,
+      reserved_for_da_id: parseInt(deliveryAgentList[deliveryAgentIdx].id),
+    }
+    reserveOrders(payload)
+      .then((response) => {
+        setShowMessage(true)
+        setMessage(response.message)
+      })
+      .catch((err) => {
+        err.json().then((json) => {
+          setShowMessage(true)
+          setMessage(json.message)
+        })
+      })
+  }
+
+  const handleChange = (e) => {
+    setDeliveryAgentIdx(e.target.value)
+  }
+
+  const handleClose = () => {
+    setShowMessage(false)
+  }
+
+  const handleUnassignDeliveryAgent = () => {
+    const payload = {
+      order_id: orderId
+    }
+    unassignDeliveryAgent(payload)
+      .then((response) => {
+        setShowMessage(true)
+        setMessage(response.message)
+      })
+      .catch((err) => {
+        err.json().then((json) => {
+          setShowMessage(true)
+          setMessage(json.message)
+        })
+      })
+    }
 
   // const fetchKycDetails = () => {
   //   fetchKycDocumentList()
@@ -132,7 +210,80 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
           <p className="value" style={{ marginBottom: '10px' }}>
             {deliveryAgentMobileNumber ? deliveryAgentMobileNumber : "-"}
           </p>
-        </div>       
+        </div>   
+
+        <div className="item">
+
+          <Button
+            className={classes.button}
+            variant="contained"
+            color="secondary"
+            onClick={handleUnassignDeliveryAgent}
+          >
+            Unassign Delivery Agent
+           </Button>
+
+          <Button
+            className={classes.button}
+            variant="contained"
+            color="secondary"
+            onClick={mountModal}
+          >
+            Reserve Order
+           </Button>
+          {
+            showMountModal && (
+              <Dialog
+                title="Reserve Orders"
+                actions={[
+                  <Button
+                    className={classes.button}
+                    variant="contained"
+                    color="secondary"
+                    onClick={handleConfirm}
+                  >
+                    Confirm
+                    </Button>,
+                  <Button
+                    className={classes.button}
+                    variant="contained"
+                    color="secondary"
+                    onClick={unmountModal}
+                  >
+                    Close
+                    </Button>,
+                ]}
+              >
+                <form>
+                  <div className={classes.formRoot}>
+                    <label>Delivery Agent List</label>
+                    <Select
+                      native
+                      //value={deliveryAgentIdx}
+                      className={classes.formControl}
+                      onChange={handleChange}
+                    >
+                      {
+                        deliveryAgentList.map((item, index) => {
+                          return <option key={index} value={index}>{item.name}  {item.id}</option>
+                        })
+                      }
+                    </Select>
+                  </div>
+                </form>
+              </Dialog>
+            )
+          }
+        </div> 
+        {
+          showMessage &&
+          <Notification
+            message={message}
+            messageType="info"
+            open={showMessage}
+            handleClose={handleClose}
+          />
+        }   
 {/* 
         <div className="item">
           <p className="label">Manual Completion</p>
@@ -263,31 +414,28 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
   )
 }
 
-// const useStyles = makeStyles(theme => ({
-//   formRoot: {
-//     padding: 36
-//   },
-//   formControl: {
-//     width: "100%",
-//     marginBottom: 24
-//   },
-//   formControlTextarea: {
-//     width: "100%",
-//     marginBottom: 24,
-//     padding: 10
-//   },
-//   buttonPrimary: {
-//     background: "#000000",
-//     color: "#FFFFFF"
-//   },
-//   formInput: {
-//     width: "100%"
-//   },
-//   button: {
-//     marginLeft: "10px",
-//     cursor: "pointer",
-//     marginTop: "10px"
-//   }
-// }))
+const useStyles = makeStyles(theme => ({
+  formRoot: {
+    padding: 36
+  },
+  formControl: {
+    width: "100%",
+    marginBottom: 24
+  },
+  formControlTextarea: {
+    width: "100%",
+    marginBottom: 24,
+    padding: 10
+  },
+  buttonPrimary: {
+    background: "#000000",
+    color: "#FFFFFF"
+  },
+  button: {
+    marginLeft: "10px",
+    cursor: "pointer",
+    marginTop: "10px"
+  }
+}))
 
 export default DeliveryAgentDetails
