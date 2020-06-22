@@ -96,6 +96,7 @@ function OrderDetail (props) {
           deliveryAgentMobileNumber={orderDetails.delivery_agent_contact_number}
           deliveryAgentVehicleNumber={orderDetails.delivery_agent_vehicle_number}
           orderButtonStatus={orderDetails.order_status_button}
+          reservedForDeliveryAgent={orderDetails.reserved_for_da_id}
         />
 
         <PaymentDetails

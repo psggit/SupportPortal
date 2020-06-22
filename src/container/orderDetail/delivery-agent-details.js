@@ -7,7 +7,7 @@ import Select from '@material-ui/core/Select'
 import { fetchDeliveryAgentList, reserveOrders,unassignDeliveryAgent } from "./../api"
 import Notification from "Components/notification"
 
-function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliveryAgentId, deliveryAgentName, deliveryAgentVehicleNumber, deliveryAgentMobileNumber,orderButtonStatus,retailerId }) {
+function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliveryAgentId, deliveryAgentName, deliveryAgentVehicleNumber, deliveryAgentMobileNumber, orderButtonStatus, retailerId, reservedForDeliveryAgent }) {
 
   const classes = useStyles()
   const [showMountModal, setShowMountModal] = useState(false)
@@ -213,7 +213,13 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
         </div>   
 
         <div className="item">
+          <p className="label">Reserved For Delivery Agent</p>
+          <p className="value" style={{ marginBottom: '10px' }}>
+            {reservedForDeliveryAgent ? reservedForDeliveryAgent : "-"}
+          </p>
+        </div>   
 
+        <div className="item">
           <Button
             className={classes.button}
             variant="contained"
