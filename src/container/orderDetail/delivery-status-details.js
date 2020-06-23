@@ -182,9 +182,11 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
     }
     cancelOrder(payload)
       .then((response) => {
-        console.log("response", response)
+        //console.log("response", response)
         setSuccessMsg(response.message)
-        location.reload()
+        setTimeout(() => {
+          location.reload()
+        }, 1000)
         console.log("successfully cancelled the order")
       })
       .catch((error) => {
