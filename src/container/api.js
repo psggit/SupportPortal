@@ -19,7 +19,7 @@ export function fetchOrderDetails (payload) {
 
 export function cancelOrder (payload) {
   return POST({
-    api: `/orderman/api/1/agent/lot/order/cancel`,
+    api: `/deliveryman/api/1/support/cancel-order`,
     apiBase: "api",
     handleError: true,
     data: payload

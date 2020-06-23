@@ -182,7 +182,8 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
     }
     cancelOrder(payload)
       .then((response) => {
-        setSuccessMsg("Successfully cancelled the order")
+        console.log("response", response)
+        setSuccessMsg(response.message)
         location.reload()
         console.log("successfully cancelled the order")
       })
@@ -487,7 +488,7 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
         successMsg.trim().length > 0 &&
         <Notification
           message={successMsg}
-          messageType={successMsg.includes("Success") ? "success" : "error"}
+          messageType={successMsg.includes("success") ? "success" : "error"}
           open={successMsg.trim().length > 0}
           handleClose={handleClose}
         />
