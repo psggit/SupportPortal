@@ -118,6 +118,7 @@ function OrderDetail (props) {
           cancelledBy={orderDetails.cancelled_by}
           showNotes={orderDetails.show_notes}
           cancellationReason={orderDetails.delivery_cancellation_reason}
+          lotID={orderDetails.lot_id}
           orderCancellationDateAndTime={orderDetails.order_cancelled_time}
         />
 

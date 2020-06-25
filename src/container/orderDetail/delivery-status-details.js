@@ -6,11 +6,11 @@ import Select from '@material-ui/core/Select'
 import { makeStyles } from "@material-ui/core/styles"
 import TextField from '@material-ui/core/TextField';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize'
-import { fetchCancellationReasons, cancelOrder, submitNotes ,fetchKycDocumentList ,completeOrder, fetchNotes} from "./../api"
+import { fetchCancellationReasons, cancelOrder, submitNotes, fetchKycDocumentList, completeOrder, fetchNotes } from "./../api"
 import Notification from "Components/notification"
 import Moment from "moment"
 
-function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, deliveryPickupTime, deliveryIdVerification, orderButtonStatus, cancelledBy, showNotes, cancellationReason, orderCancellationDateAndTime}) {
+function DeliveryStatusDetails({ orderId, lotID, deliveryStatus, deliveryDateAndTime, deliveryPickupTime, deliveryIdVerification, orderButtonStatus, cancelledBy, showNotes, cancellationReason, orderCancellationDateAndTime}) {
   const classes = useStyles()
   const [showMountModal, setShowUnmountModal] = useState(false)
   const [showCommentMountModal, setCompleteShowUnmountModal] = useState(false)
@@ -40,7 +40,7 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
     }
     fetchCancellationReasons(payload)
       .then((response) => {
-        console.log("response",response)
+        console.log("response", response)
         setCancellationReasonList(response)
       })
       .catch((err) => {
@@ -116,7 +116,7 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
     }
     fetchNotes(payload)
       .then((response) => {
-       console.log("maap",response.orderNotes.map((item) => item.notes) )
+        console.log("maap", response.orderNotes.map((item) => item.notes))
         setViewComment(response.orderNotes)
       })
       .catch((error) => {
@@ -168,6 +168,7 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
   }
 
   const mountModal = () => {
+    console.log("logg", lotID)
     fetchCancellationReasonList()
     console.log("from mountModal", orderButtonStatus)
     setShowUnmountModal(true)
@@ -177,7 +178,7 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
     unmountModal()
     const payload = {
       order_id: orderId,
-      slot_id: "",
+      slot_id: lotID ? lotID.toString() : "",
       reason_id: parseInt(cancellationReasonList[cancellationReasonIdx].id),
     }
     cancelOrder(payload)
@@ -210,34 +211,34 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
   }
 
   return (
-  <div className="orders-detail-card">
-    <div className="header">
-      <h4>DELIVERY STATUS DETAILS</h4>
-    </div>
-    <div className = "content">
-      <div className="item">
-        <p className="label">Order Status</p>
-        <p className="value">{deliveryStatus ? deliveryStatus : '-'}</p>
+    <div className="orders-detail-card">
+      <div className="header">
+        <h4>DELIVERY STATUS DETAILS</h4>
       </div>
+      <div className="content">
+        <div className="item">
+          <p className="label">Order Status</p>
+          <p className="value">{deliveryStatus ? deliveryStatus : '-'}</p>
+        </div>
 
-      <div className="item">
-        <p className="label">Pickup Date &amp; Time</p>
-        {/* <p className="value">{deliveryPickupTime ? deliveryPickupTime : '-'}</p> */}
-        <p className="value">{deliveryPickupTime ? Moment(deliveryPickupTime).format("DD-MM-YYYY | hh:mm A") : "-"}</p>
+        <div className="item">
+          <p className="label">Pickup Date &amp; Time</p>
+          {/* <p className="value">{deliveryPickupTime ? deliveryPickupTime : '-'}</p> */}
+          <p className="value">{deliveryPickupTime ? Moment(deliveryPickupTime).format("DD-MM-YYYY | hh:mm A") : "-"}</p>
 
-      </div>
+        </div>
 
-      <div className="item">
-        <p className="label">Delivered Date &amp; Time</p>
-        {/* <p className="value">{deliveryDateAndTime ? deliveryDateAndTime : '-'}</p> */}
-        <p className="value">{deliveryDateAndTime ? Moment(deliveryDateAndTime).format("DD-MM-YYYY | hh:mm A") : "-"}</p>
+        <div className="item">
+          <p className="label">Delivered Date &amp; Time</p>
+          {/* <p className="value">{deliveryDateAndTime ? deliveryDateAndTime : '-'}</p> */}
+          <p className="value">{deliveryDateAndTime ? Moment(deliveryDateAndTime).format("DD-MM-YYYY | hh:mm A") : "-"}</p>
 
-      </div>
+        </div>
 
-      <div className="item">
-        <p className="label">ID Verification</p>
-        <p className="value">{deliveryIdVerification ? deliveryIdVerification : '-'}</p>
-      </div>
+        <div className="item">
+          <p className="label">ID Verification</p>
+          <p className="value">{deliveryIdVerification ? deliveryIdVerification : '-'}</p>
+        </div>
 
         <div className="item">
           <p className="label">Cancelled By</p>
@@ -463,20 +464,20 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
                 ]}
               >
                 <form>
-                  <div className={classes.formRoot} style={{fontSize:"18px",lineHeight:"40px"}}>
-                 {
-                  viewComment.map((item,index) => {
-                    return<option key={index} value={index}>{item.notes}</option>
-                  })
-                }
+                  <div className={classes.formRoot} style={{ fontSize: "18px", lineHeight: "40px" }}>
+                    {
+                      viewComment.map((item, index) => {
+                        return <option key={index} value={index}>{item.notes}</option>
+                      })
+                    }
                   </div>
                 </form>
               </Dialog>
             )
           }
 
-        </div>  
-    </div>
+        </div>
+      </div>
       {
         isError &&
         <Notification
@@ -495,8 +496,8 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
           handleClose={handleClose}
         />
       }
-  </div>
-)
+    </div>
+  )
 }
 
 const useStyles = makeStyles(theme => ({
