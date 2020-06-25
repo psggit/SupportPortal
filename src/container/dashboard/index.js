@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import { FormGroup } from "./../../components/Form"
 import { fetchPreponeOrderDelivery } from "./../api"
 import Notification from "Components/notification"
+import Dialog from "Components/dialog"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,7 +17,14 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     marginLeft: "140px",
-  }
+  },
+    buttonPrimary: {
+    background: "#000000",
+    color: "#FFFFFF",
+    '&:hover': {
+      background: "#000000"
+    }
+  },
 }))
 
 function Dashboard(props) {
@@ -38,6 +46,7 @@ function Dashboard(props) {
   const [showMessage, setShowMessage] = useState(false)
   //const [errorMessage, setErrorMessage] = useState([""])
   const [message,setMessage] = useState("")
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
 
 
   const classes = useStyles()
@@ -58,6 +67,14 @@ function Dashboard(props) {
         setEnableConsumer(true)
       }
     }
+
+  const unmountConfirmModal = () => {
+    setShowConfirmModal(false)
+  }
+
+  const mountConfirmModal = () => {
+    setShowConfirmModal(true)
+  }
 
   const handleConsumerIDChange = e => {
     if (!isNaN(e.target.value)) {
@@ -198,7 +215,8 @@ function Dashboard(props) {
   }
 
   const fetchOrderIdMessage = () => {
-    console.log("hello", preponeOrderID)
+    setShowConfirmModal(false)
+    //console.log("hello", preponeOrderID)
     const payload = {
       order_id: preponeOrderID,
     }
@@ -405,7 +423,7 @@ function Dashboard(props) {
                 onClick={fetchDeliveryAgentDetails}
               >
                 Fetch Details
-                </Button>
+              </Button>
               <Button
                 variant="contained"
                 disabled={!enableDeliveryAgent}
@@ -442,10 +460,25 @@ function Dashboard(props) {
                 variant="contained"
                 disabled={!enablePreponeOrder}
                 color="secondary"
-                onClick={fetchOrderIdMessage}
+                onClick={mountConfirmModal}
               >
                 Submit
-                </Button>
+              </Button>
+              {
+                showConfirmModal && (
+                  <Dialog
+                    title="Prepone  Order"
+                    subtitle="Are you sure you want to prepone this order ?"
+                    actions={[
+                      <Button onClick={fetchOrderIdMessage} className={classes.buttonPrimary} color="primary" key={1} autoFocus>
+                        Yes
+                      </Button>,
+                      <Button onClick={unmountConfirmModal} className={classes.buttonPrimary} key={2} color="primary">
+                        No
+                      </Button>
+                    ]}
+                  />
+                )}
               {
                 showMessage &&
                 <Notification

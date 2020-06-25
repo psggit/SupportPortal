@@ -7,7 +7,7 @@ import Select from '@material-ui/core/Select'
 import { fetchDeliveryAgentList, reserveOrders,unassignDeliveryAgent } from "./../api"
 import Notification from "Components/notification"
 
-function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliveryAgentId, deliveryAgentName, deliveryAgentVehicleNumber, deliveryAgentMobileNumber, orderButtonStatus, retailerId, reservedForDeliveryAgent }) {
+function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliveryAgentId, deliveryAgentName, deliveryAgentVehicleNumber, deliveryAgentMobileNumber, orderButtonStatus, retailerId, reservedForDeliveryAgent, deliveryAgentStatus }) {
 
   const classes = useStyles()
   const [showMountModal, setShowMountModal] = useState(false)
@@ -15,6 +15,7 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
   const [deliveryAgentIdx, setDeliveryAgentIdx] = useState(0)
   const [showMessage, setShowMessage] = useState(false)
   const [message, setMessage] = useState("")
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
 
   // const [showCommentMountModel, setShowUnmountCommentModel] = useState(false)
 
@@ -51,6 +52,13 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
     setShowMountModal(true)
   }
 
+  const unmountConfirmModal = () => {
+    setShowConfirmModal(false)
+  }
+
+  const mountConfirmModal = () => {
+    setShowConfirmModal(true)
+  }
 
   const handleConfirm = () => {
     unmountModal()
@@ -80,6 +88,7 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
   }
 
   const handleUnassignDeliveryAgent = () => {
+    setShowConfirmModal(false)
     const payload = {
       order_id: orderId
     }
@@ -213,6 +222,13 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
         </div>   
 
         <div className="item">
+          <p className="label">Delivery Agent Status</p>
+          <p className="value" style={{ marginBottom: '10px' }}>
+            {deliveryAgentStatus ? deliveryAgentStatus : "-"}
+          </p>
+        </div>   
+
+        <div className="item">
           <p className="label">Reserved For Delivery Agent</p>
           <p className="value" style={{ marginBottom: '10px' }}>
             {reservedForDeliveryAgent ? reservedForDeliveryAgent : "-"}
@@ -224,7 +240,7 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
             className={classes.button}
             variant="contained"
             color="secondary"
-            onClick={handleUnassignDeliveryAgent}
+            onClick={mountConfirmModal}
           >
             Unassign Delivery Agent
            </Button>
@@ -238,6 +254,31 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
             Reserve Order
            </Button>
           {
+            showConfirmModal && (
+              <Dialog
+                title="Unassign Delivery Agent"
+                subtitle="Are you sure you want to un-assign the delivery agent for this order ?"
+                actions={[
+                  <Button 
+                    onClick={handleUnassignDeliveryAgent} 
+                    className={classes.button}
+                    variant="contained"
+                    color="secondary"
+                  >
+                    Yes
+                  </Button>,
+                  <Button 
+                    onClick={unmountConfirmModal}
+                    className={classes.button}
+                    variant="contained"
+                    color="secondary"
+                    >
+                    No
+                  </Button>
+                ]}
+              />
+            )}
+          {
             showMountModal && (
               <Dialog
                 title="Reserve Orders"
@@ -249,7 +290,7 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
                     onClick={handleConfirm}
                   >
                     Confirm
-                    </Button>,
+                  </Button>,
                   <Button
                     className={classes.button}
                     variant="contained"
@@ -257,7 +298,7 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
                     onClick={unmountModal}
                   >
                     Close
-                    </Button>,
+                  </Button>,
                 ]}
               >
                 <form>

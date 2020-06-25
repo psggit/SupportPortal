@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button'
 import { FormGroup } from "Components/Form"
 import { fetchDissolveLot } from "./../api"
 import Notification from "Components/notification"
+import Dialog from "Components/dialog"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,7 +17,14 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     marginLeft: "140px",
-  }
+  },
+  buttonPrimary: {
+    background: "#000000",
+    color: "#FFFFFF",
+    '&:hover': {
+      background: "#000000"
+    }
+  },
 }))
 
 function orderModification(props) {
@@ -25,7 +33,8 @@ function orderModification(props) {
   const [lotID, setLotID] = useState("")
   const [enableSubmit, setEnableSubmit] = useState(false)
   const [showMessage, setShowMessage] = useState(false)
-  const [message,setMessage] = useState("")
+  const [message, setMessage] = useState("")
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
 
   const classes = useStyles()
 
@@ -39,18 +48,27 @@ function orderModification(props) {
     }
   }
 
- const handleLotIDChange = e => {
-   if(!isNaN(e.target.value)){
-     setLotID(e.target.value)
-     setEnableSubmit(false)
-   }
+  const unmountModal = () => {
+    setShowConfirmModal(false)
+  }
 
-   if (e.target.value.trim().length > 0 && deliveryAgentID.length > 0 && !isNaN(e.target.value)) {
-     setEnableSubmit(true)
-   }
- }
+  const mountModal = () => {
+    setShowConfirmModal(true)
+  }
+
+  const handleLotIDChange = e => {
+    if (!isNaN(e.target.value)) {
+      setLotID(e.target.value)
+      setEnableSubmit(false)
+    }
+
+    if (e.target.value.trim().length > 0 && deliveryAgentID.length > 0 && !isNaN(e.target.value)) {
+      setEnableSubmit(true)
+    }
+  }
 
   const handleFetchDissolveLot = () => {
+    setShowConfirmModal(false)
     const payload = {
       delivery_agent_id: deliveryAgentID,
       lot_id: lotID
@@ -113,7 +131,8 @@ function orderModification(props) {
                 variant="contained"
                 disabled={!enableSubmit}
                 color="secondary"
-                onClick={handleFetchDissolveLot}
+                //onClick={handleFetchDissolveLot}
+                onClick={mountModal}
               >
                 Submit
               </Button>
@@ -127,6 +146,21 @@ function orderModification(props) {
                 />
               }
             </div>
+            {
+            showConfirmModal && (
+              <Dialog
+                title="Dissolve  Order"
+                subtitle="Are you sure you want to dissolve this lot ?"
+                actions={[
+                  <Button onClick={handleFetchDissolveLot} className={classes.buttonPrimary} color="primary" key={1} autoFocus>
+                    Yes
+                  </Button>,
+                  <Button onClick={unmountModal} className={classes.buttonPrimary} key={2} color="primary">
+                    No
+                  </Button>
+                ]}
+              />
+            )}
           </div>
         </div>
       </form>
