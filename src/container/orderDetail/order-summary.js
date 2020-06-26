@@ -19,7 +19,7 @@ const OrderSummary = ({ orderTotal, cartTotal, cartItems, feeDetails, cgstPercen
         cartItems ?
         cartItems.map((item, index) => {
           return <div className="flex-item" key={index} style={{ marginBottom: '16px' }}>
-                  <p style={{ fontSize: '15px', lineHeight: '20px', fontWeight: '600', color: '#212121' }}>{item.brand_name} x {item.ordered_count}</p>
+            <p style={{ fontSize: '15px', lineHeight: '20px', fontWeight: '600', color: '#212121' }}>{`${item.brand_name} (${item.volume})`} x {item.deliverable_count}</p>
             <p style={{ fontSize: '15px', lineHeight: '20px' }}>{`₹${item.total_price}`}</p>
                 </div>
         }) : ""
@@ -32,7 +32,7 @@ const OrderSummary = ({ orderTotal, cartTotal, cartItems, feeDetails, cgstPercen
         cartItems ?
         cartItems.map((item, index) => {
           return <div className="flex-item" key={index} style={{ marginBottom: '16px' }}>
-                  <p style={{ fontSize: '15px', lineHeight: '20px', fontWeight: '600', color: '#212121' }}>{item.brand_name} x {item.deliverable_count}</p>
+            <p style={{ fontSize: '15px', lineHeight: '20px', fontWeight: '600', color: '#212121' }}>{`${item.brand_name} (${item.volume})`} x {item.deliverable_count}</p>
             <p style={{ fontSize: '15px', lineHeight: '20px' }}>{`₹${item.revised_total_price}`}</p>
                 </div>
         }) : ""
