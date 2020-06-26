@@ -10,7 +10,7 @@ import { fetchCancellationReasons, cancelOrder, submitNotes, fetchKycDocumentLis
 import Notification from "Components/notification"
 import Moment from "moment"
 
-function DeliveryStatusDetails({ orderId, lotID, deliveryStatus, deliveryDateAndTime, deliveryPickupTime, deliveryIdVerification, orderButtonStatus, cancelledBy, showNotes, cancellationReason, orderCancellationDateAndTime}) {
+function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, deliveryPickupTime, deliveryIdVerification, orderButtonStatus, cancelledBy, showNotes, cancellationReason }) {
   const classes = useStyles()
   const [showMountModal, setShowUnmountModal] = useState(false)
   const [showCommentMountModal, setCompleteShowUnmountModal] = useState(false)
@@ -168,7 +168,6 @@ function DeliveryStatusDetails({ orderId, lotID, deliveryStatus, deliveryDateAnd
   }
 
   const mountModal = () => {
-    console.log("logg", lotID)
     fetchCancellationReasonList()
     console.log("from mountModal", orderButtonStatus)
     setShowUnmountModal(true)
@@ -178,16 +177,13 @@ function DeliveryStatusDetails({ orderId, lotID, deliveryStatus, deliveryDateAnd
     unmountModal()
     const payload = {
       order_id: orderId,
-      slot_id: lotID ? lotID.toString() : "",
+      slot_id: "",
       reason_id: parseInt(cancellationReasonList[cancellationReasonIdx].id),
     }
     cancelOrder(payload)
       .then((response) => {
-        //console.log("response", response)
-        setSuccessMsg(response.message)
-        setTimeout(() => {
-          location.reload()
-        }, 1000)
+        setSuccessMsg("Successfully cancelled the order")
+        location.reload()
         console.log("successfully cancelled the order")
       })
       .catch((error) => {
@@ -243,11 +239,6 @@ function DeliveryStatusDetails({ orderId, lotID, deliveryStatus, deliveryDateAnd
         <div className="item">
           <p className="label">Cancelled By</p>
           <p className="value">{cancelledBy ? cancelledBy : '-'}</p>
-        </div>
-
-        <div className="item">
-          <p className="label">Order Cancellation Date and Time</p>
-          <p className="value">{orderCancellationDateAndTime ? Moment(orderCancellationDateAndTime).format("DD-MM-YYYY | hh:mm A") : "-"}</p>
         </div>
 
         <div className="item">
@@ -491,7 +482,7 @@ function DeliveryStatusDetails({ orderId, lotID, deliveryStatus, deliveryDateAnd
         successMsg.trim().length > 0 &&
         <Notification
           message={successMsg}
-          messageType={successMsg.includes("success") ? "success" : "error"}
+          messageType={successMsg.includes("Success") ? "success" : "error"}
           open={successMsg.trim().length > 0}
           handleClose={handleClose}
         />
