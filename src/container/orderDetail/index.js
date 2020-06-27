@@ -32,7 +32,7 @@ function OrderDetail (props) {
         setOrderDetails(response.order_details)
         setOrderDetailsTaxes(response.order_details.taxes)
         setLoadingOrderDetails(false)
-        console.log("HHHHHHHH",response.order_details.order_status_button)
+        console.log("HHHHHHHH",response.order_details)
         // console.log("Response", response.order_details, response.order_details.fee_details_struct[0])
       })
       .catch((err) => {
@@ -119,7 +119,6 @@ function OrderDetail (props) {
           cancelledBy={orderDetails.cancelled_by}
           showNotes={orderDetails.show_notes}
           cancellationReason={orderDetails.delivery_cancellation_reason}
-          //lotID={orderDetails.lot_id}
           orderCancellationDateAndTime={orderDetails.order_cancelled_time}
           lotID={orderDetails.lot_id}
         />

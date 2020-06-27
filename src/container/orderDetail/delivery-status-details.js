@@ -10,7 +10,7 @@ import { fetchCancellationReasons, cancelOrder, submitNotes, fetchKycDocumentLis
 import Notification from "Components/notification"
 import Moment from "moment"
 
-function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, deliveryPickupTime, deliveryIdVerification, orderButtonStatus, cancelledBy, showNotes, cancellationReason }) {
+function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, deliveryPickupTime, deliveryIdVerification, orderButtonStatus, cancelledBy, showNotes, cancellationReason, orderCancellationDateAndTime, lotID }) {
   const classes = useStyles()
   const [showMountModal, setShowUnmountModal] = useState(false)
   const [showCommentMountModal, setCompleteShowUnmountModal] = useState(false)
@@ -177,7 +177,7 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
     unmountModal()
     const payload = {
       order_id: orderId,
-      slot_id: "",
+      slot_id: lotID ? lotID.toString() : "",
       reason_id: parseInt(cancellationReasonList[cancellationReasonIdx].id),
     }
     cancelOrder(payload)
