@@ -13,6 +13,7 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
   const [showMountModal, setShowUnmountModal] = useState(false)
   const [retailerList, setRetailerList] = useState([])
   const [retailerIdx, setRetailerIdx] = useState(0)
+  const [retailerNameIdx, setRetailerNameIdx] = useState("")
   const [showMessage, setShowMessage] = useState(false)
   const [message, setMessage] = useState("")
 
@@ -44,7 +45,7 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
     unmountModal()
     const payload = {
       order_id: orderId,
-      retailer_name: retailerName,
+      retailer_name: retailerList[retailerNameIdx].retailer_name,
       retailer_id: parseInt(retailerList[retailerIdx].retailer_id)
     }
     reassignRetailer(payload)
@@ -64,6 +65,7 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
 
   const handleChange = (e) => {
     setRetailerIdx(e.target.value)
+    setRetailerNameIdx(e.target.value)
   }
 
   // const handleClose = () => {
@@ -158,7 +160,7 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
                     >
                       {
                         retailerList.map((item, index) => {
-                        return <option key={index} value={index}>{item.retailer_name}  {item.retailer_id}</option>
+                        return <option key={index} value={index}>{item.retailer_name} - {item.retailer_id}</option>
                         })
                       }
                     </Select>
