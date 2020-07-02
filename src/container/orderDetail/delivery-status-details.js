@@ -242,6 +242,11 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
         </div>
 
         <div className="item">
+          <p className="label">Order Cancellation Date and Time</p>
+          <p className="value">{orderCancellationDateAndTime ? Moment(orderCancellationDateAndTime).format("DD-MM-YYYY | hh:mm A") : "-"}</p>
+        </div>
+
+        <div className="item">
           <p className="label">Cancellation Reason</p>
           <p className="value">{cancellationReason ? cancellationReason : '-'}</p>
         </div>
