@@ -16,6 +16,7 @@ function OrderDetail (props) {
   const [orderDetails,setOrderDetails] = useState([])
   const [orderDetailsTaxes,setOrderDetailsTaxes] = useState([])
   const [loadingOrderDetails, setLoadingOrderDetails] = useState(false)
+  const[cartItemsArray,setCartItemsArray] = useState([{id:120},{id:222}])
 
 
   useEffect(() => {
@@ -74,9 +75,10 @@ function OrderDetail (props) {
           orderButtonStatus={orderDetails.order_status_button}
         />
         <OrderSummary
-          orderTotal={orderDetails.original_order_total}
-          cartTotal={orderDetails.original_cart_total}
+          orderTotal={orderDetails.revised_order_total}
+          cartTotal={orderDetails.revised_cart_total}
           cartItems={orderDetails.cart_items}
+          // cartItemsArray={cartItemsArray}
           feeDetails={orderDetails.fee_details_struct}
           cgstPercentage={orderDetails.cgst_percentage}
           cgstAmount ={ orderDetailsTaxes.cgst_total}
@@ -85,6 +87,11 @@ function OrderDetail (props) {
           igstPercentage={orderDetails.igst_percentage}
           igstAmount={orderDetailsTaxes.igst_total}
           additionalTotalCharges={orderDetails.total_additional_fee}
+          retailerId={orderDetails.retailer_id}
+          cityId={orderDetails.city_id}
+          stateId={orderDetails.state_id}
+          gps={orderDetails.gps}
+          orderId={orderDetails.order_id}
         />
 
         <DeliveryAgentDetails

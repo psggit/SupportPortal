@@ -128,3 +128,39 @@ export function unassignDeliveryAgent(payload) {
     handleError: true,
   })
 }
+
+export function fetchGenreList(payload) {
+  return POST({
+    api: `/Api/stockandprice/listing/genres`,
+    apiBase: "retailer",
+    handleError: true,
+    data: payload
+  })
+}
+
+export function fetchBrandList(payload) {
+  return POST({
+    api: `/Api/stockandprice/listing/brands`,
+    apiBase: "retailer",
+    handleError: true,
+    data: payload
+  })
+}
+
+export function modifyConfirm(payload) {
+  return POST({
+    api: `/support/order/modify/confirm`,
+    apiBase: "orderman",
+    handleError: true,
+    data: payload
+  })
+}
+
+export function modifySummary(payload) {
+  return POST({
+    api: `/support/order/modify/summary`,
+    apiBase: "orderman",
+    handleError: true,
+    data: payload
+  })
+}

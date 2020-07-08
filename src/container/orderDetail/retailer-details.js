@@ -13,7 +13,7 @@ function RetailerDetails({ orderId, retailerId, retailerStoreCode, retailerName,
   const [showMountModal, setShowUnmountModal] = useState(false)
   const [retailerList, setRetailerList] = useState([])
   const [retailerIdx, setRetailerIdx] = useState(0)
-  const [retailerNameIdx, setRetailerNameIdx] = useState("")
+  const [retailerNameIdx, setRetailerNameIdx] = useState(0)
   const [showMessage, setShowMessage] = useState(false)
   const [message, setMessage] = useState("")
 
