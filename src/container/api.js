@@ -28,7 +28,7 @@ export function cancelOrder (payload) {
 
 export function completeOrder (payload) {
   return POST({
-    api: `/orderman/api/1/agent/lot/order/deliver`,
+    api: `/deliveryman/api/1/agent/lot/order/deliver`,
     apiBase: "api",
     handleError: true,
     data: payload

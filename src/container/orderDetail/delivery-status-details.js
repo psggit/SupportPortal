@@ -27,6 +27,7 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
   const [cancellationReasonList, setCancellationReasonList] = useState([])
   const [isError, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState([""])
+  const [yob,setYob] = useState(0)
 
   const [viewComment, setViewComment] = useState([])
   useEffect(() => {
@@ -79,6 +80,10 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
     setDocumentId(e.target.value)
   }
 
+  const handleYobChange = (e) => {
+    setYob(e.target.value)
+  }
+
   const handleKycChange = (e) => {
     console.log(e.target.value)
     setKycDocumentIdx(e.target.value)
@@ -93,6 +98,7 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
       slot_id: "",
       id_proof: kycDocumentList[kycDocumentIdx].description,
       digits: documentId,
+      year_of_birth:parseInt(yob)
     }
     completeOrder(payload)
       .then((response) => {
@@ -219,7 +225,6 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
 
         <div className="item">
           <p className="label">Pickup Date &amp; Time</p>
-          {/* <p className="value">{deliveryPickupTime ? deliveryPickupTime : '-'}</p> */}
           <p className="value">{deliveryPickupTime ? Moment(deliveryPickupTime).format("DD-MM-YYYY | hh:mm A") : "-"}</p>
 
         </div>
@@ -318,12 +323,14 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
                       label="Document ID"
                     />
 
-                    {/* <TextField id="standard-basic"
-                      onChange={handleOtpChange}
-                      //placeholder="Enter last four digits of document"
+                    <TextField id="standard-basic"
+                      onChange={handleYobChange}
+                      type="number"
+                      placeholder="Enter Year Of Birth "
                       className={classes.formControl}
-                      label="OTP"
-                    /> */}
+                      label="Year Of Birth"
+                    />
+
                   </div>
                 </form>
               </Dialog>
@@ -512,6 +519,11 @@ const useStyles = makeStyles(theme => ({
   buttonPrimary: {
     background: "#000000",
     color: "#FFFFFF"
+  },
+  textField: {
+    width:"100%",
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
   },
   button: {
     marginLeft: "10px",
