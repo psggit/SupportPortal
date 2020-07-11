@@ -165,6 +165,40 @@ export function modifySummary(payload) {
   })
 }
 
+export function fetchIssue(payload) {
+  return POST({
+    api: `/deliveryman/api/1/support/issue/fetch`,
+    apiBase: "api",
+    handleError: true,
+    data: payload
+  })
+}
+
+export function resolveIssue(payload) {
+  return GET({
+    api: `/deliveryman/api/1/support/issue/markresolved/5${payload.order_id}`,
+    apiBase: "api",
+    handleError: true,
+  })
+}
+
+export function fetchSupportPersonList() {
+  return GET({
+    api: `/deliveryman/api/1/support/list/supportperson`,
+    apiBase: "api",
+    handleError: true,
+  })
+}
+
+export function assignTo(payload) {
+  return GET({
+    api: `/deliveryman/api/1/support/issue/assignmanual/${payload.order_id}/${payload.issue_id}/${payload.agent_id}`,
+    apiBase: "api",
+    handleError: true,
+    data: payload
+  })
+}
+
 export function markActivity(payload) {
   return POST({
     api: `/deliveryman/api/1/support/markactivity/mark`,

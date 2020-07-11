@@ -448,15 +448,15 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
           }
         </div> */}
       </div>
-      {/* {
-        successMsg.trim().length > 0 &&
+      {
+        showMessage &&
         <Notification
-          message={successMsg}
-          messageType={successMsg.includes("Success") ? "success" : "error"}
-          open={successMsg.trim().length > 0}
+          message={message}
+          messageType="info"
+          open={showMessage}
           handleClose={handleClose}
         />
-      } */}
+      }
     </div>
   )
 }

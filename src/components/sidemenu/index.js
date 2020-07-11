@@ -7,8 +7,13 @@ import ListItemIcon from "@material-ui/core/ListItemIcon"
 import Icon from "./../icon"
 import PropTypes from "prop-types"
 import { fade, makeStyles } from "@material-ui/core/styles"
+import Badge from '@material-ui/core/Badge';
 
 const drawerWidth = 245
+
+const defaultProps = {
+  color: 'secondary',
+};
 
 const useStyles = makeStyles(theme => ({
   drawer: {
@@ -75,7 +80,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-function sidemenu({ menuItems, currentRoute, history }) {
+function sidemenu({ menuItems,issueItems, currentRoute, history }) {
   console.log("menu", menuItems)
   const classes = useStyles()
 
@@ -88,6 +93,7 @@ function sidemenu({ menuItems, currentRoute, history }) {
 
   const handleChangeRoute = (e, selectedRoute) => {
     e.preventDefault()
+    console.log("route", selectedRoute)
     history.push(`/home/${selectedRoute}`)
   }
 
@@ -115,6 +121,23 @@ function sidemenu({ menuItems, currentRoute, history }) {
         ))}
       </List>
       <Divider />
+      <List>
+        {issueItems.map((item, index) => (
+          // <Badge badgeContent={99} {...defaultProps}>
+          <ListItem
+            button
+            key={item.label}
+            className={`${classes.activeItem} ${checkActiveClass(item.value)} `}
+            onClick={(e) => { handleChangeRoute(e, item.value) }}
+          >
+            <ListItemIcon>
+              <Icon name={`${item.icon}`} />
+            </ListItemIcon>
+            <span className={classes.label}>{item.label}</span>
+          </ListItem>
+          // </Badge>
+        ))}
+      </List>
       <div className={classes.footer}>
         <p>Hipbar</p>
         <p>Support</p>

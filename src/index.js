@@ -18,7 +18,8 @@ import OrderDetail from "Container/orderDetail"
 import Dashboard from "Container/dashboard"
 import OrderList from "Container/order-list"
 import OrderModification from "Container/orderModification"
-import { markActivity } from "./container/api"
+import ResolveIssue from "Container/resolveIssue"
+import { markActivity } from "Container/api"
 
 const history = createHistory()
 const theme = createMuiTheme({
@@ -64,16 +65,16 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const menuList = [
-    { label: "Dashboard", value: "dashboard", icon: "dashboard" },
-    { label: `Order Modification`, value: "orderModification", icon: "dashboard" }
+const menuListItems = [
+  { label: "Resolve Issue", value: "resolveIssue", icon: "dashboard" }
 ]
+
 function App() {
   const classes = useStyles()
 
   const [currentRoute, setCurrentRoute] = useState(location.pathname.split("/")[2] || "")
   const [key, setKey] = useState(0)
-  const [menuItems, setMenuItems] = useState(menuList)
+  const [menuList, setMenuList] = useState(menuListItems)
   const [timeInterval, setTimeInterval] = useState(5000)
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("hasura-id") ? true : false)
   // const [isLoggedIn, setIsLoggedIn] = useState(true)
@@ -133,12 +134,9 @@ function App() {
   useEffect(() => {
     document.title = `${document.title.split("(")[0]} ${localStorage.getItem("issues_to_resolve_count") ? `(${localStorage.getItem("issues_to_resolve_count")})` : ""}`
     const modifiedMenuList = [
-      { label: "Dashboard", value: "dashboard", icon: "dashboard" },
-      {
-        label: `Order Modification${localStorage.getItem("issues_to_resolve_count") ? `(${localStorage.getItem("issues_to_resolve_count")})` : ""}`, value: "orderModification", icon: "dashboard" 
-      }
+      { label: `Resolve Issue ${localStorage.getItem("issues_to_resolve_count") ? `(${localStorage.getItem("issues_to_resolve_count")})` : ""}`, value: "resolveIssue", icon: "dashboard" }
     ]
-    setMenuItems(modifiedMenuList)
+    setMenuList(modifiedMenuList)
     const interval = setInterval(() => {
       pollRequest()
     }, timeInterval);
@@ -170,6 +168,8 @@ function App() {
               menuItems={menuItems}
               menuItemsMap={menuItemsMap}
               currentRoute={currentRoute}
+              issueItems={menuList}
+
             />
             <Switch>
               <div className={classes.content}>
@@ -219,13 +219,22 @@ function App() {
                     )
                   }
                 />
+
+                <Route
+                  exact
+                  path="/home/resolveIssue"
+                  render={
+                    props => (
+                      <ResolveIssue {...props} />
+                    )
+                  }
+                />
               </div>
             </Switch>
           </div>
         }
       </Router>
     </ThemeProvider>
-
   )
 }
 
