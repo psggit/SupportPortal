@@ -144,7 +144,7 @@ function App() {
   }, [timeInterval]);
 
   function pollRequest() {
-    if(!document.hidden) {
+    if (!document.hidden && isLoggedIn) {
       markLastActivity()
     }
   }
