@@ -164,3 +164,12 @@ export function modifySummary(payload) {
     data: payload
   })
 }
+
+export function markActivity(payload) {
+  return POST({
+    api: `/deliveryman/api/1/support/markactivity/mark`,
+    apiBase: "api",
+    handleError: true,
+    data: payload
+  })
+}

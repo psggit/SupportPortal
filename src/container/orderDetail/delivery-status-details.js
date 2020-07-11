@@ -26,7 +26,7 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
   const [cancellationReasonIdx, setCancellationReasonIdx] = useState(0)
   const [cancellationReasonList, setCancellationReasonList] = useState([])
   const [isError, setError] = useState(false)
-  const [errorMessage, setErrorMessage] = useState([""])
+  const [errorMessage, setErrorMessage] = useState([""]
   const [yob,setYob] = useState(0)
 
   const [viewComment, setViewComment] = useState([])
@@ -79,10 +79,6 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
   const handleDocumentChange = (e) => {
     setDocumentId(e.target.value)
   }
-
-  // const handleYobChange = (e) => {
-  //   setYob(e.target.value)
-  // }
 
   const handleKycChange = (e) => {
     console.log(e.target.value)

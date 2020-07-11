@@ -13,12 +13,12 @@ import Orders from "Container/orders"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import Header from "Components/header"
 import Sidemenu from "Components/sidemenu"
-import { menuItemsMap, menuItems } from "Components/constant/navbar-items"
+import { menuItemsMap } from "Components/constant/navbar-items"
 import OrderDetail from "Container/orderDetail"
 import Dashboard from "Container/dashboard"
 import OrderList from "Container/order-list"
 import OrderModification from "Container/orderModification"
-
+import { markActivity } from "./container/api"
 
 const history = createHistory()
 const theme = createMuiTheme({
@@ -64,11 +64,17 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+const menuList = [
+    { label: "Dashboard", value: "dashboard", icon: "dashboard" },
+    { label: `Order Modification`, value: "orderModification", icon: "dashboard" }
+]
 function App() {
   const classes = useStyles()
 
   const [currentRoute, setCurrentRoute] = useState(location.pathname.split("/")[2] || "")
   const [key, setKey] = useState(0)
+  const [menuItems, setMenuItems] = useState(menuList)
+  const [timeInterval, setTimeInterval] = useState(5000)
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("hasura-id") ? true : false)
   // const [isLoggedIn, setIsLoggedIn] = useState(true)
 
@@ -112,6 +118,39 @@ function App() {
     })
   }, [])
 
+  const markLastActivity = () => {
+    markActivity()
+      .then((response) => {
+        localStorage.setItem('issues_to_resolve_count',response.count)
+        setTimeInterval(parseInt(response.interval) * 1000)
+        console.log(response.count)
+      })
+      .catch((err) => {
+        console.log("Error in fetching Delivery Agent list", err)
+      })
+  }
+
+  useEffect(() => {
+    document.title = `${document.title.split("(")[0]} ${localStorage.getItem("issues_to_resolve_count") ? `(${localStorage.getItem("issues_to_resolve_count")})` : ""}`
+    const modifiedMenuList = [
+      { label: "Dashboard", value: "dashboard", icon: "dashboard" },
+      {
+        label: `Order Modification${localStorage.getItem("issues_to_resolve_count") ? `(${localStorage.getItem("issues_to_resolve_count")})` : ""}`, value: "orderModification", icon: "dashboard" 
+      }
+    ]
+    setMenuItems(modifiedMenuList)
+    const interval = setInterval(() => {
+      pollRequest()
+    }, timeInterval);
+    return () => clearInterval(interval);
+  }, [timeInterval]);
+
+  function pollRequest() {
+    if(!document.hidden) {
+      markLastActivity()
+    }
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <Router history={history} >
@@ -126,6 +165,7 @@ function App() {
               history={history}
             />
             <Sidemenu
+              timer={timeInterval}
               history={history}
               menuItems={menuItems}
               menuItemsMap={menuItemsMap}
