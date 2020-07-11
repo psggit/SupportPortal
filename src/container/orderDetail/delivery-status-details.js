@@ -26,8 +26,8 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
   const [cancellationReasonIdx, setCancellationReasonIdx] = useState(0)
   const [cancellationReasonList, setCancellationReasonList] = useState([])
   const [isError, setError] = useState(false)
-  const [errorMessage, setErrorMessage] = useState([""]
-  const [yob,setYob] = useState(0)
+  const [errorMessage, setErrorMessage] = useState([""])
+  const [yob,setYob] = useState("")
 
   const [viewComment, setViewComment] = useState([])
   useEffect(() => {
@@ -94,7 +94,7 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
       slot_id: "",
       id_proof: kycDocumentList[kycDocumentIdx].description,
       digits: documentId,
-      year_of_birth:parseInt(yob)
+      year_of_birth:yob,
     }
     completeOrder(payload)
       .then((response) => {
