@@ -16,6 +16,7 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
   const [showCommentMountModal, setCompleteShowUnmountModal] = useState(false)
   const [showCommentMountModel, setShowUnmountCommentModel] = useState(false)
   const [showViewCommentModel, setShowViewCommentModel] = useState(false)
+  const [yob, setYob] = useState("")
 
   const [comments, setComments] = useState("")
   const [documentId, setDocumentId] = useState("")
@@ -113,6 +114,10 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
         })
       })
     console.log("Hello from delivery agent", comments, documentId, kycDocumentList[kycDocumentIdx].description)
+  }
+
+  const handleYobChange = (e) => {
+    setYob(e.target.value)
   }
 
   const viewCommentMountModal = () => {
@@ -327,6 +332,13 @@ function DeliveryStatusDetails({ orderId, deliveryStatus, deliveryDateAndTime, d
                       onChange={handleYobChange}
                       type="number"
                       placeholder="Enter Year Of Birth "
+                      className={classes.formControl}
+                      label="Year Of Birth"
+                    />
+
+                    {/* <TextField id="standard-basic"
+                      onChange={handleOtpChange}
+                      //placeholder="Enter last four digits of document"
                       className={classes.formControl}
                       label="Year Of Birth"
                     />
