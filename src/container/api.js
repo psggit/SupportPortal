@@ -176,7 +176,7 @@ export function fetchIssue(payload) {
 
 export function resolveIssue(payload) {
   return GET({
-    api: `/deliveryman/api/1/support/issue/markresolved/5${payload.order_id}`,
+    api: `/deliveryman/api/1/support/issue/markresolved/${payload.order_id}`,
     apiBase: "api",
     handleError: true,
   })

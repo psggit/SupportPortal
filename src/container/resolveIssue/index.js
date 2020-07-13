@@ -20,6 +20,7 @@ const tableHeaders = [
   { label: "Is Resolved", value: "is_resolved" },
   { label: "Issue Raised Time", value: "issue_raised_time" },
   { label: "Assigned To", value: "assigned_to" },
+  { label: "Assigned To Name", value: "assigned_to_name" },
   { label: "Assigned Time", value: "assigned_time" },
   { label: "Resolved By", value: "resolved_by" },
   { label: "Issue Resolved Time", value: "resolved_time" },
@@ -152,12 +153,14 @@ function resolveIssue() {
                         <u>{data.order_id}</u>
                       </TableCell>
                       <TableCell align="left">{data.reason}</TableCell>
-                      <TableCell align="left">{data.is_resolved === true ? "Active" : "Inactive"}</TableCell>
-                      <TableCell align="left">{Moment(data.issue_raised_time).format("DD/MM/YYYY h:mm A")}</TableCell>
+                      <TableCell align="left">{data.is_resolved ? "Yes" : "No"}</TableCell>
+                      {/* <TableCell align="left">{Moment(data.issue_raised_time).format("DD/MM/YYYY h:mm A")}</TableCell> */}
+                      <TableCell align="left">{data.issue_raised_time ? Moment(data.issue_raised_time).format("DD/MM/YYYY h:mm A") : "-" }</TableCell>
                       <TableCell align="left">{data.assigned_to}</TableCell>
-                      <TableCell align="left">{Moment(data.assigned_time).format("DD/MM/YYYY h:mm A")}</TableCell>
+                      <TableCell align="left">{data.assigned_to_name}</TableCell>
+                      <TableCell align="left">{data.assigned_time ? Moment(data.assigned_time).format("DD/MM/YYYY h:mm A") : "-"}</TableCell>
                       <TableCell align="left">{data.resolved_by}</TableCell>
-                      <TableCell align="left">{Moment(data.resolved_time).format("DD/MM/YYYY h:mm A")}</TableCell>
+                      <TableCell align="left">{data.resolved_time ? Moment(data.resolved_time).format("DD/MM/YYYY h:mm A") : "-"}</TableCell>
                       <TableCell>
                         {
                           showAssign &&

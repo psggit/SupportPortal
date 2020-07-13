@@ -132,9 +132,9 @@ function App() {
   }
 
   useEffect(() => {
-    document.title = `${document.title.split("(")[0]} ${localStorage.getItem("issues_to_resolve_count") ? `(${localStorage.getItem("issues_to_resolve_count")})` : ""}`
+    document.title = `${document.title.split("(")[0]} ${localStorage.getItem("issues_to_resolve_count") > 0 ? `(${localStorage.getItem("issues_to_resolve_count")})` : ``}`
     const modifiedMenuList = [
-      { label: `Resolve Issue ${localStorage.getItem("issues_to_resolve_count") ? `(${localStorage.getItem("issues_to_resolve_count")})` : ""}`, value: "resolveIssue", icon: "dashboard" }
+      { label: `Resolve Issue ${localStorage.getItem("issues_to_resolve_count") > 0 ? `(${localStorage.getItem("issues_to_resolve_count")})` : ``}`, value: "resolveIssue", icon: "dashboard" }
     ]
     setMenuList(modifiedMenuList)
     const interval = setInterval(() => {
