@@ -1,22 +1,13 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState } from "react"
 import "./login.scss"
 import Icon from "Components/icon"
 import TextField from "@material-ui/core/TextField"
 import { makeStyles } from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
-import IconButton from "@material-ui/core/IconButton"
 import clsx from "clsx"
-import OutlinedInput from "@material-ui/core/OutlinedInput"
-import InputLabel from "@material-ui/core/InputLabel"
-import InputAdornment from "@material-ui/core/InputAdornment"
-import FormHelperText from "@material-ui/core/FormHelperText"
 import FormControl from "@material-ui/core/FormControl"
-import Visibility from "@material-ui/icons/Visibility"
-import VisibilityOff from "@material-ui/icons/VisibilityOff"
-import { validateNumberField } from "Utils/validators"
 import { apiUrl } from "Utils/config"
-import { validateEmail } from "../../utils/validators"
-
+import { validateEmail } from "Utils/validators"
 
 
 const useStyles = makeStyles(theme => ({
@@ -54,23 +45,21 @@ const useStyles = makeStyles(theme => ({
 
 function login() {
   const classes = useStyles()
+  const initialState = {text: "", showText: false}
   const [errorFlag, setErrorFlag] = useState(false)
-  const [email,setEmail] = useState("")
+  const [email, setEmail] = useState("")
   const [emailErr, setEmailErr] = useState({ status: false, value: ""})
-  //const [enableLogin, setEnableLogin] = useState(false)
-  // const [isError, setError] = useState(false)
-  // const [errorMessage, setErrorMessage] = useState([""])
-
+  const [message, setMessage] = useState(initialState)
 
   const handleEmailChange = (e) => {
     setEmailErr({ ...emailErr, status: false})
+    setMessage(initialState)
     setErrorFlag(false)
     setEmail(e.target.value)
-    
   }
 
   const inputNameMap = {
-   email: "Email"
+    email: "Email"
   }
 
   const validateFormField = (item) => {
@@ -105,12 +94,11 @@ function login() {
 
   const handleEmailBlur = () => {
     getInputTags("email")
-     
   }
 
   const handleKeyPress = (e) => {
     if (e.keyCode === 13)
-      handleSendEmailClick()
+      handleSendEmailClick(e)
   }
 
   const getRedirectUrl = () => {
@@ -118,13 +106,13 @@ function login() {
     let redirectUrl = "";
     switch(process.env.NODE_ENV) {
       case 'local':
-        redirectUrl = 'http://support-local.hipbar-dev.com:8001/home'
+        redirectUrl = 'http://support-local.hipbar-dev.com:8001/home/dashboard'
       break;
       case 'development':
-        redirectUrl = 'https://ts-support.hipbar-dev.com/home'
+        redirectUrl = 'https://ts-support.hipbar-dev.com/home/dashboard'
       break;
       case 'production':
-        redirectUrl = "https://ts-support.hipbar.com/home"
+        redirectUrl = "https://ts-support.hipbar.com/home/dashboard"
       break;
       default:
         console.log("Invalid env")
@@ -133,8 +121,8 @@ function login() {
     return redirectUrl;
   }
 
-  const handleSendEmailClick = () => {
-     //e.preventDefault()
+  const handleSendEmailClick = (e) => {
+    e.preventDefault()
     if (!errorFlag) {
       const payload = {
         email_id: email,
@@ -151,11 +139,12 @@ function login() {
       }
       fetch(`https://${apiUrl}/deliveryman/api/1/support/send-login-email`, fetchOptions)
         .then((response) => {
-          if (response.status !== 200 || response.status === 200) {
+          if (response.status === 200) {
             response.json().then(json => {
-              setEmailErr({
-                status: true,
-                value: json.message
+              setMessage({
+                ...message,
+                text: json.message,
+                showText: true
               })
             })
             return
@@ -194,9 +183,13 @@ function login() {
             error={emailErr.status}
             variant="outlined"
             onChange={(e) => handleEmailChange(e)}
-            onKeyDown={handleKeyPress}
+            //onKeyDown={handleKeyPress}
             onBlur={handleEmailBlur}
           />
+          {
+            message.showText &&
+              <p style={{ color: "#00CC66", fontSize: "12px"}}>{message.text}</p>
+          }
           </FormControl>
 
           <div className="submit">
@@ -205,7 +198,7 @@ function login() {
               color="primary"
               size="large"
               className={classes.buttonPrimary}
-             // disabled={!enableLogin}
+              disabled={email.trim().length === 0}
               onClick={(e) => handleSendEmailClick(e)}
             >
               Send Login Email
