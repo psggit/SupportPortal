@@ -147,8 +147,15 @@ function login() {
                 showText: true
               })
             })
-            return
+          } else {
+            response.json().then(json => {
+              setEmailErr({
+                status: true,
+                value: json.message
+              })
+            })
           }
+          return
         })
         .catch((error) => {
           error.json().then((json) => {
