@@ -73,7 +73,7 @@ export function constructFetchUtility(options) {
   const { api, data, method, type, cors, prependBaseUrl = true, apiBase } = options
   // construct request url
   const url = `https://${apiBase}.${process.env.BASE_URL}${api}`
-
+  console.log("process", process.env.NODE_ENV)
   // construct options for creating `window.fetch` instance
   let fetchOptions = {
     method,

@@ -49,6 +49,7 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       "process.env.BASE_URL": JSON.stringify(process.env.BASE_URL || "hipbar-dev.com"),
+      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
     }),
     new CompressionPlugin({
       test: /\.js$|\.css$|\.html$/,

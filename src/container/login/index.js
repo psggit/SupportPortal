@@ -15,6 +15,9 @@ import Visibility from "@material-ui/icons/Visibility"
 import VisibilityOff from "@material-ui/icons/VisibilityOff"
 import { validateNumberField } from "Utils/validators"
 import { apiUrl } from "Utils/config"
+import { validateEmail } from "../../utils/validators"
+
+
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -31,7 +34,8 @@ const useStyles = makeStyles(theme => ({
     },
     "& > .input-field .Mui-focused fieldset legend": {
       width: "86px !important"
-    }
+    },
+
   },
   textField: {
     marginBottom: "40px"
@@ -50,96 +54,27 @@ const useStyles = makeStyles(theme => ({
 
 function login() {
   const classes = useStyles()
-  const [mobileNumber, setMobileNumber] = useState("")
-  const [mobileErr, setMobileErr] = useState({ status: false, value: "" })
-  const [otp, setOtp] = useState("")
-  const [otpErr, setOtpErr] = useState({ status: false, value: "" })
   const [errorFlag, setErrorFlag] = useState(false)
-  const [showOtpValue, setShowOtpValue] = useState(false)
-  const [enableLogin, setEnableLogin] = useState(false)
-  const [showNumberPrefix, setShowNumberPrefix] = useState(false)
-  const [count, setCount] = useState(0)
-  const [delay] = useState(1000)
+  const [email,setEmail] = useState("")
+  const [emailErr, setEmailErr] = useState({ status: false, value: ""})
+  //const [enableLogin, setEnableLogin] = useState(false)
+  // const [isError, setError] = useState(false)
+  // const [errorMessage, setErrorMessage] = useState([""])
 
-  const setTimer = () => {
-    setCount(20)
-    setInterval(() => {
-      setCount(count => count - 1)
-    }, delay)
-  }
 
-  function generateOtp() {
-    const payload = {
-      mobile: mobileNumber
-    }
-    const fetchOptions = {
-      method: "post",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json"
-      },
-      credentials: "include",
-      body: JSON.stringify(payload)
-    }
-    fetch(`https://${apiUrl}/deliveryman/api/1/support/generate-otp`, fetchOptions)
-      .then(() => {
-        //setGenerateOtp(true)
-        setTimer()
-      })
-      .catch(err => {
-        setMobileErr({
-          status: true,
-          value: err.message
-        })
-        console.log("Error in getting otp", err)
-      })
+  const handleEmailChange = (e) => {
+    setEmailErr({ ...emailErr, status: false})
+    setErrorFlag(false)
+    setEmail(e.target.value)
+    
   }
 
   const inputNameMap = {
-    mobileNumber: "Mobile Number",
-    otp: "OTP"
-  }
-
-  useEffect(() => {
-    setAutoFocus()
-  }, [mobileNumber])
-
-  const handleMobileChange = (event) => {
-    setMobileErr({ ...mobileErr, status: false })
-    setErrorFlag(false)
-    if (!isNaN(event.target.value)) {
-      setMobileNumber(event.target.value)
-    }
-  }
-
-  const setAutoFocus = () => {
-    if (mobileNumber.length === 10) {
-      //document.querySelectorAll("#outlined-required")[0].blur()
-      document.querySelectorAll("#outlined-adornment-password")[0].focus()
-    }
-  }
-
-  const handleOtpChange = event => {
-    setOtpErr({ ...otpErr, status: false })
-    setErrorFlag(false)
-    if (!isNaN(event.target.value)) {
-      setOtp(event.target.value)
-    }
-    if (event.target.value.length === 6) {
-      setEnableLogin(true)
-    }
-  }
-
-  const handleClickShowOtp = () => {
-    setShowOtpValue(!showOtpValue)
-  }
-
-  const handleMouseDownOtp = event => {
-    event.preventDefault()
+   email: "Email"
   }
 
   const validateFormField = (item) => {
-    const errorObj = validateNumberField({
+    const errorObj = validateEmail({
       fieldName: item.name,
       fieldValue: item.value
     })
@@ -152,6 +87,7 @@ function login() {
     const inputsArr = Array.prototype.slice.call(inputCollection)
     const textInputs = inputsArr.filter(item => item.name == fieldName)
     textInputs.forEach(item => {
+      console.log("errobj", errorObject)
       let errorObject = validateFormField({
         name: inputNameMap[item.name],
         value: item.value
@@ -159,29 +95,50 @@ function login() {
       if (errorObject.status) {
         setErrorFlag(true)
       }
-      if (item.name === "mobileNumber") {
-        setMobileErr({
-          ...mobileErr, status: errorObject.status, value: errorObject.value
-        })
-      } else {
-        setOtpErr({
-          ...otpErr, status: errorObject.status, value: errorObject.value
+      if (item.name === "email") {
+        setEmailErr({
+          ...emailErr, status: errorObject.status, value: errorObject.value
         })
       }
     })
   }
 
-  const handleKeyPress = (e) => {
-    if (e.keyCode === 13)
-      handleLogin()
+  const handleEmailBlur = () => {
+    getInputTags("email")
+     
   }
 
-  const handleLogin = () => {
-    // e.preventDefault()
+  const handleKeyPress = (e) => {
+    if (e.keyCode === 13)
+      handleSendEmailClick()
+  }
+
+  const getRedirectUrl = () => {
+    console.log("env", process.env.NODE_ENV)
+    let redirectUrl = "";
+    switch(process.env.NODE_ENV) {
+      case 'local':
+        redirectUrl = 'http://support-local.hipbar-dev.com:8001/home'
+      break;
+      case 'development':
+        redirectUrl = 'https://ts-support.hipbar-dev.com/home'
+      break;
+      case 'production':
+        redirectUrl = "https://ts-support.hipbar.com/home"
+      break;
+      default:
+        console.log("Invalid env")
+      break;
+    }
+    return redirectUrl;
+  }
+
+  const handleSendEmailClick = () => {
+     //e.preventDefault()
     if (!errorFlag) {
       const payload = {
-        mobile: mobileNumber,
-        otp
+        email_id: email,
+        redirect_url: getRedirectUrl()
       }
       const fetchOptions = {
         method: "post",
@@ -192,48 +149,28 @@ function login() {
         credentials: "include",
         body: JSON.stringify(payload)
       }
-      fetch(`https://${apiUrl}/deliveryman/api/1/support/login`, fetchOptions)
+      fetch(`https://${apiUrl}/deliveryman/api/1/support/send-login-email`, fetchOptions)
         .then((response) => {
-          if (response.status !== 200) {
+          if (response.status !== 200 || response.status === 200) {
             response.json().then(json => {
-              setOtpErr({
+              setEmailErr({
                 status: true,
                 value: json.message
               })
             })
             return
           }
-          location.href = "/home/dashboard"
         })
         .catch((error) => {
-          setOtpErr({
-            status: true,
-            value: error.message
+          error.json().then((json) => {
+            setEmailErr({
+              status: true,
+              value: error.message
+            })
           })
+          
           console.log("Error in logging in", error, error.message)
         })
-    }
-  }
-
-  const handleMobileInputFocus = () => {
-    setShowNumberPrefix(true)
-  }
-
-  const handleOtpBlur = () => {
-    getInputTags("otp")
-  }
-
-  const handleMobileBlur = () => {
-    if (mobileNumber.length === 0) {
-      setShowNumberPrefix(false)
-    } else if (mobileNumber.length === 10) {
-      getInputTags("mobileNumber")
-      if (!errorFlag) {
-        generateOtp()
-      }
-      setOtp("")
-    } else {
-      getInputTags("mobileNumber")
     }
   }
 
@@ -245,61 +182,21 @@ function login() {
       <h2>Support Portal</h2>
       <div className="form-container">
         <form className={classes.form}>
-          {
-            showNumberPrefix &&
-            <span className="number-prefix">+91</span>
-          }
+          <FormControl className={clsx(classes.textField)} variant="outlined">
           <TextField
             id="outlined-required"
-            inputProps={{
-              maxLength: 10
-            }}
             className="input-field"
             autoComplete="off"
-            error={mobileErr.status}
-            label="Mobile Number"
-            name="mobileNumber"
-            onFocus={handleMobileInputFocus}
-            onBlur={handleMobileBlur}
-            onChange={(e) => handleMobileChange(e)}
-            value={mobileNumber}
-            helperText={mobileErr.status ? mobileErr.value : ""}
+            label="Email"
+            name="email"
+            value={email}
+            helperText={emailErr.status ? emailErr.value : ""}
+            error={emailErr.status}
             variant="outlined"
+            onChange={(e) => handleEmailChange(e)}
+            onKeyDown={handleKeyPress}
+            onBlur={handleEmailBlur}
           />
-
-          <FormControl className={clsx(classes.textField)} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-password" className={`${otpErr.status ? "Mui-error" : undefined}`}>OTP</InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-password"
-              type={showOtpValue ? "text" : "password"}
-              name="otp"
-              autoComplete="off"
-              onBlur={handleOtpBlur}
-              error={otpErr.status}
-              onChange={handleOtpChange}
-              onKeyDown={handleKeyPress}
-              value={otp}
-              inputProps={{
-                maxLength: 6
-              }}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowOtp}
-                    onMouseDown={handleMouseDownOtp}
-                  >
-                    {showOtpValue ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              labelWidth={30}
-            />
-            {
-              otpErr.status ?
-                <FormHelperText id="outlined-weight-helper-text" className={`${otpErr.status ? "Mui-error" : ""}`}>{otpErr.value}</FormHelperText>
-                : ""
-            }
           </FormControl>
 
           <div className="submit">
@@ -308,29 +205,17 @@ function login() {
               color="primary"
               size="large"
               className={classes.buttonPrimary}
-              disabled={!enableLogin}
-              onClick={(e) => handleLogin(e)}
+             // disabled={!enableLogin}
+              onClick={(e) => handleSendEmailClick(e)}
             >
-              Login
+              Send Login Email
             </Button>
-          </div>
-          <div className="resend-otp">
-            {
-              enableLogin && count > 0 &&
-              <p>Resend OTP in {count} sec</p>
-            }
-            {
-              enableLogin && count <= 0 &&
-              <div onClick={generateOtp}>
-                <p>Resend OTP </p>
-                <span><Icon name="resend-otp" /></span>
-              </div>
-            }
-          </div>
+          </div>          
         </form>
       </div>
       <p className={classes.note}>Having trouble? Contact Support at <a href="mailto:support@hipbar.com">support@hipbar.com</a></p>
     </div>
+    
   )
 }
 
