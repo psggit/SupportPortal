@@ -123,6 +123,11 @@ function App() {
     markActivity()
       .then((response) => {
         localStorage.setItem('issues_to_resolve_count',response.count)
+        document.title = `${document.title.split("(")[0]} ${localStorage.getItem("issues_to_resolve_count") > 0 ? `(${localStorage.getItem("issues_to_resolve_count")})` : ``}`
+        const modifiedMenuList = [
+          { label: `Resolve Issue ${localStorage.getItem("issues_to_resolve_count") > 0 ? `(${localStorage.getItem("issues_to_resolve_count")})` : ``}`, value: "resolveIssue", icon: "dashboard" }
+        ]
+        setMenuList(modifiedMenuList)
         setTimeInterval(parseInt(response.interval) * 1000)
         console.log(response.count)
       })
@@ -132,11 +137,11 @@ function App() {
   }
 
   useEffect(() => {
-    document.title = `${document.title.split("(")[0]} ${localStorage.getItem("issues_to_resolve_count") > 0 ? `(${localStorage.getItem("issues_to_resolve_count")})` : ``}`
-    const modifiedMenuList = [
-      { label: `Resolve Issue ${localStorage.getItem("issues_to_resolve_count") > 0 ? `(${localStorage.getItem("issues_to_resolve_count")})` : ``}`, value: "resolveIssue", icon: "dashboard" }
-    ]
-    setMenuList(modifiedMenuList)
+    // document.title = `${document.title.split("(")[0]} ${localStorage.getItem("issues_to_resolve_count") > 0 ? `(${localStorage.getItem("issues_to_resolve_count")})` : ``}`
+    // const modifiedMenuList = [
+    //   { label: `Resolve Issue ${localStorage.getItem("issues_to_resolve_count") > 0 ? `(${localStorage.getItem("issues_to_resolve_count")})` : ``}`, value: "resolveIssue", icon: "dashboard" }
+    // ]
+    // setMenuList(modifiedMenuList)
     const interval = setInterval(() => {
       pollRequest()
     }, timeInterval);
