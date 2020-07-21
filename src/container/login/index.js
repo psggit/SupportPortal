@@ -112,7 +112,7 @@ function login() {
         redirectUrl = 'https://ts-support.hipbar-dev.com/home/dashboard'
       break;
       case 'production':
-        redirectUrl = "https://ts-support.hipbar.com/home/dashboard"
+        redirectUrl = "https://support.hipbar.com/home/dashboard"
       break;
       default:
         console.log("Invalid env")
