@@ -1,7 +1,8 @@
-import React from 'react'
-import './order-detail.scss'
+import React from 'react';
+import './order-detail.scss';
+import Moment from 'moment';
 
-const PaymentDetails = ({ walletTotal, paymentTotal, hipbarWallet, giftWallet, upi ,nodalAmount}) => (
+const PaymentDetails = ({ walletTotal, paymentTotal, hipbarWallet, giftWallet, upi, nodalAmount, timingDetails}) => (
 
   <div className="orders-detail-card">
     <div className="header">
@@ -30,10 +31,22 @@ const PaymentDetails = ({ walletTotal, paymentTotal, hipbarWallet, giftWallet, u
         <p>{giftWallet ? `₹${giftWallet}` : "-"}</p>
       </div>
 
-      <div className="flex-item" style={{ marginBottom: '8px' }}>
+      <div className="flex-item" style={{ marginBottom: '20px', borderBottom: "1px solid #E5E5E5", paddingBottom: "20px" }}>
         <p style={{ fontSize: "18px", fontWeight: "bold" }}>{"Nodal Amount"}</p>
         <p style={{ fontSize: "18px", fontWeight: "bold" }}>{nodalAmount ? `₹${nodalAmount}` : "-"}</p>
       </div>
+
+      {
+        timingDetails && timingDetails.map((item, index) => {
+          return <div>
+            <div style={{ fontSize: '18px', lineHeight: '20px', fontWeight: '600', marginBottom: "20px" }}>Timing Details</div>
+            <div className="flex-item" key={index} style={{ marginBottom: '16px', display: "flex", justifyContent: "space-between" }}>
+              <span style={{ fontSize: '16px', lineHeight: '20px', color: '#212121' }}>{item.display_name} </span>
+              <span style={{ fontSize: '16px', lineHeight: '24px'}}>{Moment(item.display_value).format("DD/MM/YYYY h:mm A")}</span>
+            </div>
+          </div>
+        })
+      }
 
       {/* <div className="flex-item" style={{ marginBottom: '8px' }}>
         <p style={{ fontSize: "18px", fontWeight: "bold" }}>{"Additional Payment Details"}</p>

@@ -13,7 +13,7 @@ import Moment from 'moment';
 
 let initialState = []
 
-function OrderSummary({ orderTotal, cartTotal, cartItems, feeDetails, cgstPercentage, sgstPercentage, cgstAmount, sgstAmount, igstPercentage, igstAmount, additionalTotalCharges, retailerId, stateId, cityId, gps, orderId, timingDetails}) {
+function OrderSummary({ orderTotal, cartTotal, cartItems, feeDetails, cgstPercentage, sgstPercentage, cgstAmount, sgstAmount, igstPercentage, igstAmount, additionalTotalCharges, retailerId, stateId, cityId, gps, orderId}) {
   
   const classes = useStyles()
   const [showMountModal, setShowMountModal] = useState(false)
@@ -589,16 +589,6 @@ function OrderSummary({ orderTotal, cartTotal, cartItems, feeDetails, cgstPercen
               <p style={{ fontSize: '15px', lineHeight: '20px' }}>{`₹${item.revised_total_price}`}</p>
                   </div>
           }) : ""
-        }
-        {
-          timingDetails && timingDetails.map((item, index) => {
-            return <div>
-              <div className="flex-item" key={index} style={{ marginBottom: '16px', display: "flex", justifyContent: "space-between" }}>
-                <span style={{ fontSize: '18px', lineHeight: '20px', fontWeight: '600', color: '#212121' }}>{item.display_name} </span>
-                <span style={{ fontSize: '18px', lineHeight: '24px', fontWeight: '800' }}>{Moment(item.display_value).format("DD/MM/YYYY h:mm A")}</span>
-              </div>
-            </div>
-          })
         }
         <div className="flex-item" style={{ marginBottom: "8px" }}>
           <span style={{ fontSize: '18px', lineHeight: '24px', fontWeight: 'bold', color:"757575" }}>Additional Total Charges</span>

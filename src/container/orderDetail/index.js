@@ -116,6 +116,7 @@ function OrderDetail (props) {
           giftWallet={orderDetails.gift_wallet}
           paymentTotal={orderDetails.original_order_total}
           upi={orderDetails.upi}
+          timingDetails={orderDetails.timing_details}
         />
 
         <DeliveryStatusDetails
