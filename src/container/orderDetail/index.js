@@ -79,6 +79,7 @@ function OrderDetail (props) {
           orderTotal={orderDetails.revised_order_total}
           cartTotal={orderDetails.revised_cart_total}
           cartItems={orderDetails.cart_items}
+          timingDetails={orderDetails.timing_details}
           // cartItemsArray={cartItemsArray}
           feeDetails={orderDetails.fee_details_struct}
           cgstPercentage={orderDetails.cgst_percentage}
