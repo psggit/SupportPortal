@@ -50,18 +50,6 @@ const PaymentDetails = ({ walletTotal, paymentTotal, hipbarWallet, giftWallet, u
         })
       }
 
-      {
-        timingDetails && timingDetails.map((item, index) => {
-          return <div>
-            <div style={{ fontSize: '18px', lineHeight: '20px', fontWeight: '600', marginBottom: "20px" }}>Timing Details</div>
-            <div className="flex-item" key={index} style={{ marginBottom: '16px', display: "flex", justifyContent: "space-between" }}>
-              <span style={{ fontSize: '16px', lineHeight: '20px', color: '#212121' }}>{item.display_name} </span>
-              <span style={{ fontSize: '16px', lineHeight: '24px'}}>{Moment(item.display_value).format("DD/MM/YYYY h:mm A")}</span>
-            </div>
-          </div>
-        })
-      }
-
       {/* <div className="flex-item" style={{ marginBottom: '8px' }}>
         <p style={{ fontSize: "18px", fontWeight: "bold" }}>{"Additional Payment Details"}</p>
         <p style={{ fontSize: "18px", fontWeight: "bold" }}>{upi ? `₹${upi}` : "-"}</p>
