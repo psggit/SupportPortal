@@ -69,6 +69,7 @@ function Dashboard(props) {
       .then((response) => {
         console.log("response", response.message)
         setOrderStatusList(response.message)
+        setOrderStatusName(response.message[0].Status)
       })
       .catch((err) => {
         console.log("Error in fetching delivery order status", err)
@@ -248,7 +249,6 @@ function Dashboard(props) {
   }
 
   const handleOrderStatusChange = (e) => {
-    console.log("status", e.target.value)
     setOrderStatusName(e.target.value)
   }
 
