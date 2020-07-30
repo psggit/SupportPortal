@@ -207,3 +207,12 @@ export function markActivity(payload) {
     data: payload
   })
 }
+
+export function fetchDeliveryOrderStatus() {
+  return POST({
+    api: `/deliveryman/api/1/deliverystatus/list`,
+    apiBase: "api",
+    handleError: true,
+    //data: payload
+  })
+}

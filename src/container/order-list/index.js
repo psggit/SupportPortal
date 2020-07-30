@@ -74,6 +74,12 @@ function OrderList(props) {
           retailer_code: data.retailer_code ? data.retailer_code : ""
         }
       break;
+
+      case 'order_status_detail':
+        payload = {
+          delivery_status: data.delivery_status ? data.delivery_status : ""
+        }
+      break;
     }
 
     setAppliedFilters(payload)

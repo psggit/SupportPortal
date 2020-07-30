@@ -6,7 +6,10 @@ import Button from '@material-ui/core/Button';
 import { FormGroup } from "./../../components/Form"
 import { fetchPreponeOrderDelivery } from "./../api"
 import Notification from "Components/notification"
+import Select from '@material-ui/core/Select'
 import Dialog from "Components/dialog"
+import { fetchDeliveryOrderStatus } from "./../api"
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -24,6 +27,10 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       background: "#000000"
     }
+  },
+  formControl: {
+    width: "270px",
+    marginBottom: 24
   },
 }))
 
@@ -48,8 +55,25 @@ function Dashboard(props) {
   const [message,setMessage] = useState("")
   const [showConfirmModal, setShowConfirmModal] = useState(false)
 
+  const [orderStatusList,setOrderStatusList] = useState([])
+  const [orderStatusName, setOrderStatusName] = useState(0)
 
   const classes = useStyles()
+
+  useEffect(() => {
+    fetchDeliveryOrderStatusList()
+  }, []);
+
+  const fetchDeliveryOrderStatusList = () => {
+    fetchDeliveryOrderStatus()
+      .then((response) => {
+        console.log("response", response.message)
+        setOrderStatusList(response.message)
+      })
+      .catch((err) => {
+        console.log("Error in fetching delivery order status", err)
+      })
+  }
 
   const handleConsumerMobileChange = e => {
       //console.log("role", localStorage.getItem("x-hasura-role"))
@@ -67,6 +91,7 @@ function Dashboard(props) {
         setEnableConsumer(true)
       }
     }
+
 
   const unmountConfirmModal = () => {
     setShowConfirmModal(false)
@@ -185,7 +210,7 @@ function Dashboard(props) {
   }
 
   const fetchConsumerDetails = () => {
-    console.log("fetch consumer")
+    console.log("fetch consumer", consumerMobile)
     const payload = {
       consumer_contact_number: consumerMobile,
       consumer_id: consumerID,
@@ -212,6 +237,19 @@ function Dashboard(props) {
       filter_by: "retailer_details"
     }
     props.history.push(`/home/order-list`, payload)
+  }
+
+  const fetchOrderStatusDetail = () => {
+    const payload = {
+      delivery_status: orderStatusName,
+      filter_by: "order_status_detail"
+    }
+    props.history.push(`/home/order-list`, payload)
+  }
+
+  const handleOrderStatusChange = (e) => {
+    console.log("status", e.target.value)
+    setOrderStatusName(e.target.value)
   }
 
   const fetchOrderIdMessage = () => {
@@ -488,6 +526,39 @@ function Dashboard(props) {
                   handleClose={handleClose}
                 />
               }
+            </div>
+          </div>
+        </div>
+      </form>
+      <form>
+        <div className="dashboard-detail">
+          <h4>Delivery Order Status</h4>
+          <div className="text-field">
+            <FormGroup inline>
+              <label>Order Status</label>
+              <Select
+                native
+                 name="orderStatusName"
+                 value={orderStatusName}
+                 className={classes.formControl}
+                 onChange={handleOrderStatusChange}
+              >
+                {
+                  orderStatusList.map((item, index) => {
+                    return <option key={index} value={item.Status}>{item.Status}</option>
+                  })
+                }
+              </Select>
+            </FormGroup>
+            <div className={classes.root}>
+              <Button
+                className={classes.button}
+                variant="contained"
+                color="secondary"
+                onClick={fetchOrderStatusDetail}
+              >
+                Submit
+              </Button>
             </div>
           </div>
         </div>
