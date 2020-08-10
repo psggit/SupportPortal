@@ -9,7 +9,7 @@ import { resolveIssue } from "./../api"
 // import { fetchCancellationReasons, cancelOrder , submitNotes } from "./../api"
  import Notification from "Components/notification"
 
-function CustomerDetails({ orderId, customerId, customerName, customerMobileNumber, customerState, customerCity, customerAddress, customerLandmark, orderButtonStatus, showResolveButton}) {
+function CustomerDetails({ orderId, customerId, customerName, customerMobileNumber, customerState, customerCity, customerAddress, customerLandmark, orderButtonStatus, showResolveButton, consumerUPI}) {
 
   const classes = useStyles()
 
@@ -102,6 +102,29 @@ function CustomerDetails({ orderId, customerId, customerName, customerMobileNumb
           </p>
         </div>
 
+        <div>
+          <div className="item">
+            <p className="label"> Consumer UPI</p>
+          </div>
+          <table>
+            <thead style={{border: "1px solid red"}}>
+              <th>Name</th>
+              <th>UPI</th>
+              <th>Status</th>
+            </thead>
+         <tbody>
+          {
+            consumerUPI && consumerUPI.map((item, index) => {
+              return <tr key={index} style={{marginBottom: '16px'}}>
+                <td>{item.name}</td>
+                <td>{item.upi_id}</td>
+                <td>{item.is_active ? "Yes" : "No"}</td>
+              </tr>
+            })
+          }
+            </tbody>
+          </table>
+        </div>
         {
           showResolveButton &&
           <div className="item">

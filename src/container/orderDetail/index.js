@@ -65,6 +65,7 @@ function OrderDetail (props) {
           customerLandmark={orderDetails.customer_landmark}
           orderButtonStatus={orderDetails.order_status_button}
           showResolveButton={orderDetails.to_show_resolve_button}
+          consumerUPI={orderDetails.consumer_upi}
         />
         <RetailerDetails
           orderId={props.match.params.orderId}
