@@ -199,6 +199,15 @@ export function assignTo(payload) {
   })
 }
 
+export function markResolve(payload) {
+  return GET({
+    api: `/deliveryman/api/1/support/issue/markissueresolved/${payload.issue_id}`,
+    apiBase: "api",
+    handleError: true,
+    data: payload
+  })
+}
+
 export function markActivity(payload) {
   return POST({
     api: `/deliveryman/api/1/support/markactivity/mark`,

@@ -3,7 +3,7 @@ import "./order-detail.scss"
 import Moment from "moment"
 // import Icon from "@components/icon"
 
-const OrderDetailsHeader = ({orderId, dateAndTime, slotDate, partialDelivery,lotID}) => (
+const OrderDetailsHeader = ({orderId, dateAndTime, slotDate, partialDelivery, lotID, platForm}) => (
   <div className="orders-details-header-card">
     <div className="header">
       <h4>ORDER DETAILS</h4>
@@ -28,6 +28,10 @@ const OrderDetailsHeader = ({orderId, dateAndTime, slotDate, partialDelivery,lot
       <div className="item">
         <p className="label">Partial Delivery</p>
         <p className="value">{partialDelivery ? partialDelivery : "-"}</p>
+      </div>
+      <div className="item">
+        <p className="label">Platform</p>
+        <p className="value">{platForm ? platForm : "-"}</p>
       </div>
   </div>
   </div>

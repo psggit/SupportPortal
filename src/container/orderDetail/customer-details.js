@@ -112,16 +112,22 @@ function CustomerDetails({ orderId, customerId, customerName, customerMobileNumb
               <th>UPI</th>
               <th>Status</th>
             </thead>
-         <tbody>
-          {
-            consumerUPI && consumerUPI.map((item, index) => {
-              return <tr key={index} style={{marginBottom: '16px'}}>
-                <td>{item.name}</td>
-                <td>{item.upi_id}</td>
-                <td>{item.is_active ? "Yes" : "No"}</td>
-              </tr>
-            })
-          }
+            <tbody>
+              {
+                consumerUPI && consumerUPI.length > 0 ? 
+                consumerUPI.map((item, index) => {
+                  return <tr key={index} style={{marginBottom: '16px'}}>
+                    <td>{item.name}</td>
+                    <td>{item.upi_id}</td>
+                    <td>{item.is_active ? "Yes" : "No"}</td>
+                  </tr>
+                }) :
+                (
+                  <tr>
+                      <td colspan={5}> No data found</td>
+                  </tr>
+                )
+              }
             </tbody>
           </table>
         </div>

@@ -134,7 +134,7 @@ function login() {
           "Accept": "application/json",
           "Content-Type": "application/json"
         },
-        credentials: "include",
+        // credentials: "include",
         body: JSON.stringify(payload)
       }
       fetch(`https://${apiUrl}/deliveryman/api/1/support/send-login-email`, fetchOptions)

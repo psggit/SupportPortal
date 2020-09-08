@@ -51,6 +51,7 @@ function OrderDetail (props) {
           dateAndTime={orderDetails.order_date_and_time}
           slotDate={orderDetails.slot_time}
           lotID={orderDetails.lot_id}
+          platForm={orderDetails.platform}
         />
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>

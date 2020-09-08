@@ -9,10 +9,11 @@ import { makeStyles, withStyles } from "@material-ui/core/styles"
 import Pagination from "Components/pagination"
 import { getOffsetUsingPageNo, getQueryParamByName, getQueryUri } from "Utils/helpers"
 import Moment from "moment"
-import { fetchIssue,fetchSupportPersonList, assignTo } from "../api"
+import { fetchIssue,fetchSupportPersonList, assignTo, markResolve } from "../api"
 import Button from "@material-ui/core/Button"
 import Dialog from "./../../components/dialog/index"
 import Select from '@material-ui/core/Select'
+
 
 const tableHeaders = [
   { label: "Order ID", value: "order_id" },
@@ -25,6 +26,7 @@ const tableHeaders = [
   { label: "Resolved By", value: "resolved_by" },
   { label: "Resolved By Name", value: "resolved_by_name"},
   { label: "Issue Resolved Time", value: "resolved_time" },
+  { label: "", value: "" },
   { label: "", value: "" },
 ]
 
@@ -42,7 +44,8 @@ function resolveIssue() {
   const [supportPersonList, setSupportPersonList] = useState([])
   const [supportPersonIdx, setSupportPersonIdx] = useState(0)
   const [showAssign,setShowAssign] = useState(false)
-  const [issueDetails, setIssueDetails] = useState([])
+  //const [issueDetails, setIssueDetails] = useState([])
+  //const [showResolve, setShowResolve] = useState(false)
 
   const classes = useStyles()
 
@@ -69,6 +72,8 @@ function resolveIssue() {
         setIssueList(response.issues)
         setShowAssign(response.to_show_assign)
         setCount(response.count)
+        //setShowResolve(response.issues.map((item) => item.to_show_resolve))
+        // setResolveIdx(response.issues.map((item) => item.id))
       })
       .catch((error) => {
         error.json().then((json) => {
@@ -98,7 +103,7 @@ function resolveIssue() {
   }
 
   const handleConfirm = () => {
-
+    console.log("handle-confirm", issueDetails)
     unmountModal()
     const payload = {
       order_id: issueDetails.order_id,
@@ -109,6 +114,27 @@ function resolveIssue() {
       .then((response) => {
         setShowMessage(true)
         setMessage(response.message)
+      })
+      .catch((err) => {
+        err.json().then((json) => {
+          setShowMessage(true)
+          setMessage(json.message)
+        })
+      })
+  }
+
+  const handleResolve = (resolveDetails) => {
+    console.log("handle-resolve", resolveDetails)
+    const payload = {
+      issue_id: resolveDetails.id
+    }
+    markResolve(payload)
+      .then((response) => {
+        setShowMessage(true)
+        setMessage(response.message)
+        setTimeout(() => {
+          location.reload()
+        }, 300)
       })
       .catch((err) => {
         err.json().then((json) => {
@@ -217,6 +243,21 @@ function resolveIssue() {
                                 </Dialog>
                               )
                             }
+                          </div>
+                        }
+                      </TableCell>
+                      <TableCell>
+                        {
+                          data.to_show_resolve &&
+                          <div>
+                            <Button
+                              className={classes.assignButton}
+                              variant="contained"
+                              color="secondary"
+                              onClick={() => handleResolve(data)}
+                            >
+                              Resolve
+                          </Button>
                           </div>
                         }
                       </TableCell>
