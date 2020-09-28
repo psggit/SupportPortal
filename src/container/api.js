@@ -199,6 +199,42 @@ export function assignTo(payload) {
   })
 }
 
+export function restockOrder(payload) {
+  return GET({
+    api: `/deliveryman/api/1/support/manualprocess/restock/${payload.order_id}`,
+    apiBase: "api",
+    handleError: true,
+    data: payload
+  })
+}
+
+export function pushOrder(payload) {
+  return GET({
+    api: `/deliveryman/api/1/support/manualprocess/push_order/${payload.order_id}`,
+    apiBase: "api",
+    handleError: true,
+    data: payload
+  })
+} 
+
+export function getOtpForRestockOrder(payload) {
+  return GET({
+    api: `/deliveryman/api/1/support/manualprocess/get_restock_otp/${payload.order_id}`,
+    apiBase: "api",
+    handleError: true,
+    data: payload
+  })
+}
+
+export function cancelServiceProviderOrder(payload) {
+  return GET({
+    api: `/deliveryman/api/1/support/manualprocess/cancelorder_at_sp/${payload.order_id}`,
+    apiBase: "api",
+    handleError: true,
+    data: payload
+  })
+}
+
 export function markResolve(payload) {
   return GET({
     api: `/deliveryman/api/1/support/issue/markissueresolved/${payload.issue_id}`,

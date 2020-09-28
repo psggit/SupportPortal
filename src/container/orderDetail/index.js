@@ -10,6 +10,7 @@ import SupportDetails from "./support-details"
 import OrderDetailsHeader from "./order-details-header"
 import RevisedPaymentDetails from "./revised-payment-details"
 import { fetchCompleteOrderDetails } from "../api"
+import DeliveryServiceProviderDetails from "./delivery-service-provider-details"
 
 function OrderDetail (props) {
 
@@ -144,6 +145,14 @@ function OrderDetail (props) {
 
         <SupportDetails />
 
+        <DeliveryServiceProviderDetails
+          orderId={props.match.params.orderId}
+          assignedDSP={orderDetails.assigned_delivery_service_provider}
+          dspAcceptedTime={orderDetails.delivery_service_provider_accepted_time}
+          showRestockButton={orderDetails.restock_button}
+          showPushOrderButton={orderDetails.push_order_to_dsp_button}
+          showCancelOrderButton={orderDetails.cancel_order_from_dsp_button}
+        />
       </div>
     </div>
   )
