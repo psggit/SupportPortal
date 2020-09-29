@@ -28,8 +28,6 @@ const DeliveryServiceProviderDetails = (props) => {
     };
     getOtpForRestockOrder(payload)
       .then((response) => {
-        //setShowMessage(true)
-        //setMessage(response.message)
         setRestockOtp(response.otp);
       })
       .catch((err) => {
@@ -37,7 +35,6 @@ const DeliveryServiceProviderDetails = (props) => {
           setShowMessage(true);
           setMessage(json.message);
         })
-        location.reload();
       })
   }
 
@@ -50,15 +47,15 @@ const DeliveryServiceProviderDetails = (props) => {
       .then((response) => {
         setShowMessage(true);
         setMessage(response.message);
+        setTimeout(() => {
+          location.reload();
+        })
       })
       .catch((err) => {
         err.json().then((json) => {
           setShowMessage(true);
           setMessage(json.message);
         })
-      })
-      .finally(() => {
-        location.reload();
       })
   }
 
@@ -71,15 +68,15 @@ const DeliveryServiceProviderDetails = (props) => {
       .then((response) => {
         setShowMessage(true);
         setMessage(response.message);
+        setTimeout(() => {
+          location.reload();
+        })
       })
       .catch((err) => {
         err.json().then((json) => {
           setShowMessage(true);
           setMessage(json.message);
         })
-      })
-      .finally(() => {
-        location.reload();
       })
   }
 
@@ -92,6 +89,9 @@ const DeliveryServiceProviderDetails = (props) => {
       .then((response) => {
         setShowMessage(true);
         setMessage(response.message);
+        setTimeout(() => {
+          location.reload();
+        })
       })
       .catch((err) => {
         err.json().then((json) => {
@@ -99,23 +99,20 @@ const DeliveryServiceProviderDetails = (props) => {
           setMessage(json.message);
         })
       })
-      .finally(() => {
-        location.reload();
-      })
   }
 
   const handleClose = () => {
     setShowMessage(false);
   }
 
-  const mountGetOtpRestockOrder = () => {
+  const getDialogTemplate = ({ title, subtitle, successHandler, rejectionHandler }) => {
     return (
       <Dialog
-        title="Get Restock Order OTP"
-        subtitle="Are you sure you want to get restock order OTP?"
+        title={title}
+        subtitle={subtitle}
         actions={[
           <Button
-            onClick={handleGetOtpRestockOrder}
+            onClick={successHandler}
             className={classes.button}
             variant="contained"
             color="secondary"
@@ -123,7 +120,7 @@ const DeliveryServiceProviderDetails = (props) => {
             Yes
           </Button>,
           <Button
-            onClick={() => { setShowGetOtpForRestockOrder(false) }}
+            onClick={() => { rejectionHandler(false) }}
             className={classes.button}
             variant="contained"
             color="secondary"
@@ -133,89 +130,44 @@ const DeliveryServiceProviderDetails = (props) => {
         ]}
       />
     )
+  }
+
+  const mountGetOtpRestockOrder = () => {
+    return getDialogTemplate({
+      title: "Get Restock Order OTP",
+      subtitle: "Are you sure you want to get restock order OTP?",
+      successHandler: handleGetOtpRestockOrder,
+      rejectionHandler: setShowGetOtpForRestockOrder
+    }) 
   }
 
   const mountRestockConfirmModal = () => {
-    return (
-      <Dialog
-        title="Restock Order"
-        subtitle="Are you sure you want to restock this order?"
-        actions={[
-          <Button
-            onClick={handleRestockOrder}
-            className={classes.button}
-            variant="contained"
-            color="secondary"
-          >
-            Yes
-          </Button>,
-          <Button
-            onClick={() => {setShowRestockConfirmModal(false)}}
-            className={classes.button}
-            variant="contained"
-            color="secondary"
-          >
-            No
-          </Button>
-        ]}
-      />
-    )
+    return getDialogTemplate({
+      title: "Restock Order",
+      subtitle: "Are you sure you want to restock this order?",
+      successHandler: handleRestockOrder,
+      rejectionHandler: setShowRestockConfirmModal
+    }) 
   }
 
   const mountPushOrderConfirmModal = () => {
-    return (
-      <Dialog
-        title="Push Order"
-        subtitle="Are you sure you want to push this order?"
-        actions={[
-          <Button
-            onClick={handlePushOrder}
-            className={classes.button}
-            variant="contained"
-            color="secondary"
-          >
-            Yes
-          </Button>,
-          <Button
-            onClick={() => { setShowPushOrderConfirmModal(false) }}
-            className={classes.button}
-            variant="contained"
-            color="secondary"
-          >
-            No
-          </Button>
-        ]}
-      />
-    )
+    return getDialogTemplate({
+      title: "Push Order",
+      subtitle: "Are you sure you want to push this order?",
+      successHandler: handlePushOrder,
+      rejectionHandler: setShowPushOrderConfirmModal
+    }) 
   }
 
   const mountCancelOrderConfirmModal = () => {
-    return (
-      <Dialog
-        title="Cancel Order"
-        subtitle="Are you sure you want to cancel this order?"
-        actions={[
-          <Button
-            onClick={handleCancelOrder}
-            className={classes.button}
-            variant="contained"
-            color="secondary"
-          >
-            Yes
-          </Button>,
-          <Button
-            onClick={() => { setShowCancelOrderConfirmModal(false) }}
-            className={classes.button}
-            variant="contained"
-            color="secondary"
-          >
-            No
-          </Button>
-        ]}
-      />
-    )
+    return getDialogTemplate({
+      title: "Cancel Order",
+      subtitle: "Are you sure you want to cancel this order?",
+      successHandler: handleCancelOrder,
+      rejectionHandler: setShowCancelOrderConfirmModal
+    }) 
   }
-
+    
   return (
     <div className="orders-detail-card">
       <div className="header">
