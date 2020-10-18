@@ -32,7 +32,8 @@ function DeliveryAgentDetails({ orderId, deliveryAgentPickupDateAndTime, deliver
 
   const fetchDeliveryAgent = () => {
     const payload = {
-      retailer_id: retailerId
+      retailer_id: retailerId,
+      order_id: orderId,
     }
     fetchDeliveryAgentList(payload)
       .then((response) => {

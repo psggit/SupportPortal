@@ -106,7 +106,7 @@ export function fetchRetailerList(payload) {
 
 export function fetchDeliveryAgentList(payload) {
   return GET({
-    api: `/deliveryman/api/1/support/deliveryagent/list/${payload.retailer_id}`,
+    api: `/deliveryman/api/1/support/deliveryagent/list/${payload.retailer_id}/${payload.order_id}`,
     apiBase: "api",
     handleError: true,
   })
